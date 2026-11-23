@@ -39,8 +39,9 @@ results (see [Assembly and the `purego` tag](#assembly-and-the-purego-tag)).
   every subsampling `image/jpeg` accepts, grayscale, RGB, CMYK and YCCK.
   Files that `image/jpeg` rejects are rejected with the same error.
 - **For servers:** safe for concurrent use, one goroutine per call, no
-  allocation per `Encode` call, and it works wherever Go does, including
-  `CGO_ENABLED=0` and scratch or distroless containers (see [Running on a
+  allocation per `Encode` call of the standard image types once its pooled
+  state exists, and no cgo: it builds with `CGO_ENABLED=0` and runs in
+  scratch or distroless containers (see [Running on a
   server](#running-on-a-server)).
 
 ## Install
@@ -163,8 +164,11 @@ every other image. Images 65536 pixels wide or high fail with `jpeg: image
 is too large to encode`. Any `image.Image` works; `*image.RGBA`,
 `*image.NRGBA`, `*image.YCbCr`, `*image.Gray`, `*image.RGBA64`,
 `*image.NRGBA64`, `*image.CMYK`, `*image.Gray16`, `*image.Alpha`,
-`*image.Alpha16`, `*image.Paletted` and `*image.NYCbCrA` are read from their
-pixel slices instead of through `At`.
+`*image.Alpha16`, `*image.Paletted` (when its palette holds only standard
+`image/color` types) and `*image.NYCbCrA` are read from their pixel slices
+instead of through `At`. An image whose slices are too short for its
+rectangle is read the way `image/jpeg` reads it, so that it panics at the
+same pixel.
 
 #### `image.Decode`
 
@@ -224,15 +228,21 @@ func main() {
 	var formatErr jpeg.FormatError
 	var unsupportedErr jpeg.UnsupportedError
 	switch {
-	case errors.As(err, &formatErr): // not JPEG, or cut short in the compressed pixels
+	case errors.As(err, &formatErr):
+		// Not JPEG, corrupt, or cut short inside a scan's compressed data.
 		fmt.Println("invalid:", string(formatErr)) // invalid: missing SOI marker
 	case errors.As(err, &unsupportedErr): // arithmetic coding, 12-bit samples, ...
 		fmt.Println("unsupported:", string(unsupportedErr))
-	case errors.Is(err, io.ErrUnexpectedEOF): // cut short in the header
+	case errors.Is(err, io.ErrUnexpectedEOF):
+		// Cut short in a header, at a restart marker, between scans or
+		// before the final EOI marker.
 		fmt.Println("truncated")
 	}
 }
 ```
+
+As with `image/jpeg`, a file whose pixel data is complete but that lacks its
+final EOI marker also fails with `io.ErrUnexpectedEOF`.
 
 #### Example programs
 
@@ -263,8 +273,12 @@ skipped 11: unsupported JPEG feature: precision (testdata/corpus/photo16x16_p12.
 skipped 24: unsupported JPEG feature: unknown marker (testdata/corpus/photo16x16_arith.jpeg, ...)
 ```
 
-The 188 skipped files are in the test corpus on purpose: `image/jpeg`
-rejects each of them with the same error.
+The 188 skipped files are in the test corpus on purpose, and `image/jpeg`
+rejects each of them with the same error. 102 use features it does not
+support (arithmetic coding, lossless JPEG, 12-bit samples, a sampling factor
+of 3, a 4×4 luma component in a three-component file). The other 86 are
+valid files that it fails to decode (`missing 0xff00 sequence`, see
+[Supported inputs](#supported-inputs)).
 
 The examples in [`jpeg/example_test.go`](jpeg/example_test.go), which
 pkg.go.dev shows, run as tests with checked output (`go test ./jpeg -run
@@ -285,47 +299,64 @@ it.
 - **Errors:** for every input the same text and kind: `FormatError`,
   `UnsupportedError`, `io.ErrUnexpectedEOF` or the reader's own error.
 - **The reader:** the same `Read` calls with the same buffer lengths, in the
-  same order, and `Decode` stops at the same byte, so reading one JPEG after
-  another from a stream (MJPEG over HTTP, a pipe) works the same.
-- **Encoded bytes,** for every image type, size, origin and quality.
+  same order, so `Decode` leaves a reader at the same position as
+  `image/jpeg` does. Like `image/jpeg`, it reads up to 4096 bytes at a time
+  and can consume bytes past the end of the image, so a second `Decode` on
+  the same reader fails with `missing SOI marker` in both packages. To
+  decode JPEG after JPEG from one stream, split the stream first, as a
+  multipart MJPEG reader does.
+- **Encoded bytes,** for every image type, size, origin and quality, as long
+  as `At` returns the same color each time it is called for a pixel (see
+  [What differs](#what-differs)).
 - **The writer:** `Encode` wraps a plain `io.Writer` in a 4096-byte buffer,
   as `image/jpeg` does, and makes exactly the same `Write` calls; it leaves a
   `*bufio.Writer` in the same state and reports a failing writer the same
   way.
 - **Panics:** a malformed image (a `Pix` too short for its rectangle, a
-  palette index past the palette) or an `At` that panics makes `Encode`
-  panic at the same pixel with the same value.
+  palette index past the palette) or an `At` that panics at a given pixel
+  makes `Encode` panic at the same pixel with the same value.
 
 #### What differs
 
-None of these changes the decoded pixels or the encoded bytes.
+None of these changes the decoded pixels or the encoded bytes, as long as
+`At` returns the same color for a pixel every time it is called.
 
 - **Memory** ([Allocations](#allocations)). `Decode` allocates 0.1% to 2.8%
   more than `image/jpeg` on the benchmark files (the tests allow at most 10%
-  plus 64 KB). `Encode` allocates nothing per call, where `image/jpeg`
-  allocated 4.55 KB per call, and 4.9 MB for a 1.2-megapixel
-  `*image.NRGBA`. `DecodeConfig` allocates 16,432 bytes per call against
-  13,616, and takes 1.44 µs against 1.13 µs on the M5 Pro.
+  plus 64 KiB). For the image types it reads from their pixel slices,
+  `Encode` allocates nothing per call once its pooled state exists, where
+  `image/jpeg` allocates about 4.5 KB per call (4.46–4.55 KB in the M5 Pro
+  benchmark, its counting writer included), and 4.9 MB for a 1.2-megapixel
+  `*image.NRGBA`. Other images allocate whatever their `At` method does, as
+  with `image/jpeg`. `DecodeConfig` allocates 2.8 KB more per call and takes
+  28% longer ([One call at a time](#one-call-at-a-time)).
 - **Error types.** `jpeg.FormatError` and `jpeg.UnsupportedError` are
   distinct from `image/jpeg`'s types. The messages are the same, but a type
   assertion or `errors.As` against `image/jpeg`'s `FormatError` does not
   match them.
 - **Two registrations.** If a program links both `image/jpeg` and this
   package, both register "jpeg", and `image.Decode` uses the first. Go
-  initializes packages that do not depend on each other in the order of
-  their import paths, so this package (`github.com/...`) registers first
-  (checked with Go 1.27.0 on Linux and macOS, arm64 and amd64); only in its
-  own tests, which import `image/jpeg`, does `image/jpeg` come first. Call
-  `jpeg.Decode` directly to be independent of the order.
+  initializes, at each step, the first package in import-path order whose
+  imports are all initialized. For these two packages that puts this one
+  (`github.com/...`) first: Go 1.27.0 binaries for Linux, macOS, Windows and
+  FreeBSD on amd64 and arm64, and for linux/386, record that order, with
+  and without `-tags purego`. Only in its own tests, which import
+  `image/jpeg`, does `image/jpeg` come first. Call `jpeg.Decode` directly to
+  be independent of the order.
 - **Writers with their own `Flush` and `WriteByte`** that are not a
   `*bufio.Writer`: `image/jpeg` writes the compressed data to them one
   `WriteByte` call at a time, `Encode` with `Write` calls of up to 64 KiB.
-- **Panics while encoding.** If `At` or the writer panics in the middle of
-  the image, fewer bytes may have reached the writer, because the output is
-  buffered in larger chunks. The panic value is the same.
+- **Panics while encoding.** If `At` or the writer panics, or a malformed
+  image makes `Encode` panic, in the middle of the image, fewer bytes may
+  have reached the writer, because the output is buffered in larger chunks.
+  The panic value is the same.
 - **`At` calls.** For image types without a fast path, `Encode` calls `At`
   once per pixel, in the order of `image/jpeg`'s first call for each pixel;
-  `image/jpeg` calls it again for the edge pixels of partial blocks.
+  `image/jpeg` calls it again for the edge pixels of partial blocks. So an
+  image whose `At` returns another color on a later call for the same pixel
+  (a generator, a live source), or panics after a number of calls, can
+  encode to other bytes or panic at another pixel than with `image/jpeg`
+  when its width or height is not a multiple of 16.
 - **The `Write` buffer.** As with `image/jpeg`, the slice given to `Write`
   is the encoder's buffer and is only valid during the call. Here it is
   pooled and reused by later `Encode` calls, so a writer must not keep it
@@ -341,17 +372,27 @@ None of these changes the decoded pixels or the encoded bytes.
 - one component (gray), three (YCbCr, or RGB when the Adobe marker or the
   component IDs say so) and four (CMYK or YCCK, with an Adobe APP14 marker);
 - sampling factors 1, 2 and 4: 4:4:4, 4:4:0, 4:2:2, 4:2:0, 4:1:1 and 4:1:0,
-  and other three-component layouts whose factors divide the largest ones
-  (new in Go 1.27, decoded to 4:4:4); four components with every factor 1,
-  or with 2×2 for the first and the fourth component.
+  and other YCbCr layouts whose factors divide the largest ones (new in Go
+  1.27, decoded to 4:4:4; `Decode` rejects RGB files with such layouts with
+  `luma/chroma subsampling ratio`, as `image/jpeg` does); four components
+  with every factor 1, or with 2×2 for the first and the fourth component.
 
 Everything else is rejected as `image/jpeg` rejects it, with the same error:
 arithmetic coding, lossless and hierarchical JPEG (`unsupported JPEG
 feature: unknown marker`), 12-bit samples (`precision`), a sampling factor
-of 3 (`luma/chroma subsampling ratio`), two components (`number of
+of 3 (`luma/chroma subsampling ratio`), sampling factors whose products H×V
+add up to more than 10 over the components of a scan, even a scan of one
+component (`total sampling factors too large`), two components (`number of
 components`) and four components without an Adobe marker.
-[`testdata/corpus`](testdata/corpus) holds such files, and the tests compare
-every error.
+
+Like `image/jpeg`, it also rejects some valid files that libjpeg decodes,
+with `invalid JPEG format: missing 0xff00 sequence`: mainly chroma-subsampled
+files with restart intervals whose scans are not interleaved (progressive
+files, or sequential files with a scan per component), and some progressive
+files with 4×1 or 1×4 luma sampling. 86 files of `testdata/corpus` are of
+this kind; libjpeg-turbo 3.2.0's `djpeg` decodes all of them.
+[`testdata/corpus`](testdata/corpus) holds files of every kind above, and the
+tests compare every error.
 
 ## Running on a server
 
@@ -363,10 +404,12 @@ data behind it:
   own; `Encode` takes its working state from a `sync.Pool` and puts it back
   at the end (after a panic it is dropped). Besides the pool, the calls
   share only read-only tables and the SIMD level, chosen once at startup.
-  `TestConcurrent` runs calls of all three that succeed, fail or panic from
-  16 goroutines and compares every result with `image/jpeg`'s, also under
-  the race detector in CI. [`_examples/batch`](_examples/batch/main.go)
-  shows a worker pool.
+  `TestConcurrent` mixes calls of all three from 16 goroutines. It compares
+  decoded images, configs, errors and encoded bytes with `image/jpeg`'s, and
+  checks the errors and panics of failing writers, panicking `At` methods,
+  malformed images and panicking writers; CI also runs it under the race
+  detector. [`_examples/batch`](_examples/batch/main.go) shows a worker
+  pool.
 - **One goroutine per call.** The codec starts no goroutines: a call runs on
   the goroutine that makes it, on one CPU at a time, and throughput comes
   from calls running in parallel. On the 15-core M5 Pro, 15 calls at a time
@@ -812,12 +855,13 @@ the assembly). The tests check:
   failing `At` methods, writers that fail or write short at many points, the
   `Flush`/`WriteByte` writer protocols, misuse (nil writers and images), and
   inputs next to inaccessible pages.
-- **Memory, concurrency, registration:** `Decode` within 10% plus 64 KB of
+- **Memory, concurrency, registration:** `Decode` within 10% plus 64 KiB of
   `image/jpeg`'s allocation, also for files that declare a larger size than
-  their data hold, and no allocation per `Encode`; 16 goroutines mixing
-  every kind of call, re-entrant calls from callbacks, and switching the
-  SIMD level between calls; the registration in a test binary that does not
-  link `image/jpeg`
+  their data hold, and no allocation per `Encode` of the standard image
+  types once the pool holds an encoder; 16 goroutines mixing every kind of
+  call, re-entrant calls from callbacks, and switching the SIMD level
+  between calls; the registration in a test binary that does not link
+  `image/jpeg`
   ([`jpeg/internal/registertest`](jpeg/internal/registertest/register_test.go)).
 - **The kernels** of `internal/dct` and `internal/ycc` at every level (see
   [Assembly](#assembly-and-the-purego-tag)), the benchmark workloads
@@ -841,9 +885,12 @@ libjpeg-turbo's `cjpeg` and `jpegtran` from crops of the pictures in
 `testdata`: every subsampling layout, baseline, progressive and restart
 modes, optimized Huffman tables, grayscale and RGB, sequential files with a
 scan per component, progressive files with random scan scripts, and the
-variants that must be rejected (arithmetic coding, 12-bit, lossless,
-unsupported sampling factors). `go run ./_tools/gencorpus` regenerates it;
-it needs both `cjpeg` and `jpegtran` in `PATH`.
+variants that `image/jpeg` rejects (arithmetic coding, 12-bit, lossless,
+unsupported sampling factors, and the restart and scan layouts it fails to
+decode). `go run ./_tools/gencorpus` regenerates it, byte for byte with
+libjpeg-turbo 3.2.0. It needs both `cjpeg` and `jpegtran` in `PATH`, and it
+deletes `testdata/corpus` before it starts (`git checkout testdata/corpus`
+restores it).
 
 ### CI
 
