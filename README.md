@@ -308,7 +308,9 @@ it.
   `image/jpeg` does. Like `image/jpeg`, it reads up to 4096 bytes at a time
   and can consume bytes past the end of the image; when it has (from a
   `bytes.Reader` that holds two files, for instance), a second `Decode` on
-  the same reader fails with `missing SOI marker` in both packages. To
+  the same reader fails in both packages: with `missing SOI marker`, or
+  with `unexpected EOF` when the first one read to the end of the
+  stream. To
   decode JPEG after JPEG from one stream, split the stream first, as a
   multipart MJPEG reader does.
 - **Encoded bytes,** for every image type, size, origin and quality, as long
@@ -711,8 +713,10 @@ write into a `bytes.Buffer` that each benchmark reuses, so there is no
 counting writer to allocate: this package makes no allocation per call,
 and `image/jpeg` 5–7 (1,228,807 and 4.9–5.0 MB for the `*image.NRGBA`).
 The other bytes per call that benchstat reports for the encodes, 1.1–3.9 KB
-for this package and 12–36 KB for `image/jpeg`, mostly come from the buffer
-growing during the first iterations, spread over the run. There are no
+for this package at the AVX-512 level (up to 17 KB at level go and with
+`-tags purego`, which run fewer iterations) and 12–36 KB for `image/jpeg`,
+mostly come from the buffer growing during the first iterations, spread
+over the run. There are no
 saturation or peak-memory measurements for amd64.
 
 #### Building with GOAMD64=v3
