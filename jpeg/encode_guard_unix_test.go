@@ -26,14 +26,19 @@ package jpeg
 // The encoder's inputs next to inaccessible pages, at the level under
 // test. The color conversion and downsampling kernels read the rows of
 // RGBA and NRGBA images and the planes of YCbCr images straight from the
-// caller's slices, and an over-read past the end of a row or a plane (by
-// a kernel's vector tail, or a call site that passes more than the row) is
+// caller's slices, and an over-read past the end of a row or a plane is
 // invisible to the byte comparison with image/jpeg unless the extra bytes
-// change the output. Here such a read faults. The kernel packages run the
-// same check on the kernels themselves (TestGuardPages); this one covers
-// the call sites in this package, which rely on the kernels reading no
-// more than len of the slices they pass. From the verification of the
-// amd64 levels.
+// change the output. Here such a read faults.
+//
+// This is defense in depth rather than coverage of its own. The kernel
+// packages run the same check on the kernels themselves (TestGuardPages),
+// and the kernels' Go wrappers reslice the arguments to the length the
+// assembly reads, so a call site in this package that passes a slice too
+// short for its row panics before any kernel runs and fails every
+// comparison test. A defect that only this test would catch takes two: a
+// call site here that passes a slice shorter than the kernel reads, and
+// a wrapper that no longer checks the length. From the verification of
+// the amd64 levels.
 
 import (
 	"fmt"
