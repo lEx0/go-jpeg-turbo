@@ -28,12 +28,17 @@ race:
 
 # go vet (asmdecl included) of the default and purego builds, and of both
 # the amd64 and the arm64 assembly whatever the host is. Also the example
-# programs, which ./... skips because their directory starts with "_",
-# and the benchmarks module, which ./... does not reach either: both use
-# the package's API, and the benchmarks reach into internal/.
+# programs and _tools/gencorpus (which regenerates testdata/corpus), which
+# ./... skips because their directories start with "_"; the
+# ignore-tagged internal/cpuinfo/levels.go, which make levels runs (a
+# file, so in a go vet of its own); and the benchmarks module, which
+# ./... does not reach either. All of them use the package's API, and
+# the benchmarks and levels.go reach into internal/.
 EXAMPLES ?= ./_examples/decode ./_examples/encode ./_examples/batch
+TOOLS ?= ./_tools/gencorpus
 vet:
-	$(GO) vet ./... $(EXAMPLES)
+	$(GO) vet ./... $(EXAMPLES) $(TOOLS)
+	$(GO) vet internal/cpuinfo/levels.go
 	$(GO) vet -tags purego ./...
 	GOARCH=amd64 $(GO) vet ./...
 	GOARCH=arm64 $(GO) vet ./...

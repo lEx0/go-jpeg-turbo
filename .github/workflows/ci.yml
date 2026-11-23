@@ -141,11 +141,14 @@ jobs:
         run: go build ./...
       # The library part of make vet: the default and purego builds, the
       # assembly of both architectures (asmdecl) whatever the runner is,
-      # and the examples, which ./... skips (see "Run examples"). The
-      # benchmark module has its own step below.
+      # the examples and _tools/gencorpus, which ./... skips (see "Run
+      # examples"), and levels.go, which make levels runs and whose
+      # ignore tag keeps it out of ./... (a file needs a go vet of its
+      # own). The benchmark module has its own step below.
       - name: Vet
         run: |
-          go vet ./... ./_examples/decode ./_examples/encode ./_examples/batch
+          go vet ./... ./_examples/decode ./_examples/encode ./_examples/batch ./_tools/gencorpus
+          go vet internal/cpuinfo/levels.go
           go vet -tags purego ./...
           GOARCH=amd64 go vet ./...
           GOARCH=arm64 go vet ./...
