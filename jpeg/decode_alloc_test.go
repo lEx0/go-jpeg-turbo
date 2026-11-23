@@ -29,6 +29,14 @@ import (
 	"testing"
 )
 
+// daConfigBudget is the most DecodeConfig may allocate: 16,432 bytes
+// with Go 1.27 on 64-bit, nearly all of it the decoder (image/jpeg's
+// 13,616). A fixed budget rather than a margin over image/jpeg's
+// allocation, because the tests compare with the image/jpeg of whatever
+// toolchain runs them: a newer Go whose decoder is smaller would
+// otherwise fail the test with nothing changed here.
+const daConfigBudget = 20 << 10
+
 // daAllocated returns the number of bytes f allocates (the least of three
 // runs, to leave out what other goroutines allocate meanwhile).
 func daAllocated(f func()) uint64 {
@@ -48,12 +56,13 @@ func daAllocated(f func()) uint64 {
 // image/jpeg's: for real files, and for files whose header declares a
 // size far larger than their data, which both decoders reject after
 // allocating the image (and, for progressive files, the coefficients) of
-// the declared size. Decode may allocate at most 10% and 64 KB more, and
-// DecodeConfig 4 KB more (its decoder is larger), so that a malicious
-// header cannot make the fast paths amplify memory use (masks allocated
-// for every block before any data, a second coefficient buffer). The
-// declared sizes stop at 2048x2048 so that the test stays within the
-// memory of a CI machine. From the verification of the decoder.
+// the declared size. Decode may allocate at most 10% and 64 KB more, so
+// that a malicious header cannot make the fast paths amplify memory use
+// (masks allocated for every block before any data, a second coefficient
+// buffer). DecodeConfig allocates the decoder and nothing that depends on
+// the input; it may allocate at most daConfigBudget. The declared sizes
+// stop at 2048x2048 so that the test stays within the memory of a CI
+// machine. From the verification of the decoder.
 func TestDecAllocs(t *testing.T) {
 	if encRaceEnabled {
 		t.Skip("the race detector changes the allocations")
@@ -94,8 +103,9 @@ func TestDecAllocs(t *testing.T) {
 		}
 		got = daAllocated(func() { DecodeConfig(bytes.NewReader(x.data)) })
 		want = daAllocated(func() { std.DecodeConfig(bytes.NewReader(x.data)) })
-		if got > want+4<<10 {
-			t.Errorf("DecodeConfig %s: allocates %d bytes, image/jpeg %d", x.name, got, want)
+		t.Logf("DecodeConfig %s: %d bytes, image/jpeg %d (%.3f)", x.name, got, want, float64(got)/float64(want))
+		if got > daConfigBudget {
+			t.Errorf("DecodeConfig %s: allocates %d bytes, more than %d (image/jpeg %d)", x.name, got, daConfigBudget, want)
 		}
 	}
 }
