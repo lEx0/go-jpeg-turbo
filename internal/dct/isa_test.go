@@ -157,9 +157,29 @@ func isaGo(t *testing.T, goTool string, args ...string) []byte {
 // isaObjects builds pkg for linux/amd64 and writes the objects of its
 // assembly files (the members of the package archive other than the
 // export data and the compiled Go code) to a temporary directory.
+//
+// It also reads the source files of that build. go test caches a passing
+// result against the test binary and the files the test opens inside the
+// module, not against the build cache, where the archive is: the test
+// binary of a non-amd64 host does not contain the amd64 kernels, and that
+// of this package never contains internal/ycc's, so without these reads
+// a cached pass would outlive an edit of the assembly it audited.
 func isaObjects(t *testing.T, goTool, pkg string) []string {
 	t.Helper()
-	archive := strings.TrimSpace(string(isaGo(t, goTool, "list", "-tags=", "-export", "-f", "{{.Export}}", pkg)))
+	list := strings.Split(string(isaGo(t, goTool, "list", "-tags=", "-export", "-f",
+		"{{.Export}}\n{{.Dir}}\n{{range .GoFiles}}{{.}}\n{{end}}{{range .SFiles}}{{.}}\n{{end}}{{range .HFiles}}{{.}}\n{{end}}", pkg)), "\n")
+	if len(list) < 3 {
+		t.Fatalf("go list %s: unexpected output %q", pkg, list)
+	}
+	archive, src := list[0], list[1]
+	for _, f := range list[2:] {
+		if f == "" {
+			continue
+		}
+		if _, err := os.ReadFile(filepath.Join(src, f)); err != nil {
+			t.Fatal(err)
+		}
+	}
 	b, err := os.ReadFile(archive)
 	if err != nil {
 		t.Fatal(err)
