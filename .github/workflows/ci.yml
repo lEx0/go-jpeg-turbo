@@ -115,6 +115,13 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+      # setup-go keys its module and build cache on the runner OS and
+      # image, the architecture, the Go version and go.sum, not on the
+      # job, and saves it only when no entry has that key yet: the first
+      # job to finish on a runner image saves it for every job there.
+      # Only this job saves and restores it, so that the entry holds the
+      # builds of these steps and not those of the race, levels or ports
+      # job (cache: false there).
       - uses: actions/setup-go@v7
         with:
           go-version: ${{ matrix.go }}
@@ -263,6 +270,7 @@ jobs:
       - uses: actions/setup-go@v7
         with:
           go-version: stable
+          cache: false # see the test job
       - name: Log the detected x86 SIMD level
         run: |
           grep -m1 'model name' /proc/cpuinfo
@@ -291,6 +299,7 @@ jobs:
       - uses: actions/setup-go@v7
         with:
           go-version: stable
+          cache: false # see the test job
       # -short: the race detector makes the input sweeps about 8 times
       # slower and gains little from their full size (the codec runs on
       # the calling goroutine; TestEncConcurrent, TestConcurrent and
@@ -316,6 +325,7 @@ jobs:
       - uses: actions/setup-go@v7
         with:
           go-version: stable
+          cache: false # see the test job
       # The portable code on a 32-bit architecture, which the amd64 runner
       # runs natively (no assembly is built for 386). -short: the job is
       # estimated at 9 minutes (4 without the margin).
