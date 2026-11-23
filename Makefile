@@ -88,9 +88,13 @@ fuzz:
 	done
 
 # go test ./jpeg once per JPEG_TURBO_LEVEL this machine supports (go only on
-# arm64; go, sse41, avx2, avx512 on an x86-64-v4 machine).
+# arm64; go, sse41, avx2, avx512 on an x86-64-v4 machine). The list is
+# taken first and must not be empty: the shell ignores a failing command
+# in a for loop's word list, so a levels.go that does not build would
+# otherwise run no test and succeed.
 levels:
-	@set -e; for l in $$($(GO) run internal/cpuinfo/levels.go); do \
+	@set -e; lv=$$($(GO) run internal/cpuinfo/levels.go); [ -n "$$lv" ]; \
+	for l in $$lv; do \
 		echo "== JPEG_TURBO_LEVEL=$$l"; \
 		JPEG_TURBO_LEVEL=$$l $(GO) test -timeout $(TIMEOUT) $(TESTFLAGS) ./jpeg; \
 	done
