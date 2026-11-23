@@ -37,41 +37,30 @@ defaults:
   run:
     shell: bash
 
-# Test times, which decide where the tests run in full and where with
-# -short (fewer inputs in the compatibility sweeps, a dozen alpha values
-# instead of 256 in the exhaustive NRGBA conversion tests, no
-# TestGenerated). Wall times on an Apple M5 Pro with GOMAXPROCS=4 (go test
-# ./..., the packages in parallel), natively and as amd64 under Rosetta:
+# Every action is pinned to the commit of a release, named in the comment
+# after it: a tag can be moved to other code, a commit cannot. Dependabot
+# moves the pins to new releases (.github/dependabot.yml).
+
+# Where the tests run in full and where with -short (fewer inputs in the
+# compatibility sweeps, a dozen alpha values instead of 256 in the
+# exhaustive NRGBA conversion tests, no TestGenerated), and the job
+# timeouts, come from the first run on GitHub (run 45177341901). Whole
+# jobs, including checkout and setup:
 #
-#                                    -short    full
-#   arm64 (NEON)    internal/dct        2 s     9 s
-#                   internal/ycc        2 s    17 s   all 4 threads busy
-#                   jpeg               14 s    93 s   about 1 thread
-#                   -tags purego       15 s   100 s   (jpeg; ycc 21 s)
-#                   -race -short      158 s           (jpeg; purego 190 s;
-#                                                      dct, ycc < 11 s)
-#   amd64, Rosetta  internal/dct        5 s    26 s   levels go, sse41,
-#                   internal/ycc        8 s    83 s   avx2; all 4 threads
-#                   jpeg               20 s   134 s   115 to 128 s per level
+#   test, ubuntu-latest      12.5 min  AMD EPYC 7763, AVX2 (Test 407 s,
+#                                      purego 307 s); 9.5 min on a Xeon
+#                                      6975P-C with AVX-512 and coverage
+#   test, ubuntu-24.04-arm    8 min    (Test 215 s, purego 229 s)
+#   test, macos-latest        2.5 min  -short
+#   test, windows-latest      3 min    -short
+#   levels                   11.5 min  four levels on an EPYC 9V74 (AVX-512)
+#   race                     12.5 min  amd64; 10.5 min on arm64
+#   ports                     2.5 min
 #
-# In a Linux container limited to 4 CPUs on the same machine, which the
-# estimates use because GitHub's runners are VMs too, whole steps took, on
-# arm64: 137 s (go test ./..., full), 143 s (purego, full), 176 s and
-# 204 s (the two race steps); as amd64 under Rosetta, up to avx2: 211 s
-# (go test ./..., full; internal/ycc 206 s and jpeg 209 s of it), 47 s
-# (coverage, -short), 182 s (purego, full), 214 s and 222 s (race), 469 s
-# (make levels, three levels, 153 to 160 s each). The jpeg tests take 1.3
-# to 1.5 times as long there as on the bare machine.
-#
-# GitHub's runners are slower: the amd64 ones have 4 vCPUs on 2 cores
-# (SMT), the arm64 ones 4 slower cores, macos-latest 3 vCPUs. The
-# estimates below take the container times of each step (the bare-machine
-# ones for the -short legs of macOS and Windows), count 2.5x for a step
-# whose time is set by work on one thread (the jpeg tests) and 4x for one
-# set by work on four (internal/ycc on amd64), and double the sum as a
-# margin; each job's timeout is well above its estimate. go test's own
-# -timeout (10 minutes by default) is set below each job's, so that a hung
-# test fails with its goroutine dump instead of the job being cancelled.
+# Each timeout is about three times the slowest of these, because the
+# runners' CPUs differ from run to run. go test's own -timeout (10
+# minutes by default) is set below each job's, so that a hung test fails
+# with its goroutine dump instead of the job being cancelled.
 
 jobs:
   test:
@@ -89,15 +78,11 @@ jobs:
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
         go: ["1.27", "stable"]
         include:
-          # The Linux legs run the tests in full: estimated 54 minutes on
-          # amd64 (27 without the margin: 14 for the exhaustive kernel tests
-          # at every level next to jpeg, 3 for the coverage leg's -short
-          # run, 7.5 for the purego suite, 2.5 for the other steps) and 25
-          # on arm64. macOS and Windows run the same assembly as the Linux
-          # legs of their architecture (Go's assembly ABI does not depend
-          # on the OS), so their full sweeps would prove nothing new; they
-          # run -short, every kernel at every level on fewer inputs, in an
-          # estimated 7 (macOS) and 14 (Windows) minutes.
+          # The Linux legs run the tests in full. macOS and Windows run the
+          # same assembly as the Linux legs of their architecture (Go's
+          # assembly ABI does not depend on the OS), so their full sweeps
+          # would prove nothing new; they run -short, every kernel at every
+          # level on fewer inputs.
           - os: macos-latest
             testflags: -short
           - os: windows-latest
@@ -107,9 +92,16 @@ jobs:
             go: stable
             coverage: true
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 75
+    timeout-minutes: 40
+    # testflags reaches the test steps through the environment, not as
+    # ${{ }} in their scripts: an expression in a script is pasted into the
+    # shell code before bash parses it, the way code gets injected into
+    # workflows. The scripts leave $TESTFLAGS unquoted, so that it splits
+    # into flags.
+    env:
+      TESTFLAGS: ${{ matrix.testflags }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       # setup-go keys its module and build cache on the runner OS and
@@ -119,7 +111,7 @@ jobs:
       # Only this job saves and restores it, so that the entry holds the
       # builds of these steps and not those of the race, levels or ports
       # job (cache: false there).
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: ${{ matrix.go }}
       # The amd64 kernels are picked at run time by CPU level and the tests
@@ -186,7 +178,9 @@ jobs:
       # The guard-page tests (internal/dct, internal/ycc, jpeg) need mmap
       # and mprotect and are built on Linux and macOS only.
       - name: Test
-        run: go test ${{ matrix.testflags }} -timeout 30m ./...
+        run: |
+          # shellcheck disable=SC2086 # split into flags
+          go test $TESTFLAGS -timeout 30m ./...
       # -coverpkg counts the code that other packages' tests run too
       # (internal/imageutil has no tests of its own). -short, after the
       # full run above: on amd64 the exhaustive tests of level go run the
@@ -202,7 +196,9 @@ jobs:
       # replace by the tests above; this runs the whole suite on the
       # portable code as well (what other architectures use).
       - name: Test the pure Go code path (-tags purego)
-        run: go test ${{ matrix.testflags }} -timeout 30m -tags purego ./...
+        run: |
+          # shellcheck disable=SC2086 # split into flags
+          go test $TESTFLAGS -timeout 30m -tags purego ./...
       - name: Coverage summary
         if: matrix.coverage
         continue-on-error: true
@@ -249,9 +245,7 @@ jobs:
         env:
           TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: echo "has=${TOKEN:+1}" >> "$GITHUB_OUTPUT"
-      # A third-party action, pinned to a commit (Dependabot keeps the pin
-      # current, .github/dependabot.yml). A failed upload does not fail
-      # the job.
+      # A failed upload does not fail the job.
       - name: Upload coverage to Codecov
         if: steps.codecov.outputs.has == '1'
         continue-on-error: true
@@ -273,17 +267,15 @@ jobs:
     # without it. So whether a run tests the AVX-512 kernels at all, and
     # internal/ycc's fallback for AVX-512 without VNNI on real hardware,
     # depends on the machine it gets: a regression in an AVX-512 kernel
-    # can pass a pull request that ran on an AVX2-only CPU. In full:
-    # estimated 54 minutes for four levels (27 without the margin, 160 s
-    # per level in the container).
+    # can pass a pull request that ran on an AVX2-only CPU.
     name: SIMD levels (ubuntu-latest)
     runs-on: ubuntu-latest
-    timeout-minutes: 75
+    timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: stable
           cache: false # see the test job
@@ -303,16 +295,15 @@ jobs:
         # the runners' C toolchain provides.
         os: [ubuntu-latest, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}
-    # Estimated 38 minutes on amd64 (19 without the margin) and 34 on
-    # arm64, nearly all of it the jpeg tests on one thread.
-    timeout-minutes: 50
+    # Nearly all of the time is the jpeg tests on one thread.
+    timeout-minutes: 40
     env:
       CGO_ENABLED: "1"
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: stable
           cache: false # see the test job
@@ -335,19 +326,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: stable
           cache: false # see the test job
       # The portable code on a 32-bit architecture, which the amd64 runner
-      # runs natively (no assembly is built for 386). -short: the job is
-      # estimated at 9 minutes (4 without the margin), not from the
-      # container: linux/386 code runs far slower there than natively would
-      # (360 s for these tests alone, against 19 s for the amd64 -tags
-      # purego -short run on the bare machine).
+      # runs natively (no assembly is built for 386), with -short.
       - name: Test on 32-bit (linux/386)
         env:
           GOARCH: "386"
@@ -357,3 +344,33 @@ jobs:
       # on an OS without the guard-page tests.
       - name: Vet other architectures (make vet-ports)
         run: make vet-ports
+
+  workflows:
+    # Holds later changes to this file and dependabot.yml to the checks
+    # they pass now: actionlint (syntax, expressions, and shellcheck on
+    # the scripts; the runner image has shellcheck) and zizmor, the
+    # GitHub Actions security linter (unpinned actions, template
+    # injection, credentials left in the checkout, permissions,
+    # Dependabot cooldowns), at its pedantic persona. Its online audits
+    # use the job's read-only token to check that each pin is a commit of
+    # its action's repository and of the release its comment names, and
+    # that no pinned release has a known vulnerability. Dependabot does
+    # not update the two versions here; zizmor's is a release more than a
+    # week old, as the cooldowns ask of updates.
+    name: workflows (actionlint, zizmor)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
+        with:
+          go-version: stable
+          cache: false # see the test job
+      - name: actionlint
+        run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+      - name: zizmor
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: pipx run zizmor==1.32.0 --persona=pedantic --strict-collection .

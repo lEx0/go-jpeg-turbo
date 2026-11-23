@@ -1,8 +1,48 @@
-# Updates for the actions the workflows use: the third-party ones are
-# pinned to a commit (ci.yml), which only an update like these moves.
+# Pull requests for new releases of what the repository depends on. The
+# cooldowns hold back version updates only, not security updates: a
+# release is proposed once it is a week old, by which time a compromised
+# one has usually been found and withdrawn.
 version: 2
 updates:
+  # The actions the workflows use. Every action is pinned to a commit
+  # (ci.yml), which only an update like these moves.
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: ci
+
+  # The library's module and the benchmarks' (benchmarks/), together:
+  # benchmarks/ replaces the library with ../, so its go.mod lists the
+  # library's requirements (golang.org/x/sys) as indirect ones, and CI's
+  # go mod tidy -diff fails unless both files name the same version. One
+  # pull request per dependency updates it in both directories
+  # (group-by), and allow takes in the indirect requirements, which
+  # Dependabot leaves alone by default. group-by applies to version
+  # updates only, so security updates get a group of their own, which
+  # also spans both directories. The library itself is never updated in
+  # benchmarks/: the replace decides which code it gets.
+  - package-ecosystem: gomod
+    directories:
+      - /
+      - /benchmarks
+    schedule:
+      interval: monthly
+    cooldown:
+      default-days: 7
+    allow:
+      - dependency-type: all
+    ignore:
+      - dependency-name: github.com/lEx0/go-jpeg-turbo
+    groups:
+      go-modules:
+        group-by: dependency-name
+      go-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+    commit-message:
+      prefix: deps

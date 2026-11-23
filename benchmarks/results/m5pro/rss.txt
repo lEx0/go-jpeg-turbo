@@ -1,0 +1,6 @@
+std            Decode/img=420q90_4000x3000      peak    26.5 MB (26.4-26.6)  before the call    8.1 MB  wall    64.6 ms  (5 runs)
+turbo-purego   Decode/img=420q90_4000x3000      peak    26.8 MB (26.5-26.9)  before the call    8.2 MB  wall    29.7 ms  (5 runs)
+turbo          Decode/img=420q90_4000x3000      peak    26.7 MB (26.6-26.9)  before the call    8.2 MB  wall    16.7 ms  (5 runs)
+std            Encode/img=RGBA_4000x3000/q=90   peak    54.6 MB (54.5-54.9)  before the call   54.5 MB  wall   125.1 ms  (5 runs)
+turbo-purego   Encode/img=RGBA_4000x3000/q=90   peak    55.0 MB (54.8-55.1)  before the call   54.8 MB  wall    40.6 ms  (5 runs)
+turbo          Encode/img=RGBA_4000x3000/q=90   peak    54.9 MB (54.7-55.0)  before the call   54.7 MB  wall    16.3 ms  (5 runs)
