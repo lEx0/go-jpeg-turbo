@@ -76,7 +76,8 @@ type dbState struct {
 // coefficients, DC prediction, EOB run, error, number of Read calls
 // (calls returns them, fast and exact) or position.
 func dbCompare(dcH, acH *huffman, s dbState, fastR, exactR io.Reader, calls func() (int, int), nBlocks int) string {
-	var fastD, exactD decoder
+	fastD, exactD := &dbScratch[0], &dbScratch[1]
+	*fastD, *exactD = decoder{}, decoder{}
 	copy(fastD.bytes.buf[:], s.buf)
 	fastD.bytes.j = len(s.buf)
 	fastD.bytes.i = s.i
@@ -85,18 +86,19 @@ func dbCompare(dcH, acH *huffman, s dbState, fastR, exactR io.Reader, calls func
 	exactD.bytes, exactD.bits = fastD.bytes, fastD.bits
 	fastD.r, exactD.r = fastR, exactR
 	var br decBitReader
-	if !br.load(&fastD) {
+	if !br.load(fastD) {
 		return "load failed on a state image/jpeg can be in"
 	}
 	fast := true
-	// current returns the fast decoder's state as image/jpeg's.
+	// current returns the fast decoder's state as image/jpeg's (store and
+	// readFull use only the fields it sets).
+	scratch := &dbScratch[2]
 	current := func() *decoder {
-		tmp := new(decoder)
-		tmp.bytes, tmp.bits, tmp.r = fastD.bytes, fastD.bits, fastD.r
+		scratch.bytes, scratch.bits, scratch.r = fastD.bytes, fastD.bits, fastD.r
 		if fast {
-			br.store(tmp)
+			br.store(scratch)
 		}
-		return tmp
+		return scratch
 	}
 	var dcF, dcE int32
 	for blk := 0; blk < nBlocks; blk++ {
@@ -106,10 +108,10 @@ func dbCompare(dcH, acH *huffman, s dbState, fastR, exactR io.Reader, calls func
 		if !fast || fastD.eobRun != 0 || !fastD.decBlockSeq(&br, &bF, dcH, acH, &dcF) {
 			if fast {
 				bF = block{}
-				br.store(&fastD)
+				br.store(fastD)
 			}
 			errF = fastD.decBlockExact(&bF, dcH, acH, &dcF, 0, blockSize-1, 0, 0)
-			if fast && !br.load(&fastD) {
+			if fast && !br.load(fastD) {
 				fast = false
 			}
 		}
@@ -124,7 +126,7 @@ func dbCompare(dcH, acH *huffman, s dbState, fastR, exactR io.Reader, calls func
 		}
 		if s.state {
 			gi, gn, ga := decCanonical(current())
-			wi, wn, wa := decCanonical(&exactD)
+			wi, wn, wa := decCanonical(exactD)
 			if gi != wi || gn != wn || ga != wa {
 				return fmt.Sprintf("block %d: state (%d, %d, %#x), want (%d, %d, %#x)", blk, gi, gn, ga, wi, wn, wa)
 			}
@@ -138,6 +140,13 @@ func dbCompare(dcH, acH *huffman, s dbState, fastR, exactR io.Reader, calls func
 	}
 	return ""
 }
+
+// dbScratch holds the decoders of dbCompare, reused from call to call
+// (so dbCompare must not run on two goroutines at once). A decoder is
+// about 15 KB: allocated in each call, and for each block it compares,
+// they made these tests spend most of their time in the garbage
+// collector, tens of thousands of cycles for TestDecBlockSeqExhaustive.
+var dbScratch [3]decoder
 
 // dbFailing returns two failing readers (decCountingReader) and their
 // call counts.
