@@ -1,0 +1,44 @@
+=== RUN   TestSameAsStd
+    bench_test.go:39: github.com/lEx0/go-jpeg-turbo built with -tags purego: portable Go kernels
+=== RUN   TestSameAsStd/Decode/img=420q75_960x1280
+=== RUN   TestSameAsStd/Decode/img=444q92_960x1280
+=== RUN   TestSameAsStd/Decode/img=422q92rst_960x1280
+=== RUN   TestSameAsStd/Decode/img=420q85prog_960x1280
+=== RUN   TestSameAsStd/Decode/img=420q85_1920x2560
+=== RUN   TestSameAsStd/Decode/img=grayq85_1920x2560
+=== RUN   TestSameAsStd/Decode/img=444_1750x697
+=== RUN   TestSameAsStd/Decode/img=420q90_4000x3000
+=== RUN   TestSameAsStd/Encode/img=RGBA/q=75
+=== RUN   TestSameAsStd/Encode/img=RGBA/q=90
+=== RUN   TestSameAsStd/Encode/img=NRGBA/q=75
+=== RUN   TestSameAsStd/Encode/img=NRGBA/q=90
+=== RUN   TestSameAsStd/Encode/img=YCbCr444/q=75
+=== RUN   TestSameAsStd/Encode/img=YCbCr444/q=90
+=== RUN   TestSameAsStd/Encode/img=YCbCr420/q=75
+=== RUN   TestSameAsStd/Encode/img=YCbCr420/q=90
+=== RUN   TestSameAsStd/Encode/img=Gray/q=75
+=== RUN   TestSameAsStd/Encode/img=Gray/q=90
+=== RUN   TestSameAsStd/Encode/img=RGBA_4000x3000/q=75
+=== RUN   TestSameAsStd/Encode/img=RGBA_4000x3000/q=90
+--- PASS: TestSameAsStd (0.92s)
+    --- PASS: TestSameAsStd/Decode/img=420q75_960x1280 (0.02s)
+    --- PASS: TestSameAsStd/Decode/img=444q92_960x1280 (0.03s)
+    --- PASS: TestSameAsStd/Decode/img=422q92rst_960x1280 (0.02s)
+    --- PASS: TestSameAsStd/Decode/img=420q85prog_960x1280 (0.02s)
+    --- PASS: TestSameAsStd/Decode/img=420q85_1920x2560 (0.03s)
+    --- PASS: TestSameAsStd/Decode/img=grayq85_1920x2560 (0.03s)
+    --- PASS: TestSameAsStd/Decode/img=444_1750x697 (0.01s)
+    --- PASS: TestSameAsStd/Decode/img=420q90_4000x3000 (0.19s)
+    --- PASS: TestSameAsStd/Encode/img=RGBA/q=75 (0.03s)
+    --- PASS: TestSameAsStd/Encode/img=RGBA/q=90 (0.02s)
+    --- PASS: TestSameAsStd/Encode/img=NRGBA/q=75 (0.05s)
+    --- PASS: TestSameAsStd/Encode/img=NRGBA/q=90 (0.03s)
+    --- PASS: TestSameAsStd/Encode/img=YCbCr444/q=75 (0.03s)
+    --- PASS: TestSameAsStd/Encode/img=YCbCr444/q=90 (0.02s)
+    --- PASS: TestSameAsStd/Encode/img=YCbCr420/q=75 (0.02s)
+    --- PASS: TestSameAsStd/Encode/img=YCbCr420/q=90 (0.02s)
+    --- PASS: TestSameAsStd/Encode/img=Gray/q=75 (0.03s)
+    --- PASS: TestSameAsStd/Encode/img=Gray/q=90 (0.01s)
+    --- PASS: TestSameAsStd/Encode/img=RGBA_4000x3000/q=75 (0.16s)
+    --- PASS: TestSameAsStd/Encode/img=RGBA_4000x3000/q=90 (0.16s)
+PASS

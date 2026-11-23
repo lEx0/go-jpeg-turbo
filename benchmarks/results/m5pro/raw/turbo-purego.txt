@@ -1,0 +1,260 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkDecode/img=420q75_960x1280-15         	     400	   2879063 ns/op	       426.8 MP/s	   3015338 cpu-ns/op	 1876309 B/op	      11 allocs/op
+BenchmarkDecode/img=444q92_960x1280-15         	     208	   5447786 ns/op	       225.6 MP/s	   5571038 cpu-ns/op	 3722531 B/op	     200 allocs/op
+BenchmarkDecode/img=422q92rst_960x1280-15      	     278	   4295828 ns/op	       286.0 MP/s	   4417327 cpu-ns/op	 2491315 B/op	      49 allocs/op
+BenchmarkDecode/img=420q85prog_960x1280-15     	     186	   5936553 ns/op	       207.0 MP/s	   6174151 cpu-ns/op	 9486751 B/op	      21 allocs/op
+BenchmarkDecode/img=420q85_1920x2560-15        	     100	  10295157 ns/op	       477.4 MP/s	  10430540 cpu-ns/op	 7405906 B/op	      11 allocs/op
+BenchmarkDecode/img=grayq85_1920x2560-15       	     152	   7835967 ns/op	       627.3 MP/s	   7956803 cpu-ns/op	 4939968 B/op	       8 allocs/op
+BenchmarkDecode/img=444_1750x697-15            	     597	   2064683 ns/op	       590.8 MP/s	   2188179 cpu-ns/op	 3735910 B/op	      12 allocs/op
+BenchmarkDecode/img=420q90_4000x3000-15        	      42	  26960654 ns/op	       445.1 MP/s	  27110619 cpu-ns/op	18088264 B/op	      10 allocs/op
+BenchmarkDecodeConfig/img=444q92_960x1280-15   	  805110	      1526 ns/op	      2840 cpu-ns/op	   16432 B/op	       2 allocs/op
+BenchmarkEncode/img=RGBA/q=75-15               	     302	   3952084 ns/op	       310.9 MP/s	    181834 bytes	   3951179 cpu-ns/op	     344 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA/q=90-15               	     255	   4462743 ns/op	       275.3 MP/s	    332087 bytes	   4461337 cpu-ns/op	      16 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=75-15              	     250	   4768340 ns/op	       257.7 MP/s	    181834 bytes	   4767048 cpu-ns/op	     414 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=90-15              	     223	   5228852 ns/op	       235.0 MP/s	    332087 bytes	   5229027 cpu-ns/op	     463 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=75-15           	     392	   2982695 ns/op	       412.0 MP/s	    181848 bytes	   2982314 cpu-ns/op	     288 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=90-15           	     356	   3364072 ns/op	       365.3 MP/s	    332137 bytes	   3363815 cpu-ns/op	     316 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=75-15           	     429	   2765772 ns/op	       444.3 MP/s	    181837 bytes	   2765380 cpu-ns/op	     264 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=90-15           	     406	   3064279 ns/op	       401.0 MP/s	    262067 bytes	   3061143 cpu-ns/op	      13 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=75-15               	     584	   1987693 ns/op	       618.2 MP/s	    166518 bytes	   1987640 cpu-ns/op	     153 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=90-15               	     506	   2341672 ns/op	       524.8 MP/s	    300873 bytes	   2341690 cpu-ns/op	     176 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=75-15     	      30	  38269831 ns/op	       313.6 MP/s	   1460727 bytes	  38273167 cpu-ns/op	    5853 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=90-15     	      30	  39497118 ns/op	       303.8 MP/s	   1997937 bytes	  39505433 cpu-ns/op	    5854 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkDecode/img=420q75_960x1280-15         	     430	   2732258 ns/op	       449.7 MP/s	   2827170 cpu-ns/op	 1876314 B/op	      11 allocs/op
+BenchmarkDecode/img=444q92_960x1280-15         	     213	   5585802 ns/op	       220.0 MP/s	   5713052 cpu-ns/op	 3722559 B/op	     200 allocs/op
+BenchmarkDecode/img=422q92rst_960x1280-15      	     272	   4361350 ns/op	       281.7 MP/s	   4461040 cpu-ns/op	 2491322 B/op	      49 allocs/op
+BenchmarkDecode/img=420q85prog_960x1280-15     	     199	   6015400 ns/op	       204.3 MP/s	   6223161 cpu-ns/op	 9486752 B/op	      21 allocs/op
+BenchmarkDecode/img=420q85_1920x2560-15        	     100	  11121172 ns/op	       442.0 MP/s	  11264920 cpu-ns/op	 7405907 B/op	      11 allocs/op
+BenchmarkDecode/img=grayq85_1920x2560-15       	     146	   8151594 ns/op	       603.0 MP/s	   8247616 cpu-ns/op	 4939969 B/op	       8 allocs/op
+BenchmarkDecode/img=444_1750x697-15            	     578	   2035834 ns/op	       599.1 MP/s	   2129699 cpu-ns/op	 3735909 B/op	      12 allocs/op
+BenchmarkDecode/img=420q90_4000x3000-15        	      40	  28491992 ns/op	       421.2 MP/s	  28668900 cpu-ns/op	18088264 B/op	      10 allocs/op
+BenchmarkDecodeConfig/img=444q92_960x1280-15   	  850548	      1387 ns/op	      2610 cpu-ns/op	   16432 B/op	       2 allocs/op
+BenchmarkEncode/img=RGBA/q=75-15               	     298	   3983316 ns/op	       308.5 MP/s	    181834 bytes	   3982302 cpu-ns/op	      14 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA/q=90-15               	     270	   4486746 ns/op	       273.9 MP/s	    332087 bytes	   4483574 cpu-ns/op	      15 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=75-15              	     238	   4829185 ns/op	       254.5 MP/s	    181834 bytes	   4831076 cpu-ns/op	     435 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=90-15              	     226	   5250436 ns/op	       234.0 MP/s	    332087 bytes	   5250690 cpu-ns/op	     457 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=75-15           	     397	   2981476 ns/op	       412.1 MP/s	    181848 bytes	   2981181 cpu-ns/op	     284 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=90-15           	     344	   3444513 ns/op	       356.7 MP/s	    332137 bytes	   3444328 cpu-ns/op	     327 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=75-15           	     421	   2807786 ns/op	       437.6 MP/s	    181837 bytes	   2807207 cpu-ns/op	     268 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=90-15           	     406	   2885631 ns/op	       425.8 MP/s	    262067 bytes	   2885810 cpu-ns/op	     278 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=75-15               	     585	   2077653 ns/op	       591.4 MP/s	    166518 bytes	   2075694 cpu-ns/op	      11 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=90-15               	     499	   2378993 ns/op	       516.5 MP/s	    300873 bytes	   2378719 cpu-ns/op	     178 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=75-15     	      30	  38686794 ns/op	       310.2 MP/s	   1460727 bytes	  38685033 cpu-ns/op	      77 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=90-15     	      30	  39364574 ns/op	       304.8 MP/s	   1997937 bytes	  39362400 cpu-ns/op	    5853 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkDecode/img=420q75_960x1280-15         	     427	   2724495 ns/op	       451.0 MP/s	   2820806 cpu-ns/op	 1876326 B/op	      11 allocs/op
+BenchmarkDecode/img=444q92_960x1280-15         	     217	   5490825 ns/op	       223.8 MP/s	   5602963 cpu-ns/op	 3722554 B/op	     200 allocs/op
+BenchmarkDecode/img=422q92rst_960x1280-15      	     264	   4393406 ns/op	       279.7 MP/s	   4496962 cpu-ns/op	 2491318 B/op	      49 allocs/op
+BenchmarkDecode/img=420q85prog_960x1280-15     	     200	   5981284 ns/op	       205.4 MP/s	   6176545 cpu-ns/op	 9486757 B/op	      21 allocs/op
+BenchmarkDecode/img=420q85_1920x2560-15        	     100	  10728214 ns/op	       458.2 MP/s	  10848020 cpu-ns/op	 7405912 B/op	      11 allocs/op
+BenchmarkDecode/img=grayq85_1920x2560-15       	     139	   8163457 ns/op	       602.1 MP/s	   8268863 cpu-ns/op	 4939971 B/op	       8 allocs/op
+BenchmarkDecode/img=444_1750x697-15            	     580	   2026300 ns/op	       602.0 MP/s	   2124510 cpu-ns/op	 3735909 B/op	      12 allocs/op
+BenchmarkDecode/img=420q90_4000x3000-15        	      40	  28148647 ns/op	       426.3 MP/s	  28278975 cpu-ns/op	18088256 B/op	      10 allocs/op
+BenchmarkDecodeConfig/img=444q92_960x1280-15   	  826213	      1470 ns/op	      2769 cpu-ns/op	   16432 B/op	       2 allocs/op
+BenchmarkEncode/img=RGBA/q=75-15               	     298	   3989192 ns/op	       308.0 MP/s	    181834 bytes	   3987258 cpu-ns/op	     349 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA/q=90-15               	     271	   4405281 ns/op	       278.9 MP/s	    332087 bytes	   4405358 cpu-ns/op	     383 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=75-15              	     248	   4982848 ns/op	       246.6 MP/s	    181834 bytes	   4976839 cpu-ns/op	      16 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=90-15              	     226	   5232548 ns/op	       234.8 MP/s	    332087 bytes	   5232230 cpu-ns/op	      17 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=75-15           	     399	   2984697 ns/op	       411.7 MP/s	    181848 bytes	   2984632 cpu-ns/op	     283 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=90-15           	     349	   3429526 ns/op	       358.3 MP/s	    332137 bytes	   3430097 cpu-ns/op	      13 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=75-15           	     418	   2819249 ns/op	       435.9 MP/s	    181837 bytes	   2819653 cpu-ns/op	     270 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=90-15           	     410	   2893808 ns/op	       424.6 MP/s	    262067 bytes	   2893473 cpu-ns/op	     275 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=75-15               	     590	   2008344 ns/op	       611.8 MP/s	    166518 bytes	   2009047 cpu-ns/op	     152 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=90-15               	     476	   2423322 ns/op	       507.1 MP/s	    300873 bytes	   2422947 cpu-ns/op	      12 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=75-15     	      30	  38644072 ns/op	       310.5 MP/s	   1460727 bytes	  38642933 cpu-ns/op	    5853 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=90-15     	      30	  39397721 ns/op	       304.6 MP/s	   1997937 bytes	  39401533 cpu-ns/op	    5853 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkDecode/img=420q75_960x1280-15         	     427	   2803566 ns/op	       438.3 MP/s	   2916047 cpu-ns/op	 1876311 B/op	      11 allocs/op
+BenchmarkDecode/img=444q92_960x1280-15         	     216	   5494507 ns/op	       223.6 MP/s	   5605157 cpu-ns/op	 3722531 B/op	     200 allocs/op
+BenchmarkDecode/img=422q92rst_960x1280-15      	     272	   4358492 ns/op	       281.9 MP/s	   4456081 cpu-ns/op	 2491316 B/op	      49 allocs/op
+BenchmarkDecode/img=420q85prog_960x1280-15     	     186	   6009584 ns/op	       204.5 MP/s	   6220258 cpu-ns/op	 9486788 B/op	      21 allocs/op
+BenchmarkDecode/img=420q85_1920x2560-15        	     100	  10727039 ns/op	       458.2 MP/s	  10835250 cpu-ns/op	 7405905 B/op	      11 allocs/op
+BenchmarkDecode/img=grayq85_1920x2560-15       	     145	   8176977 ns/op	       601.1 MP/s	   8277862 cpu-ns/op	 4939974 B/op	       8 allocs/op
+BenchmarkDecode/img=444_1750x697-15            	     576	   2099423 ns/op	       581.0 MP/s	   2217193 cpu-ns/op	 3735910 B/op	      12 allocs/op
+BenchmarkDecode/img=420q90_4000x3000-15        	      40	  28333401 ns/op	       423.5 MP/s	  28480350 cpu-ns/op	18088256 B/op	      10 allocs/op
+BenchmarkDecodeConfig/img=444q92_960x1280-15   	  875334	      1390 ns/op	      2618 cpu-ns/op	   16432 B/op	       2 allocs/op
+BenchmarkEncode/img=RGBA/q=75-15               	     290	   4207661 ns/op	       292.0 MP/s	    181834 bytes	   4203814 cpu-ns/op	      15 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA/q=90-15               	     250	   4416263 ns/op	       278.2 MP/s	    332087 bytes	   4414104 cpu-ns/op	     414 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=75-15              	     248	   4804305 ns/op	       255.8 MP/s	    181834 bytes	   4803585 cpu-ns/op	     417 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=90-15              	     228	   5247844 ns/op	       234.2 MP/s	    332087 bytes	   5248566 cpu-ns/op	      17 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=75-15           	     390	   2990443 ns/op	       410.9 MP/s	    181848 bytes	   2991182 cpu-ns/op	     289 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=90-15           	     346	   3415857 ns/op	       359.7 MP/s	    332137 bytes	   3415945 cpu-ns/op	     325 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=75-15           	     423	   2810187 ns/op	       437.3 MP/s	    181837 bytes	   2809865 cpu-ns/op	      12 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=90-15           	     387	   2994177 ns/op	       410.4 MP/s	    262067 bytes	   2992382 cpu-ns/op	     291 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=75-15               	     590	   2005750 ns/op	       612.6 MP/s	    166518 bytes	   2006376 cpu-ns/op	      11 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=90-15               	     499	   2375468 ns/op	       517.3 MP/s	    300873 bytes	   2375383 cpu-ns/op	     178 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=75-15     	      30	  38746636 ns/op	       309.7 MP/s	   1460727 bytes	  38737333 cpu-ns/op	    5853 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=90-15     	      30	  39702839 ns/op	       302.2 MP/s	   1997937 bytes	  39714800 cpu-ns/op	    5854 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkDecode/img=420q75_960x1280-15         	     368	   2803391 ns/op	       438.3 MP/s	   2913049 cpu-ns/op	 1876325 B/op	      11 allocs/op
+BenchmarkDecode/img=444q92_960x1280-15         	     217	   5503176 ns/op	       223.3 MP/s	   5629258 cpu-ns/op	 3722532 B/op	     200 allocs/op
+BenchmarkDecode/img=422q92rst_960x1280-15      	     272	   4352986 ns/op	       282.3 MP/s	   4451636 cpu-ns/op	 2491317 B/op	      49 allocs/op
+BenchmarkDecode/img=420q85prog_960x1280-15     	     196	   6040609 ns/op	       203.4 MP/s	   6263699 cpu-ns/op	 9486750 B/op	      21 allocs/op
+BenchmarkDecode/img=420q85_1920x2560-15        	     100	  10750410 ns/op	       457.2 MP/s	  10859470 cpu-ns/op	 7405906 B/op	      11 allocs/op
+BenchmarkDecode/img=grayq85_1920x2560-15       	     145	   8165902 ns/op	       601.9 MP/s	   8268669 cpu-ns/op	 4939971 B/op	       8 allocs/op
+BenchmarkDecode/img=444_1750x697-15            	     546	   2195677 ns/op	       555.5 MP/s	   2326284 cpu-ns/op	 3735913 B/op	      12 allocs/op
+BenchmarkDecode/img=420q90_4000x3000-15        	      40	  28244718 ns/op	       424.9 MP/s	  28363125 cpu-ns/op	18088267 B/op	      10 allocs/op
+BenchmarkDecodeConfig/img=444q92_960x1280-15   	  849784	      1508 ns/op	      2807 cpu-ns/op	   16432 B/op	       2 allocs/op
+BenchmarkEncode/img=RGBA/q=75-15               	     298	   3993938 ns/op	       307.7 MP/s	    181834 bytes	   3992725 cpu-ns/op	     349 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA/q=90-15               	     266	   4414112 ns/op	       278.4 MP/s	    332087 bytes	   4411782 cpu-ns/op	     390 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=75-15              	     248	   4830017 ns/op	       254.4 MP/s	    181834 bytes	   4831633 cpu-ns/op	     417 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=90-15              	     228	   5486896 ns/op	       224.0 MP/s	    332087 bytes	   5479675 cpu-ns/op	     453 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=75-15           	     394	   2982274 ns/op	       412.0 MP/s	    181848 bytes	   2982310 cpu-ns/op	     286 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=90-15           	     348	   3421172 ns/op	       359.2 MP/s	    332137 bytes	   3420997 cpu-ns/op	      13 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=75-15           	     421	   2820988 ns/op	       435.6 MP/s	    181837 bytes	   2820865 cpu-ns/op	      12 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=90-15           	     403	   2946745 ns/op	       417.0 MP/s	    262067 bytes	   2948079 cpu-ns/op	     280 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=75-15               	     589	   2011300 ns/op	       610.9 MP/s	    166518 bytes	   2011261 cpu-ns/op	     152 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=90-15               	     495	   2381398 ns/op	       516.0 MP/s	    300873 bytes	   2381505 cpu-ns/op	     180 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=75-15     	      30	  39897582 ns/op	       300.8 MP/s	   1460727 bytes	  39867733 cpu-ns/op	    5853 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=90-15     	      28	  39450174 ns/op	       304.2 MP/s	   1997937 bytes	  39449964 cpu-ns/op	    6271 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkDecode/img=420q75_960x1280-15         	     429	   2935920 ns/op	       418.5 MP/s	   3074704 cpu-ns/op	 1876314 B/op	      11 allocs/op
+BenchmarkDecode/img=444q92_960x1280-15         	     214	   5479506 ns/op	       224.3 MP/s	   5590533 cpu-ns/op	 3722560 B/op	     200 allocs/op
+BenchmarkDecode/img=422q92rst_960x1280-15      	     272	   4373072 ns/op	       281.0 MP/s	   4475007 cpu-ns/op	 2491319 B/op	      49 allocs/op
+BenchmarkDecode/img=420q85prog_960x1280-15     	     199	   6054261 ns/op	       203.0 MP/s	   6272136 cpu-ns/op	 9486753 B/op	      21 allocs/op
+BenchmarkDecode/img=420q85_1920x2560-15        	     100	  10795104 ns/op	       455.3 MP/s	  10937150 cpu-ns/op	 7405910 B/op	      11 allocs/op
+BenchmarkDecode/img=grayq85_1920x2560-15       	     146	   8194528 ns/op	       599.8 MP/s	   8312151 cpu-ns/op	 4939972 B/op	       8 allocs/op
+BenchmarkDecode/img=444_1750x697-15            	     576	   2128061 ns/op	       573.2 MP/s	   2249738 cpu-ns/op	 3735920 B/op	      12 allocs/op
+BenchmarkDecode/img=420q90_4000x3000-15        	      36	  28424076 ns/op	       422.2 MP/s	  28573306 cpu-ns/op	18088259 B/op	      10 allocs/op
+BenchmarkDecodeConfig/img=444q92_960x1280-15   	  840411	      1412 ns/op	      2615 cpu-ns/op	   16432 B/op	       2 allocs/op
+BenchmarkEncode/img=RGBA/q=75-15               	     300	   3982294 ns/op	       308.6 MP/s	    181834 bytes	   3979613 cpu-ns/op	     346 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA/q=90-15               	     270	   4442334 ns/op	       276.6 MP/s	    332087 bytes	   4441911 cpu-ns/op	     384 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=75-15              	     248	   4808220 ns/op	       255.6 MP/s	    181834 bytes	   4807879 cpu-ns/op	     418 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=90-15              	     228	   5246163 ns/op	       234.2 MP/s	    332087 bytes	   5244346 cpu-ns/op	      17 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=75-15           	     397	   3116544 ns/op	       394.3 MP/s	    181848 bytes	   3114045 cpu-ns/op	      13 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=90-15           	     348	   3419951 ns/op	       359.3 MP/s	    332137 bytes	   3420239 cpu-ns/op	      13 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=75-15           	     422	   2816198 ns/op	       436.3 MP/s	    181837 bytes	   2816275 cpu-ns/op	     268 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=90-15           	     409	   2907430 ns/op	       422.6 MP/s	    262067 bytes	   2907477 cpu-ns/op	     276 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=75-15               	     582	   2015967 ns/op	       609.5 MP/s	    166518 bytes	   2016878 cpu-ns/op	      11 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=90-15               	     500	   2376956 ns/op	       517.0 MP/s	    300873 bytes	   2376774 cpu-ns/op	     178 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=75-15     	      30	  38654781 ns/op	       310.4 MP/s	   1460727 bytes	  38647233 cpu-ns/op	    5853 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=90-15     	      30	  40708901 ns/op	       294.8 MP/s	   1997937 bytes	  40684533 cpu-ns/op	    5854 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkDecode/img=420q75_960x1280-15         	     428	   2739453 ns/op	       448.6 MP/s	   2841206 cpu-ns/op	 1876326 B/op	      11 allocs/op
+BenchmarkDecode/img=444q92_960x1280-15         	     217	   5481936 ns/op	       224.2 MP/s	   5592120 cpu-ns/op	 3722533 B/op	     200 allocs/op
+BenchmarkDecode/img=422q92rst_960x1280-15      	     262	   4372482 ns/op	       281.0 MP/s	   4472389 cpu-ns/op	 2491317 B/op	      49 allocs/op
+BenchmarkDecode/img=420q85prog_960x1280-15     	     200	   5969312 ns/op	       205.9 MP/s	   6158200 cpu-ns/op	 9486764 B/op	      21 allocs/op
+BenchmarkDecode/img=420q85_1920x2560-15        	     100	  10725680 ns/op	       458.3 MP/s	  10834550 cpu-ns/op	 7405907 B/op	      11 allocs/op
+BenchmarkDecode/img=grayq85_1920x2560-15       	     136	   8147286 ns/op	       603.3 MP/s	   8249654 cpu-ns/op	 4939972 B/op	       8 allocs/op
+BenchmarkDecode/img=444_1750x697-15            	     579	   2024140 ns/op	       602.6 MP/s	   2114088 cpu-ns/op	 3735909 B/op	      12 allocs/op
+BenchmarkDecode/img=420q90_4000x3000-15        	      40	  28208839 ns/op	       425.4 MP/s	  28339775 cpu-ns/op	18088256 B/op	      10 allocs/op
+BenchmarkDecodeConfig/img=444q92_960x1280-15   	  796807	      1450 ns/op	      2709 cpu-ns/op	   16432 B/op	       2 allocs/op
+BenchmarkEncode/img=RGBA/q=75-15               	     295	   3982472 ns/op	       308.6 MP/s	    181834 bytes	   3982034 cpu-ns/op	     352 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA/q=90-15               	     271	   4413596 ns/op	       278.4 MP/s	    332087 bytes	   4411672 cpu-ns/op	     383 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=75-15              	     247	   5063974 ns/op	       242.7 MP/s	    181834 bytes	   5060591 cpu-ns/op	     419 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=90-15              	     225	   5235629 ns/op	       234.7 MP/s	    332087 bytes	   5235258 cpu-ns/op	     459 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=75-15           	     399	   2984558 ns/op	       411.7 MP/s	    181848 bytes	   2984687 cpu-ns/op	     283 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=90-15           	     349	   3417399 ns/op	       359.6 MP/s	    332137 bytes	   3417519 cpu-ns/op	     322 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=75-15           	     414	   2817299 ns/op	       436.2 MP/s	    181837 bytes	   2817630 cpu-ns/op	     273 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=90-15           	     408	   2885579 ns/op	       425.8 MP/s	    262067 bytes	   2885431 cpu-ns/op	     277 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=75-15               	     591	   2009904 ns/op	       611.4 MP/s	    166518 bytes	   2010343 cpu-ns/op	     152 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=90-15               	     490	   2491978 ns/op	       493.1 MP/s	    300873 bytes	   2487180 cpu-ns/op	     182 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=75-15     	      30	  38705462 ns/op	       310.0 MP/s	   1460727 bytes	  38700400 cpu-ns/op	    5853 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=90-15     	      30	  39500496 ns/op	       303.8 MP/s	   1997937 bytes	  39509900 cpu-ns/op	      76 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkDecode/img=420q75_960x1280-15         	     432	   2726362 ns/op	       450.7 MP/s	   2825887 cpu-ns/op	 1876325 B/op	      11 allocs/op
+BenchmarkDecode/img=444q92_960x1280-15         	     214	   5498481 ns/op	       223.5 MP/s	   5606084 cpu-ns/op	 3722531 B/op	     200 allocs/op
+BenchmarkDecode/img=422q92rst_960x1280-15      	     270	   4668137 ns/op	       263.2 MP/s	   4805070 cpu-ns/op	 2491335 B/op	      49 allocs/op
+BenchmarkDecode/img=420q85prog_960x1280-15     	     199	   5975728 ns/op	       205.6 MP/s	   6166899 cpu-ns/op	 9486756 B/op	      21 allocs/op
+BenchmarkDecode/img=420q85_1920x2560-15        	     100	  10745617 ns/op	       457.4 MP/s	  10857170 cpu-ns/op	 7405909 B/op	      11 allocs/op
+BenchmarkDecode/img=grayq85_1920x2560-15       	     145	   8292134 ns/op	       592.8 MP/s	   8442579 cpu-ns/op	 4939971 B/op	       8 allocs/op
+BenchmarkDecode/img=444_1750x697-15            	     577	   2033184 ns/op	       599.9 MP/s	   2130735 cpu-ns/op	 3735910 B/op	      12 allocs/op
+BenchmarkDecode/img=420q90_4000x3000-15        	      40	  28173690 ns/op	       425.9 MP/s	  28316025 cpu-ns/op	18088258 B/op	      10 allocs/op
+BenchmarkDecodeConfig/img=444q92_960x1280-15   	  845712	      1430 ns/op	      2689 cpu-ns/op	   16432 B/op	       2 allocs/op
+BenchmarkEncode/img=RGBA/q=75-15               	     276	   4104034 ns/op	       299.4 MP/s	    181834 bytes	   4101721 cpu-ns/op	      15 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA/q=90-15               	     271	   4403200 ns/op	       279.1 MP/s	    332087 bytes	   4402550 cpu-ns/op	     383 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=75-15              	     248	   4799577 ns/op	       256.0 MP/s	    181834 bytes	   4799351 cpu-ns/op	     417 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=90-15              	     228	   5289998 ns/op	       232.3 MP/s	    332087 bytes	   5288728 cpu-ns/op	     453 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=75-15           	     399	   2983583 ns/op	       411.9 MP/s	    181848 bytes	   2983336 cpu-ns/op	     283 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=90-15           	     349	   3409197 ns/op	       360.4 MP/s	    332137 bytes	   3408748 cpu-ns/op	     322 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=75-15           	     422	   2956717 ns/op	       415.6 MP/s	    181837 bytes	   2953045 cpu-ns/op	     268 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=90-15           	     409	   2893964 ns/op	       424.6 MP/s	    262067 bytes	   2893550 cpu-ns/op	     276 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=75-15               	     591	   2005248 ns/op	       612.8 MP/s	    166518 bytes	   2005076 cpu-ns/op	     152 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=90-15               	     499	   2381731 ns/op	       515.9 MP/s	    300873 bytes	   2381958 cpu-ns/op	     178 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=75-15     	      30	  38904229 ns/op	       308.4 MP/s	   1460727 bytes	  38908300 cpu-ns/op	      77 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=90-15     	      30	  39450081 ns/op	       304.2 MP/s	   1997937 bytes	  39459233 cpu-ns/op	    5854 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkDecode/img=420q75_960x1280-15         	     429	   2734164 ns/op	       449.4 MP/s	   2828168 cpu-ns/op	 1876325 B/op	      11 allocs/op
+BenchmarkDecode/img=444q92_960x1280-15         	     217	   5564110 ns/op	       220.8 MP/s	   5696429 cpu-ns/op	 3722560 B/op	     200 allocs/op
+BenchmarkDecode/img=422q92rst_960x1280-15      	     244	   4391281 ns/op	       279.8 MP/s	   4499189 cpu-ns/op	 2491316 B/op	      49 allocs/op
+BenchmarkDecode/img=420q85prog_960x1280-15     	     200	   5980194 ns/op	       205.5 MP/s	   6153950 cpu-ns/op	 9486760 B/op	      21 allocs/op
+BenchmarkDecode/img=420q85_1920x2560-15        	     100	  10720384 ns/op	       458.5 MP/s	  10853420 cpu-ns/op	 7405914 B/op	      11 allocs/op
+BenchmarkDecode/img=grayq85_1920x2560-15       	     145	   8266685 ns/op	       594.6 MP/s	   8396248 cpu-ns/op	 4939975 B/op	       8 allocs/op
+BenchmarkDecode/img=444_1750x697-15            	     578	   2019340 ns/op	       604.0 MP/s	   2116100 cpu-ns/op	 3735909 B/op	      12 allocs/op
+BenchmarkDecode/img=420q90_4000x3000-15        	      40	  28167623 ns/op	       426.0 MP/s	  28299700 cpu-ns/op	18088256 B/op	      10 allocs/op
+BenchmarkDecodeConfig/img=444q92_960x1280-15   	  824656	      1702 ns/op	      3143 cpu-ns/op	   16432 B/op	       2 allocs/op
+BenchmarkEncode/img=RGBA/q=75-15               	     298	   3984585 ns/op	       308.4 MP/s	    181834 bytes	   3983980 cpu-ns/op	     349 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA/q=90-15               	     271	   4415340 ns/op	       278.3 MP/s	    332087 bytes	   4413686 cpu-ns/op	      15 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=75-15              	     247	   4880695 ns/op	       251.8 MP/s	    181834 bytes	   4876393 cpu-ns/op	     419 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=90-15              	     218	   5226806 ns/op	       235.1 MP/s	    332087 bytes	   5226656 cpu-ns/op	     474 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=75-15           	     399	   2988907 ns/op	       411.1 MP/s	    181848 bytes	   2988822 cpu-ns/op	     283 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=90-15           	     349	   3544338 ns/op	       346.7 MP/s	    332137 bytes	   3540931 cpu-ns/op	     322 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=75-15           	     405	   2809711 ns/op	       437.3 MP/s	    181837 bytes	   2809556 cpu-ns/op	     279 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=90-15           	     406	   2888416 ns/op	       425.4 MP/s	    262067 bytes	   2888672 cpu-ns/op	     278 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=75-15               	     589	   2008350 ns/op	       611.8 MP/s	    166518 bytes	   2008725 cpu-ns/op	      11 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=90-15               	     499	   2405566 ns/op	       510.8 MP/s	    300873 bytes	   2406804 cpu-ns/op	     178 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=75-15     	      30	  38736717 ns/op	       309.8 MP/s	   1460727 bytes	  38737233 cpu-ns/op	    5853 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=90-15     	      30	  39438992 ns/op	       304.3 MP/s	   1997937 bytes	  39441633 cpu-ns/op	    5853 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkDecode/img=420q75_960x1280-15         	     367	   2791113 ns/op	       440.3 MP/s	   2894455 cpu-ns/op	 1876311 B/op	      11 allocs/op
+BenchmarkDecode/img=444q92_960x1280-15         	     216	   5486067 ns/op	       224.0 MP/s	   5591986 cpu-ns/op	 3722530 B/op	     200 allocs/op
+BenchmarkDecode/img=422q92rst_960x1280-15      	     272	   4367135 ns/op	       281.4 MP/s	   4461217 cpu-ns/op	 2491319 B/op	      49 allocs/op
+BenchmarkDecode/img=420q85prog_960x1280-15     	     198	   6029824 ns/op	       203.8 MP/s	   6231217 cpu-ns/op	 9486756 B/op	      21 allocs/op
+BenchmarkDecode/img=420q85_1920x2560-15        	     100	  10733651 ns/op	       457.9 MP/s	  10842830 cpu-ns/op	 7405906 B/op	      11 allocs/op
+BenchmarkDecode/img=grayq85_1920x2560-15       	     146	   8165113 ns/op	       602.0 MP/s	   8274849 cpu-ns/op	 4939971 B/op	       8 allocs/op
+BenchmarkDecode/img=444_1750x697-15            	     534	   2216798 ns/op	       550.2 MP/s	   2346981 cpu-ns/op	 3735909 B/op	      12 allocs/op
+BenchmarkDecode/img=420q90_4000x3000-15        	      40	  28291145 ns/op	       424.2 MP/s	  28410075 cpu-ns/op	18088256 B/op	      10 allocs/op
+BenchmarkDecodeConfig/img=444q92_960x1280-15   	  844411	      1395 ns/op	      2607 cpu-ns/op	   16432 B/op	       2 allocs/op
+BenchmarkEncode/img=RGBA/q=75-15               	     298	   3979680 ns/op	       308.8 MP/s	    181834 bytes	   3978708 cpu-ns/op	     349 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA/q=90-15               	     265	   4416258 ns/op	       278.2 MP/s	    332087 bytes	   4416517 cpu-ns/op	     391 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=75-15              	     248	   4803133 ns/op	       255.8 MP/s	    181834 bytes	   4801940 cpu-ns/op	     417 B/op	       1 allocs/op
+BenchmarkEncode/img=NRGBA/q=90-15              	     228	   5407357 ns/op	       227.2 MP/s	    332087 bytes	   5401382 cpu-ns/op	     453 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=75-15           	     382	   2983941 ns/op	       411.8 MP/s	    181848 bytes	   2984419 cpu-ns/op	      13 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr444/q=90-15           	     348	   3418866 ns/op	       359.4 MP/s	    332137 bytes	   3418698 cpu-ns/op	     323 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=75-15           	     423	   2808648 ns/op	       437.5 MP/s	    181837 bytes	   2808624 cpu-ns/op	     267 B/op	       1 allocs/op
+BenchmarkEncode/img=YCbCr420/q=90-15           	     409	   2950066 ns/op	       416.5 MP/s	    262067 bytes	   2950379 cpu-ns/op	      13 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=75-15               	     588	   2003650 ns/op	       613.3 MP/s	    166518 bytes	   2004379 cpu-ns/op	     152 B/op	       1 allocs/op
+BenchmarkEncode/img=Gray/q=90-15               	     500	   2376554 ns/op	       517.1 MP/s	    300873 bytes	   2376474 cpu-ns/op	     178 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=75-15     	      30	  40175685 ns/op	       298.7 MP/s	   1460727 bytes	  40111200 cpu-ns/op	    5853 B/op	       1 allocs/op
+BenchmarkEncode/img=RGBA_4000x3000/q=90-15     	      28	  39597321 ns/op	       303.1 MP/s	   1997937 bytes	  39588679 cpu-ns/op	    6271 B/op	       1 allocs/op
+PASS

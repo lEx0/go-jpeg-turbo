@@ -1,0 +1,70 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkSatDecode/img=420q75_960x1280-15         	    8066	    278050 ns/op	      4419 MP/s	   3530350 cpu-ns/op	 1876308 B/op	      11 allocs/op
+BenchmarkSatEncode/img=RGBA/q=75-15               	    6048	    422356 ns/op	      2909 MP/s	   5580202 cpu-ns/op	       9 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkSatDecode/img=420q75_960x1280-15         	    7942	    284431 ns/op	      4320 MP/s	   3569311 cpu-ns/op	 1876309 B/op	      11 allocs/op
+BenchmarkSatEncode/img=RGBA/q=75-15               	    5779	    403846 ns/op	      3043 MP/s	   5889791 cpu-ns/op	       9 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkSatDecode/img=420q75_960x1280-15         	    8119	    284339 ns/op	      4322 MP/s	   3575729 cpu-ns/op	 1876308 B/op	      11 allocs/op
+BenchmarkSatEncode/img=RGBA/q=75-15               	    5780	    407283 ns/op	      3017 MP/s	   5904584 cpu-ns/op	       9 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkSatDecode/img=420q75_960x1280-15         	    7970	    282953 ns/op	      4343 MP/s	   3587308 cpu-ns/op	 1876307 B/op	      11 allocs/op
+BenchmarkSatEncode/img=RGBA/q=75-15               	    5781	    442406 ns/op	      2778 MP/s	   5922445 cpu-ns/op	       9 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkSatDecode/img=420q75_960x1280-15         	    7659	    283238 ns/op	      4338 MP/s	   3605018 cpu-ns/op	 1876308 B/op	      11 allocs/op
+BenchmarkSatEncode/img=RGBA/q=75-15               	    5679	    421062 ns/op	      2918 MP/s	   5997189 cpu-ns/op	       9 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkSatDecode/img=420q75_960x1280-15         	    7932	    283228 ns/op	      4339 MP/s	   3603849 cpu-ns/op	 1876308 B/op	      11 allocs/op
+BenchmarkSatEncode/img=RGBA/q=75-15               	    5787	    414882 ns/op	      2962 MP/s	   5986738 cpu-ns/op	       9 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkSatDecode/img=420q75_960x1280-15         	    7791	    288544 ns/op	      4259 MP/s	   3629508 cpu-ns/op	 1876308 B/op	      11 allocs/op
+BenchmarkSatEncode/img=RGBA/q=75-15               	    5416	    411920 ns/op	      2983 MP/s	   6024661 cpu-ns/op	       9 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkSatDecode/img=420q75_960x1280-15         	    7746	    290105 ns/op	      4236 MP/s	   3629038 cpu-ns/op	 1876309 B/op	      11 allocs/op
+BenchmarkSatEncode/img=RGBA/q=75-15               	    5391	    416500 ns/op	      2950 MP/s	   6091187 cpu-ns/op	       9 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkSatDecode/img=420q75_960x1280-15         	    8018	    305788 ns/op	      4018 MP/s	   3642308 cpu-ns/op	 1876308 B/op	      11 allocs/op
+BenchmarkSatEncode/img=RGBA/q=75-15               	    5810	    411536 ns/op	      2986 MP/s	   6028344 cpu-ns/op	       9 B/op	       1 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/lEx0/go-jpeg-turbo/benchmarks/turbo
+cpu: Apple M5 Pro
+BenchmarkSatDecode/img=420q75_960x1280-15         	    7812	    283517 ns/op	      4334 MP/s	   3608820 cpu-ns/op	 1876308 B/op	      11 allocs/op
+BenchmarkSatEncode/img=RGBA/q=75-15               	    5518	    421504 ns/op	      2915 MP/s	   6006482 cpu-ns/op	       8 B/op	       1 allocs/op
+PASS
