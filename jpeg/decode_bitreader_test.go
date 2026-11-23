@@ -37,6 +37,7 @@ import (
 	"fmt"
 	"io"
 	"math/rand"
+	"runtime/debug"
 	"testing"
 )
 
@@ -74,8 +75,11 @@ type dbState struct {
 // loop's hand-over (from fastR), and then reads two bytes with readFull,
 // as at the marker after a scan. It reports the first difference in
 // coefficients, DC prediction, EOB run, error, number of Read calls
-// (calls returns them, fast and exact) or position.
-func dbCompare(dcH, acH *huffman, s dbState, fastR, exactR io.Reader, calls func() (int, int), nBlocks int) string {
+// (calls returns them, fast and exact) or position, or a panic of either
+// decoder.
+func dbCompare(dcH, acH *huffman, s dbState, fastR, exactR io.Reader, calls func() (int, int), nBlocks int) (diff string) {
+	blk := 0
+	defer dbRecover(&diff, &blk)
 	fastD, exactD := &dbScratch[0], &dbScratch[1]
 	*fastD, *exactD = decoder{}, decoder{}
 	copy(fastD.bytes.buf[:], s.buf)
@@ -101,7 +105,7 @@ func dbCompare(dcH, acH *huffman, s dbState, fastR, exactR io.Reader, calls func
 		return scratch
 	}
 	var dcF, dcE int32
-	for blk := 0; blk < nBlocks; blk++ {
+	for ; blk < nBlocks; blk++ {
 		var bF, bE block
 		err := exactD.decBlockExact(&bE, dcH, acH, &dcE, 0, blockSize-1, 0, 0)
 		var errF error
@@ -139,6 +143,17 @@ func dbCompare(dcH, acH *huffman, s dbState, fastR, exactR io.Reader, calls func
 		return fmt.Sprintf("readFull: % x %v at %d/%d, want % x %v at %d/%d", p1, e1, tmp.bytes.i, tmp.bytes.j, p2, e2, exactD.bytes.i, exactD.bytes.j)
 	}
 	return ""
+}
+
+// dbRecover, deferred, turns a panic into the difference *diff, so that a
+// defect (an index out of range in store, say) fails the test that found
+// it, with the input, instead of stopping the test binary before the
+// tests after it report. blk is the block being decoded, or the number of
+// blocks if the panic came after them.
+func dbRecover(diff *string, blk *int) {
+	if p := recover(); p != nil {
+		*diff = fmt.Sprintf("block %d: panic: %v\n%s", *blk, p, debug.Stack())
+	}
 }
 
 // dbScratch holds the decoders of dbCompare, reused from call to call
@@ -407,21 +422,33 @@ func TestDecAccInvariant(t *testing.T) {
 			continue
 		}
 		stream := decTestStream(rng, 1+rng.Intn(200), rng.Intn(2) == 0)
-		var d decoder
-		copy(d.bytes.buf[:], stream)
-		d.bytes.j = len(stream)
-		d.r = &decCountingReader{}
-		var br decBitReader
-		br.load(&d)
-		var dc int32
-		for blk := 0; blk < 64; blk++ {
-			var b block
-			if !d.decBlockSeq(&br, &b, dcH, acH, &dc) {
-				break
-			}
-			if s := dbAccInvariant(&br, stream); s != "" {
-				t.Fatalf("iteration %d block %d: %s\nstream % x", it, blk, s, stream)
-			}
+		if s := dbAccBlocks(dcH, acH, stream); s != "" {
+			t.Fatalf("iteration %d %s\nstream % x", it, s, stream)
 		}
 	}
+}
+
+// dbAccBlocks decodes up to 64 blocks of stream with the fast decoder and
+// reports the first violation of dbAccInvariant after a block, or a
+// panic.
+func dbAccBlocks(dcH, acH *huffman, stream []byte) (diff string) {
+	blk := 0
+	defer dbRecover(&diff, &blk)
+	var d decoder
+	copy(d.bytes.buf[:], stream)
+	d.bytes.j = len(stream)
+	d.r = &decCountingReader{}
+	var br decBitReader
+	br.load(&d)
+	var dc int32
+	for ; blk < 64; blk++ {
+		var b block
+		if !d.decBlockSeq(&br, &b, dcH, acH, &dc) {
+			break
+		}
+		if s := dbAccInvariant(&br, stream); s != "" {
+			return fmt.Sprintf("block %d: %s", blk, s)
+		}
+	}
+	return ""
 }
