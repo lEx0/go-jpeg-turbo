@@ -37,6 +37,10 @@ defaults:
   run:
     shell: bash
 
+# Every action is pinned to the commit of a release, named in the comment
+# after it: a tag can be moved to other code, a commit cannot. Dependabot
+# moves the pins to new releases (.github/dependabot.yml).
+
 # Where the tests run in full and where with -short (fewer inputs in the
 # compatibility sweeps, a dozen alpha values instead of 256 in the
 # exhaustive NRGBA conversion tests, no TestGenerated), and the job
@@ -90,7 +94,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       # setup-go keys its module and build cache on the runner OS and
@@ -100,7 +104,7 @@ jobs:
       # Only this job saves and restores it, so that the entry holds the
       # builds of these steps and not those of the race, levels or ports
       # job (cache: false there).
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: ${{ matrix.go }}
       # The amd64 kernels are picked at run time by CPU level and the tests
@@ -230,9 +234,7 @@ jobs:
         env:
           TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: echo "has=${TOKEN:+1}" >> "$GITHUB_OUTPUT"
-      # A third-party action, pinned to a commit (Dependabot keeps the pin
-      # current, .github/dependabot.yml). A failed upload does not fail
-      # the job.
+      # A failed upload does not fail the job.
       - name: Upload coverage to Codecov
         if: steps.codecov.outputs.has == '1'
         continue-on-error: true
@@ -259,10 +261,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: stable
           cache: false # see the test job
@@ -287,10 +289,10 @@ jobs:
     env:
       CGO_ENABLED: "1"
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: stable
           cache: false # see the test job
@@ -313,10 +315,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: stable
           cache: false # see the test job
