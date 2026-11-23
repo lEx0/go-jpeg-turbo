@@ -277,7 +277,7 @@ func dbExhaustive(t *testing.T, name string, dcH, acH *huffman, three bool, step
 			}
 			stream = append(stream, tail...)
 			n0 := int32((p ^ ti) & 7)
-			s := dbState{buf: stream, bits: bits{a: uint32(p*2654435761) >> shift, n: n0}, state: true}
+			s := dbState{buf: stream, bits: bits{a: (uint32(p) * 2654435761) >> shift, n: n0}, state: true}
 			if n0 > 0 {
 				s.bits.m = 1 << (n0 - 1)
 			}

@@ -44,6 +44,7 @@ import (
 	"fmt"
 	std "image/jpeg"
 	"io"
+	"math"
 	"math/rand"
 	"testing"
 )
@@ -963,7 +964,7 @@ func pgCompareCoeffs(t *testing.T, name string, data []byte, mk func([]byte) io.
 		return d, err
 	}
 	dF, errF := run(0)
-	dE, errE := run(1 << 62)
+	dE, errE := run(math.MaxInt)
 	if !sameError(errF, errE) {
 		t.Errorf("%s: error %v, want %v", name, errF, errE)
 		return false
