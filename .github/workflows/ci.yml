@@ -13,10 +13,13 @@ on:
 permissions:
   contents: read
 
-# A new push to a pull request cancels the run of its previous commit;
-# runs on main are never cancelled.
+# A new push to a pull request cancels the run of its previous commit.
+# Pushes to main and runs by hand get a group of their own (the run id),
+# so that every commit on main is tested: in a shared group GitHub keeps
+# one run going and one pending, and a newer run cancels the pending one,
+# so the middle one of three quick pushes would get no result.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
