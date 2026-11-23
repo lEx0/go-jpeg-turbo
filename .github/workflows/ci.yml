@@ -37,6 +37,10 @@ defaults:
   run:
     shell: bash
 
+# Every action is pinned to the commit of a release, named in the comment
+# after it: a tag can be moved to other code, a commit cannot. Dependabot
+# moves the pins to new releases (.github/dependabot.yml).
+
 # Where the tests run in full and where with -short (fewer inputs in the
 # compatibility sweeps, a dozen alpha values instead of 256 in the
 # exhaustive NRGBA conversion tests, no TestGenerated), and the job
@@ -89,8 +93,15 @@ jobs:
             coverage: true
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40
+    # testflags reaches the test steps through the environment, not as
+    # ${{ }} in their scripts: an expression in a script is pasted into the
+    # shell code before bash parses it, the way code gets injected into
+    # workflows. The scripts leave $TESTFLAGS unquoted, so that it splits
+    # into flags.
+    env:
+      TESTFLAGS: ${{ matrix.testflags }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       # setup-go keys its module and build cache on the runner OS and
@@ -100,7 +111,7 @@ jobs:
       # Only this job saves and restores it, so that the entry holds the
       # builds of these steps and not those of the race, levels or ports
       # job (cache: false there).
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: ${{ matrix.go }}
       # The amd64 kernels are picked at run time by CPU level and the tests
@@ -167,7 +178,9 @@ jobs:
       # The guard-page tests (internal/dct, internal/ycc, jpeg) need mmap
       # and mprotect and are built on Linux and macOS only.
       - name: Test
-        run: go test ${{ matrix.testflags }} -timeout 30m ./...
+        run: |
+          # shellcheck disable=SC2086 # split into flags
+          go test $TESTFLAGS -timeout 30m ./...
       # -coverpkg counts the code that other packages' tests run too
       # (internal/imageutil has no tests of its own). -short, after the
       # full run above: on amd64 the exhaustive tests of level go run the
@@ -183,7 +196,9 @@ jobs:
       # replace by the tests above; this runs the whole suite on the
       # portable code as well (what other architectures use).
       - name: Test the pure Go code path (-tags purego)
-        run: go test ${{ matrix.testflags }} -timeout 30m -tags purego ./...
+        run: |
+          # shellcheck disable=SC2086 # split into flags
+          go test $TESTFLAGS -timeout 30m -tags purego ./...
       - name: Coverage summary
         if: matrix.coverage
         continue-on-error: true
@@ -230,9 +245,7 @@ jobs:
         env:
           TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: echo "has=${TOKEN:+1}" >> "$GITHUB_OUTPUT"
-      # A third-party action, pinned to a commit (Dependabot keeps the pin
-      # current, .github/dependabot.yml). A failed upload does not fail
-      # the job.
+      # A failed upload does not fail the job.
       - name: Upload coverage to Codecov
         if: steps.codecov.outputs.has == '1'
         continue-on-error: true
@@ -259,10 +272,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: stable
           cache: false # see the test job
@@ -287,10 +300,10 @@ jobs:
     env:
       CGO_ENABLED: "1"
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: stable
           cache: false # see the test job
@@ -313,10 +326,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: stable
           cache: false # see the test job
@@ -331,3 +344,33 @@ jobs:
       # on an OS without the guard-page tests.
       - name: Vet other architectures (make vet-ports)
         run: make vet-ports
+
+  workflows:
+    # Holds later changes to this file and dependabot.yml to the checks
+    # they pass now: actionlint (syntax, expressions, and shellcheck on
+    # the scripts; the runner image has shellcheck) and zizmor, the
+    # GitHub Actions security linter (unpinned actions, template
+    # injection, credentials left in the checkout, permissions,
+    # Dependabot cooldowns), at its pedantic persona. Its online audits
+    # use the job's read-only token to check that each pin is a commit of
+    # its action's repository and of the release its comment names, and
+    # that no pinned release has a known vulnerability. Dependabot does
+    # not update the two versions here; zizmor's is a release more than a
+    # week old, as the cooldowns ask of updates.
+    name: workflows (actionlint, zizmor)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
+        with:
+          go-version: stable
+          cache: false # see the test job
+      - name: actionlint
+        run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+      - name: zizmor
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: pipx run zizmor==1.32.0 --persona=pedantic --strict-collection .
