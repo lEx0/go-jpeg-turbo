@@ -75,7 +75,10 @@ bench-compare:
 # FUZZFLAGS=-parallel=8. JPEG_TURBO_LEVEL selects the kernels. The
 # fuzzer sees the coverage of Go code only, not of the assembly kernels:
 # FuzzLevelKernels shapes its inputs to reach their paths (level_test.go).
-FUZZ ?= FuzzCompatDecode FuzzDecCompatFast FuzzCompatEncode FuzzLevelKernels
+# FuzzDecProgGen turns the fuzzer's bytes into a progressive stream (scan
+# script, tables, entropy-coded data; decode_proggen_test.go), which gets
+# further into the progressive decoder than mutations of a file do.
+FUZZ ?= FuzzCompatDecode FuzzDecCompatFast FuzzCompatEncode FuzzLevelKernels FuzzDecProgGen
 FUZZTIME ?= 60s
 FUZZFLAGS ?=
 fuzz:

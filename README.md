@@ -180,8 +180,9 @@ benchstat -col /impl new.txt      # std vs turbo; MB/s is megapixels/s
   images (panic values compared), failing writers, and the
   `Flush`/`WriteByte` writer protocols.
 - **Fuzz targets.** `FuzzCompatDecode`, `FuzzDecCompatFast`,
-  `FuzzCompatEncode` and `FuzzLevelKernels`, the last with inputs shaped to
-  reach the paths inside the assembly.
+  `FuzzCompatEncode`, `FuzzLevelKernels`, with inputs shaped to reach the
+  paths inside the assembly, and `FuzzDecProgGen`, which turns the
+  fuzzer's bytes into progressive streams.
 - **Kernels.** Exhaustive and boundary tests for every SIMD level against
   the scalar references.
 
