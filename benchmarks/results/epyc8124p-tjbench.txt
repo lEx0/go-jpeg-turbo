@@ -1,0 +1,379 @@
+libjpeg-turbo: libturbojpeg0:amd64 1:2.1.5-4ubuntu4 
+== tjbench decode photo-960x1280-q75-420.jpg  (rep 1)
+
+Warmup time = 1.0 seconds
+
+>>>>>  JPEG 4:2:0 --> BGR (Top-down)  <<<<<
+
+Image size: 960 x 1280
+Decompress    --> Frame rate:         286.309908 fps
+                  Throughput:         351.817615 Megapixels/sec
+
+== tjbench decode photo-960x1280-q75-420.jpg -rgbx (rep 1)
+
+Warmup time = 1.0 seconds
+
+>>>>>  JPEG 4:2:0 --> RGBX (Top-down)  <<<<<
+
+Image size: 960 x 1280
+Decompress    --> Frame rate:         290.090156 fps
+                  Throughput:         356.462783 Megapixels/sec
+
+== tjbench decode photo-960x1280-q75-420.jpg -yuv (rep 1)
+
+Testing planar YUV encoding/decoding
+
+Warmup time = 1.0 seconds
+
+>>>>>  JPEG 4:2:0 --> BGR (Top-down)  <<<<<
+
+Image size: 960 x 1280
+Decomp to YUV --> Frame rate:         347.043414 fps
+                  Throughput:         426.446947 Megapixels/sec
+YUV Decode    --> Frame rate:         2470.680022 fps
+                  Throughput:         3035.971611 Megapixels/sec
+
+== tjbench compress photo-q75-420.ppm q75 420  (rep 1)
+
+Warmup time = 1.0 seconds
+
+>>>>>  BGR (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Compress      --> Frame rate:         286.867233 fps
+                  Output image size:  181849 bytes
+                  Compression ratio:  20.271764:1
+                  Throughput:         352.502455 Megapixels/sec
+                  Output bit stream:  417.332155 Megabits/sec
+
+== tjbench compress photo-q75-420.ppm q75 420 -rgbx (rep 1)
+
+Warmup time = 1.0 seconds
+
+>>>>>  RGBX (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Compress      --> Frame rate:         290.198824 fps
+                  Output image size:  181849 bytes
+                  Compression ratio:  27.029019:1
+                  Throughput:         356.596315 Megapixels/sec
+                  Output bit stream:  422.178927 Megabits/sec
+
+== tjbench compress photo-q75-420.ppm q75 420 -yuv (rep 1)
+
+Testing planar YUV encoding/decoding
+
+Warmup time = 1.0 seconds
+
+>>>>>  BGR (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Encode YUV    --> Frame rate:         1371.513632 fps
+                  Output image size:  1843200 bytes
+                  Compression ratio:  2.000000:1
+                  Throughput:         1685.315951 Megapixels/sec
+                  Output bit stream:  20223.791414 Megabits/sec
+Comp from YUV --> Frame rate:         350.024128 fps
+                  Output image size:  181849 bytes
+                  Compression ratio:  20.271764:1
+                  Throughput:         430.109649 Megapixels/sec
+                  Output bit stream:  509.212301 Megabits/sec
+
+== tjbench compress photo-444q92.ppm q75 420  (rep 1)
+
+Warmup time = 1.0 seconds
+
+>>>>>  BGR (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Compress      --> Frame rate:         283.752143 fps
+                  Output image size:  181671 bytes
+                  Compression ratio:  20.291626:1
+                  Throughput:         348.674633 Megapixels/sec
+                  Output bit stream:  412.396285 Megabits/sec
+
+== tjbench compress photo-444q92.ppm q75 420 -rgbx (rep 1)
+
+Warmup time = 1.0 seconds
+
+>>>>>  RGBX (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Compress      --> Frame rate:         289.479344 fps
+                  Output image size:  181671 bytes
+                  Compression ratio:  27.055501:1
+                  Throughput:         355.712218 Megapixels/sec
+                  Output bit stream:  420.720015 Megabits/sec
+
+== tjbench compress photo-444q92.ppm q75 420 -yuv (rep 1)
+
+Testing planar YUV encoding/decoding
+
+Warmup time = 1.0 seconds
+
+>>>>>  BGR (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Encode YUV    --> Frame rate:         1376.483646 fps
+                  Output image size:  1843200 bytes
+                  Compression ratio:  2.000000:1
+                  Throughput:         1691.423104 Megapixels/sec
+                  Output bit stream:  20297.077252 Megabits/sec
+Comp from YUV --> Frame rate:         348.569378 fps
+                  Output image size:  181671 bytes
+                  Compression ratio:  20.291626:1
+                  Throughput:         428.322051 Megapixels/sec
+                  Output bit stream:  506.599580 Megabits/sec
+
+== tjbench decode photo-960x1280-q75-420.jpg  (rep 2)
+
+Warmup time = 1.0 seconds
+
+>>>>>  JPEG 4:2:0 --> BGR (Top-down)  <<<<<
+
+Image size: 960 x 1280
+Decompress    --> Frame rate:         285.531733 fps
+                  Throughput:         350.861394 Megapixels/sec
+
+== tjbench decode photo-960x1280-q75-420.jpg -rgbx (rep 2)
+
+Warmup time = 1.0 seconds
+
+>>>>>  JPEG 4:2:0 --> RGBX (Top-down)  <<<<<
+
+Image size: 960 x 1280
+Decompress    --> Frame rate:         289.513967 fps
+                  Throughput:         355.754762 Megapixels/sec
+
+== tjbench decode photo-960x1280-q75-420.jpg -yuv (rep 2)
+
+Testing planar YUV encoding/decoding
+
+Warmup time = 1.0 seconds
+
+>>>>>  JPEG 4:2:0 --> BGR (Top-down)  <<<<<
+
+Image size: 960 x 1280
+Decomp to YUV --> Frame rate:         350.167860 fps
+                  Throughput:         430.286266 Megapixels/sec
+YUV Decode    --> Frame rate:         2463.915365 fps
+                  Throughput:         3027.659201 Megapixels/sec
+
+== tjbench compress photo-q75-420.ppm q75 420  (rep 2)
+
+Warmup time = 1.0 seconds
+
+>>>>>  BGR (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Compress      --> Frame rate:         285.648619 fps
+                  Output image size:  181849 bytes
+                  Compression ratio:  20.271764:1
+                  Throughput:         351.005022 Megapixels/sec
+                  Output bit stream:  415.559325 Megabits/sec
+
+== tjbench compress photo-q75-420.ppm q75 420 -rgbx (rep 2)
+
+Warmup time = 1.0 seconds
+
+>>>>>  RGBX (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Compress      --> Frame rate:         290.750921 fps
+                  Output image size:  181849 bytes
+                  Compression ratio:  27.029019:1
+                  Throughput:         357.274732 Megapixels/sec
+                  Output bit stream:  422.982114 Megabits/sec
+
+== tjbench compress photo-q75-420.ppm q75 420 -yuv (rep 2)
+
+Testing planar YUV encoding/decoding
+
+Warmup time = 1.0 seconds
+
+>>>>>  BGR (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Encode YUV    --> Frame rate:         1361.644844 fps
+                  Output image size:  1843200 bytes
+                  Compression ratio:  2.000000:1
+                  Throughput:         1673.189184 Megapixels/sec
+                  Output bit stream:  20078.270207 Megabits/sec
+Comp from YUV --> Frame rate:         349.268721 fps
+                  Output image size:  181849 bytes
+                  Compression ratio:  20.271764:1
+                  Throughput:         429.181405 Megapixels/sec
+                  Output bit stream:  508.113342 Megabits/sec
+
+== tjbench compress photo-444q92.ppm q75 420  (rep 2)
+
+Warmup time = 1.0 seconds
+
+>>>>>  BGR (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Compress      --> Frame rate:         285.652471 fps
+                  Output image size:  181671 bytes
+                  Compression ratio:  20.291626:1
+                  Throughput:         351.009757 Megapixels/sec
+                  Output bit stream:  415.158161 Megabits/sec
+
+== tjbench compress photo-444q92.ppm q75 420 -rgbx (rep 2)
+
+Warmup time = 1.0 seconds
+
+>>>>>  RGBX (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Compress      --> Frame rate:         289.388671 fps
+                  Output image size:  181671 bytes
+                  Compression ratio:  27.055501:1
+                  Throughput:         355.600799 Megapixels/sec
+                  Output bit stream:  420.588234 Megabits/sec
+
+== tjbench compress photo-444q92.ppm q75 420 -yuv (rep 2)
+
+Testing planar YUV encoding/decoding
+
+Warmup time = 1.0 seconds
+
+>>>>>  BGR (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Encode YUV    --> Frame rate:         1374.069614 fps
+                  Output image size:  1843200 bytes
+                  Compression ratio:  2.000000:1
+                  Throughput:         1688.456741 Megapixels/sec
+                  Output bit stream:  20261.480895 Megabits/sec
+Comp from YUV --> Frame rate:         348.374778 fps
+                  Output image size:  181671 bytes
+                  Compression ratio:  20.291626:1
+                  Throughput:         428.082927 Megapixels/sec
+                  Output bit stream:  506.316754 Megabits/sec
+
+== tjbench decode photo-960x1280-q75-420.jpg  (rep 3)
+
+Warmup time = 1.0 seconds
+
+>>>>>  JPEG 4:2:0 --> BGR (Top-down)  <<<<<
+
+Image size: 960 x 1280
+Decompress    --> Frame rate:         286.741740 fps
+                  Throughput:         352.348250 Megapixels/sec
+
+== tjbench decode photo-960x1280-q75-420.jpg -rgbx (rep 3)
+
+Warmup time = 1.0 seconds
+
+>>>>>  JPEG 4:2:0 --> RGBX (Top-down)  <<<<<
+
+Image size: 960 x 1280
+Decompress    --> Frame rate:         289.782797 fps
+                  Throughput:         356.085101 Megapixels/sec
+
+== tjbench decode photo-960x1280-q75-420.jpg -yuv (rep 3)
+
+Testing planar YUV encoding/decoding
+
+Warmup time = 1.0 seconds
+
+>>>>>  JPEG 4:2:0 --> BGR (Top-down)  <<<<<
+
+Image size: 960 x 1280
+Decomp to YUV --> Frame rate:         348.373651 fps
+                  Throughput:         428.081542 Megapixels/sec
+YUV Decode    --> Frame rate:         2465.435986 fps
+                  Throughput:         3029.527740 Megapixels/sec
+
+== tjbench compress photo-q75-420.ppm q75 420  (rep 3)
+
+Warmup time = 1.0 seconds
+
+>>>>>  BGR (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Compress      --> Frame rate:         286.259556 fps
+                  Output image size:  181849 bytes
+                  Compression ratio:  20.271764:1
+                  Throughput:         351.755742 Megapixels/sec
+                  Output bit stream:  416.448112 Megabits/sec
+
+== tjbench compress photo-q75-420.ppm q75 420 -rgbx (rep 3)
+
+Warmup time = 1.0 seconds
+
+>>>>>  RGBX (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Compress      --> Frame rate:         285.991504 fps
+                  Output image size:  181849 bytes
+                  Compression ratio:  27.029019:1
+                  Throughput:         351.426360 Megapixels/sec
+                  Output bit stream:  416.058152 Megabits/sec
+
+== tjbench compress photo-q75-420.ppm q75 420 -yuv (rep 3)
+
+Testing planar YUV encoding/decoding
+
+Warmup time = 1.0 seconds
+
+>>>>>  BGR (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Encode YUV    --> Frame rate:         1368.064669 fps
+                  Output image size:  1843200 bytes
+                  Compression ratio:  2.000000:1
+                  Throughput:         1681.077866 Megapixels/sec
+                  Output bit stream:  20172.934390 Megabits/sec
+Comp from YUV --> Frame rate:         346.004448 fps
+                  Output image size:  181849 bytes
+                  Compression ratio:  20.271764:1
+                  Throughput:         425.170266 Megapixels/sec
+                  Output bit stream:  503.364503 Megabits/sec
+
+== tjbench compress photo-444q92.ppm q75 420  (rep 3)
+
+Warmup time = 1.0 seconds
+
+>>>>>  BGR (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Compress      --> Frame rate:         287.355742 fps
+                  Output image size:  181671 bytes
+                  Compression ratio:  20.291626:1
+                  Throughput:         353.102736 Megapixels/sec
+                  Output bit stream:  417.633640 Megabits/sec
+
+== tjbench compress photo-444q92.ppm q75 420 -rgbx (rep 3)
+
+Warmup time = 1.0 seconds
+
+>>>>>  RGBX (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Compress      --> Frame rate:         286.128684 fps
+                  Output image size:  181671 bytes
+                  Compression ratio:  27.055501:1
+                  Throughput:         351.594928 Megapixels/sec
+                  Output bit stream:  415.850274 Megabits/sec
+
+== tjbench compress photo-444q92.ppm q75 420 -yuv (rep 3)
+
+Testing planar YUV encoding/decoding
+
+Warmup time = 1.0 seconds
+
+>>>>>  BGR (Top-down) <--> JPEG 4:2:0 Q75  <<<<<
+
+Image size: 960 x 1280
+Encode YUV    --> Frame rate:         1373.281085 fps
+                  Output image size:  1843200 bytes
+                  Compression ratio:  2.000000:1
+                  Throughput:         1687.487797 Megapixels/sec
+                  Output bit stream:  20249.853562 Megabits/sec
+Comp from YUV --> Frame rate:         359.620772 fps
+                  Output image size:  181671 bytes
+                  Compression ratio:  20.291626:1
+                  Throughput:         441.902004 Megapixels/sec
+                  Output bit stream:  522.661322 Megabits/sec
+

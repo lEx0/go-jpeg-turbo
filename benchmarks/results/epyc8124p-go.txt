@@ -1,0 +1,312 @@
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+BenchmarkCompatDecode/img=420q75_960x1280/impl=std         	      81	  13910087 ns/op	  88.34 MB/s	 1857104 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q75_960x1280/impl=turbo       	     171	   6942475 ns/op	 177.00 MB/s	 1876304 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=std         	      42	  29068843 ns/op	  42.27 MB/s	 3703328 B/op	     196 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=turbo       	      86	  13956898 ns/op	  88.04 MB/s	 3722528 B/op	     200 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=std      	      54	  21667213 ns/op	  56.71 MB/s	 2472112 B/op	      45 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=turbo    	     100	  10539672 ns/op	 116.59 MB/s	 2491312 B/op	      49 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=std     	      42	  27198253 ns/op	  45.18 MB/s	 9229968 B/op	      14 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=turbo   	      87	  14066891 ns/op	  87.35 MB/s	 9486736 B/op	      21 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=std        	      22	  52965982 ns/op	  92.80 MB/s	 7386704 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=turbo      	      44	  27343251 ns/op	 179.76 MB/s	 7405904 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=std       	      31	  38185190 ns/op	 128.72 MB/s	 4928960 B/op	       6 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=turbo     	      57	  19883647 ns/op	 247.20 MB/s	 4939968 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=std            	      56	  20977562 ns/op	  58.15 MB/s	 3716704 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=turbo          	     187	   6379993 ns/op	 191.18 MB/s	 3735904 B/op	      12 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=std               	      38	  30418531 ns/op	  40.40 MB/s	   18233 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=turbo             	      96	  12267431 ns/op	 100.17 MB/s	    6457 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=std               	      33	  34833781 ns/op	  35.28 MB/s	   36194 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=turbo             	      87	  13419575 ns/op	  91.57 MB/s	   13151 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=std              	      22	  51069446 ns/op	  24.06 MB/s	 4943392 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=turbo            	      68	  16182461 ns/op	  75.93 MB/s	    9116 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=std              	      20	  55539493 ns/op	  22.12 MB/s	 4971970 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=turbo            	      66	  17389544 ns/op	  70.66 MB/s	   17336 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=std           	      39	  28113765 ns/op	  43.71 MB/s	   17882 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=turbo         	     138	   8671195 ns/op	 141.71 MB/s	    4551 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=std           	      36	  32518771 ns/op	  37.79 MB/s	   33557 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=turbo         	     121	   9811513 ns/op	 125.24 MB/s	    9523 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=std           	      43	  27023245 ns/op	  45.47 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=turbo         	     145	   8216456 ns/op	 149.55 MB/s	    4331 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=std           	      43	  27597653 ns/op	  44.53 MB/s	   16642 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=turbo         	     140	   8536902 ns/op	 143.94 MB/s	    4486 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=std               	      66	  17770665 ns/op	  69.15 MB/s	   12329 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=turbo             	     204	   5852323 ns/op	 209.97 MB/s	    2958 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=std               	      55	  21716525 ns/op	  56.58 MB/s	   23438 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=turbo             	     175	   6832896 ns/op	 179.84 MB/s	    6444 B/op	       0 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+BenchmarkCompatDecode/img=420q75_960x1280/impl=std         	      81	  13621624 ns/op	  90.21 MB/s	 1857104 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q75_960x1280/impl=turbo       	     175	   6842846 ns/op	 179.57 MB/s	 1876304 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=std         	      42	  29307823 ns/op	  41.93 MB/s	 3703328 B/op	     196 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=turbo       	      88	  14085356 ns/op	  87.24 MB/s	 3722528 B/op	     200 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=std      	      52	  21705218 ns/op	  56.61 MB/s	 2472112 B/op	      45 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=turbo    	     100	  10509637 ns/op	 116.92 MB/s	 2491312 B/op	      49 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=std     	      42	  28004889 ns/op	  43.88 MB/s	 9229968 B/op	      14 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=turbo   	      76	  14529352 ns/op	  84.57 MB/s	 9486736 B/op	      21 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=std        	      22	  52305563 ns/op	  93.97 MB/s	 7386704 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=turbo      	      44	  26544838 ns/op	 185.17 MB/s	 7405904 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=std       	      28	  37814719 ns/op	 129.98 MB/s	 4928960 B/op	       6 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=turbo     	      57	  19619166 ns/op	 250.53 MB/s	 4939968 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=std            	      55	  20852291 ns/op	  58.49 MB/s	 3716704 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=turbo          	     189	   6307900 ns/op	 193.37 MB/s	 3735904 B/op	      12 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=std               	      38	  30463709 ns/op	  40.34 MB/s	   18233 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=turbo             	      94	  12406439 ns/op	  99.05 MB/s	    6594 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=std               	      33	  34788953 ns/op	  35.32 MB/s	   36194 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=turbo             	      86	  13403761 ns/op	  91.68 MB/s	   13304 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=std              	      22	  51058430 ns/op	  24.07 MB/s	 4943391 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=turbo            	      73	  16179421 ns/op	  75.95 MB/s	    8491 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=std              	      20	  55493666 ns/op	  22.14 MB/s	 4971969 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=turbo            	      66	  17305950 ns/op	  71.00 MB/s	   17337 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=std           	      39	  28203527 ns/op	  43.57 MB/s	   17882 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=turbo         	     138	   8668181 ns/op	 141.76 MB/s	    4551 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=std           	      36	  32530024 ns/op	  37.77 MB/s	   33557 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=turbo         	     121	   9812469 ns/op	 125.23 MB/s	    9523 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=std           	      43	  27008253 ns/op	  45.50 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=turbo         	     145	   8213606 ns/op	 149.61 MB/s	    4331 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=std           	      43	  27579339 ns/op	  44.56 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=turbo         	     141	   8462063 ns/op	 145.21 MB/s	    4454 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=std               	      66	  17768156 ns/op	  69.16 MB/s	   12329 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=turbo             	     204	   5853747 ns/op	 209.92 MB/s	    2958 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=std               	      54	  21569950 ns/op	  56.97 MB/s	   23790 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=turbo             	     175	   6837885 ns/op	 179.70 MB/s	    6444 B/op	       0 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+BenchmarkCompatDecode/img=420q75_960x1280/impl=std         	      81	  13767197 ns/op	  89.26 MB/s	 1857104 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q75_960x1280/impl=turbo       	     174	   6864571 ns/op	 179.01 MB/s	 1876304 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=std         	      40	  28715831 ns/op	  42.79 MB/s	 3703328 B/op	     196 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=turbo       	      88	  13601721 ns/op	  90.34 MB/s	 3722528 B/op	     200 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=std      	      52	  21677636 ns/op	  56.69 MB/s	 2472112 B/op	      45 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=turbo    	     100	  10786080 ns/op	 113.92 MB/s	 2491312 B/op	      49 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=std     	      42	  27256166 ns/op	  45.08 MB/s	 9229968 B/op	      14 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=turbo   	      87	  14115704 ns/op	  87.05 MB/s	 9486736 B/op	      21 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=std        	      22	  52510459 ns/op	  93.60 MB/s	 7386704 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=turbo      	      44	  26819877 ns/op	 183.27 MB/s	 7405904 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=std       	      28	  38151608 ns/op	 128.83 MB/s	 4928960 B/op	       6 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=turbo     	      58	  19834230 ns/op	 247.81 MB/s	 4939968 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=std            	      56	  20729612 ns/op	  58.84 MB/s	 3716704 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=turbo          	     192	   6214197 ns/op	 196.28 MB/s	 3735904 B/op	      12 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=std               	      38	  30379962 ns/op	  40.45 MB/s	   18233 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=turbo             	      94	  12258054 ns/op	 100.24 MB/s	    6594 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=std               	      33	  34799147 ns/op	  35.31 MB/s	   36194 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=turbo             	      87	  13398458 ns/op	  91.71 MB/s	   13151 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=std              	      21	  51196843 ns/op	  24.00 MB/s	 4944517 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=turbo            	      68	  16193544 ns/op	  75.88 MB/s	    9116 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=std              	      20	  55517053 ns/op	  22.13 MB/s	 4971970 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=turbo            	      66	  17317208 ns/op	  70.96 MB/s	   17336 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=std           	      39	  28029513 ns/op	  43.84 MB/s	   17882 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=turbo         	     138	   8672358 ns/op	 141.69 MB/s	    4551 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=std           	      36	  32377182 ns/op	  37.95 MB/s	   33557 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=turbo         	     121	   9817863 ns/op	 125.16 MB/s	    9523 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=std           	      43	  26986882 ns/op	  45.53 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=turbo         	     144	   8267849 ns/op	 148.62 MB/s	    4362 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=std           	      43	  27591630 ns/op	  44.54 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=turbo         	     141	   8463098 ns/op	 145.20 MB/s	    4454 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=std               	      67	  17777527 ns/op	  69.12 MB/s	   12212 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=turbo             	     204	   5854038 ns/op	 209.91 MB/s	    2958 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=std               	      55	  21608394 ns/op	  56.87 MB/s	   23438 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=turbo             	     175	   6836239 ns/op	 179.75 MB/s	    6444 B/op	       0 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+BenchmarkCompatDecode/img=420q75_960x1280/impl=std         	      80	  13742308 ns/op	  89.42 MB/s	 1857104 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q75_960x1280/impl=turbo       	     175	   6833364 ns/op	 179.82 MB/s	 1876304 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=std         	      42	  29111307 ns/op	  42.21 MB/s	 3703328 B/op	     196 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=turbo       	      88	  13973849 ns/op	  87.94 MB/s	 3722528 B/op	     200 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=std      	      54	  21726330 ns/op	  56.56 MB/s	 2472112 B/op	      45 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=turbo    	     100	  10766448 ns/op	 114.13 MB/s	 2491312 B/op	      49 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=std     	      42	  27886225 ns/op	  44.06 MB/s	 9229968 B/op	      14 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=turbo   	      90	  14390629 ns/op	  85.39 MB/s	 9486736 B/op	      21 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=std        	      22	  52270014 ns/op	  94.03 MB/s	 7386704 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=turbo      	      44	  26600041 ns/op	 184.78 MB/s	 7405904 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=std       	      31	  38728246 ns/op	 126.92 MB/s	 4928960 B/op	       6 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=turbo     	      58	  20511912 ns/op	 239.63 MB/s	 4939968 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=std            	      54	  21312415 ns/op	  57.23 MB/s	 3716704 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=turbo          	     186	   6411825 ns/op	 190.23 MB/s	 3735904 B/op	      12 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=std               	      38	  30415878 ns/op	  40.40 MB/s	   18233 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=turbo             	      94	  12280113 ns/op	 100.06 MB/s	    6594 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=std               	      33	  34826793 ns/op	  35.28 MB/s	   36194 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=turbo             	      87	  13397418 ns/op	  91.72 MB/s	   13151 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=std              	      21	  51119714 ns/op	  24.04 MB/s	 4944517 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=turbo            	      73	  16179281 ns/op	  75.95 MB/s	    8491 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=std              	      20	  55502263 ns/op	  22.14 MB/s	 4971969 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=turbo            	      66	  17319637 ns/op	  70.95 MB/s	   17336 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=std           	      40	  28029255 ns/op	  43.84 MB/s	   17548 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=turbo         	     138	   8670402 ns/op	 141.72 MB/s	    4551 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=std           	      36	  32356682 ns/op	  37.98 MB/s	   33557 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=turbo         	     121	   9824252 ns/op	 125.08 MB/s	    9523 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=std           	      43	  26993839 ns/op	  45.52 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=turbo         	     145	   8221039 ns/op	 149.47 MB/s	    4331 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=std           	      43	  27600756 ns/op	  44.52 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=turbo         	     141	   8459542 ns/op	 145.26 MB/s	    4454 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=std               	      66	  17768725 ns/op	  69.16 MB/s	   12329 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=turbo             	     204	   5856149 ns/op	 209.83 MB/s	    2958 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=std               	      55	  21583483 ns/op	  56.93 MB/s	   23438 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=turbo             	     175	   6836460 ns/op	 179.74 MB/s	    6444 B/op	       0 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+BenchmarkCompatDecode/img=420q75_960x1280/impl=std         	      80	  13770606 ns/op	  89.23 MB/s	 1857104 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q75_960x1280/impl=turbo       	     174	   6881406 ns/op	 178.57 MB/s	 1876304 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=std         	      42	  28721880 ns/op	  42.78 MB/s	 3703328 B/op	     196 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=turbo       	      85	  13604547 ns/op	  90.32 MB/s	 3722528 B/op	     200 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=std      	      52	  21524784 ns/op	  57.09 MB/s	 2472112 B/op	      45 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=turbo    	     100	  10573060 ns/op	 116.22 MB/s	 2491312 B/op	      49 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=std     	      43	  27687017 ns/op	  44.38 MB/s	 9229968 B/op	      14 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=turbo   	      88	  14123614 ns/op	  87.00 MB/s	 9486736 B/op	      21 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=std        	      22	  52468752 ns/op	  93.68 MB/s	 7386704 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=turbo      	      44	  26819151 ns/op	 183.27 MB/s	 7405904 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=std       	      28	  37962092 ns/op	 129.48 MB/s	 4928960 B/op	       6 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=turbo     	      58	  19652219 ns/op	 250.11 MB/s	 4939968 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=std            	      54	  20799685 ns/op	  58.64 MB/s	 3716704 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=turbo          	     187	   6405350 ns/op	 190.43 MB/s	 3735904 B/op	      12 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=std               	      38	  30444232 ns/op	  40.36 MB/s	   18233 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=turbo             	      93	  12262145 ns/op	 100.21 MB/s	    6665 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=std               	      33	  34806449 ns/op	  35.30 MB/s	   36194 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=turbo             	      87	  13418100 ns/op	  91.58 MB/s	   13151 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=std              	      21	  51168677 ns/op	  24.01 MB/s	 4944518 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=turbo            	      73	  16190166 ns/op	  75.90 MB/s	    8491 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=std              	      20	  55534464 ns/op	  22.13 MB/s	 4971969 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=turbo            	      66	  17317834 ns/op	  70.96 MB/s	   17336 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=std           	      39	  28129094 ns/op	  43.68 MB/s	   17882 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=turbo         	     138	   8681419 ns/op	 141.54 MB/s	    4551 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=std           	      34	  33333179 ns/op	  36.86 MB/s	   35264 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=turbo         	     121	   9817845 ns/op	 125.16 MB/s	    9523 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=std           	      43	  27031437 ns/op	  45.46 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=turbo         	     145	   8219033 ns/op	 149.51 MB/s	    4332 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=std           	      43	  27581902 ns/op	  44.55 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=turbo         	     141	   8461349 ns/op	 145.23 MB/s	    4454 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=std               	      66	  17750533 ns/op	  69.23 MB/s	   12329 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=turbo             	     204	   5862022 ns/op	 209.62 MB/s	    2958 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=std               	      55	  21605612 ns/op	  56.87 MB/s	   23438 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=turbo             	     175	   6835915 ns/op	 179.76 MB/s	    6444 B/op	       0 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+BenchmarkCompatDecode/img=420q75_960x1280/impl=std         	      81	  13874365 ns/op	  88.57 MB/s	 1857104 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q75_960x1280/impl=turbo       	     171	   6990277 ns/op	 175.79 MB/s	 1876304 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=std         	      40	  28884550 ns/op	  42.54 MB/s	 3703328 B/op	     196 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=turbo       	      88	  13571854 ns/op	  90.54 MB/s	 3722528 B/op	     200 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=std      	      55	  21744527 ns/op	  56.51 MB/s	 2472112 B/op	      45 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=turbo    	     100	  10770333 ns/op	 114.09 MB/s	 2491312 B/op	      49 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=std     	      42	  27165376 ns/op	  45.23 MB/s	 9229968 B/op	      14 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=turbo   	      84	  13824194 ns/op	  88.89 MB/s	 9486736 B/op	      21 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=std        	      22	  52060347 ns/op	  94.41 MB/s	 7386704 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=turbo      	      44	  26383409 ns/op	 186.30 MB/s	 7405904 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=std       	      31	  38786298 ns/op	 126.73 MB/s	 4928960 B/op	       6 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=turbo     	      56	  20673185 ns/op	 237.76 MB/s	 4939968 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=std            	      56	  21116556 ns/op	  57.76 MB/s	 3716704 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=turbo          	     183	   6485914 ns/op	 188.06 MB/s	 3735904 B/op	      12 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=std               	      38	  30412950 ns/op	  40.40 MB/s	   18234 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=turbo             	      96	  12258017 ns/op	 100.24 MB/s	    6457 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=std               	      33	  34821238 ns/op	  35.29 MB/s	   36194 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=turbo             	      87	  13396200 ns/op	  91.73 MB/s	   13152 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=std              	      22	  51118530 ns/op	  24.04 MB/s	 4943392 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=turbo            	      73	  16184684 ns/op	  75.92 MB/s	    8491 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=std              	      20	  55697780 ns/op	  22.06 MB/s	 4971970 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=turbo            	      68	  17307370 ns/op	  71.00 MB/s	   16826 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=std           	      39	  28101724 ns/op	  43.73 MB/s	   17882 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=turbo         	     138	   8667204 ns/op	 141.78 MB/s	    4551 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=std           	      36	  32452660 ns/op	  37.86 MB/s	   33557 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=turbo         	     121	   9807871 ns/op	 125.29 MB/s	    9523 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=std           	      43	  27013154 ns/op	  45.49 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=turbo         	     145	   8215704 ns/op	 149.57 MB/s	    4331 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=std           	      43	  27590249 ns/op	  44.54 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=turbo         	     141	   8464501 ns/op	 145.17 MB/s	    4454 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=std               	      66	  17779318 ns/op	  69.11 MB/s	   12329 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=turbo             	     200	   5968833 ns/op	 205.87 MB/s	    3017 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=std               	      54	  21592880 ns/op	  56.91 MB/s	   23790 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=turbo             	     135	   8845923 ns/op	 138.91 MB/s	    8354 B/op	       0 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+BenchmarkCompatDecode/img=420q75_960x1280/impl=std         	      80	  13878544 ns/op	  88.54 MB/s	 1857104 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q75_960x1280/impl=turbo       	     171	   6950605 ns/op	 176.79 MB/s	 1876304 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=std         	      42	  28879140 ns/op	  42.55 MB/s	 3703328 B/op	     196 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=turbo       	      86	  13827016 ns/op	  88.87 MB/s	 3722528 B/op	     200 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=std      	      55	  21357723 ns/op	  57.53 MB/s	 2472112 B/op	      45 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=turbo    	     100	  10446057 ns/op	 117.63 MB/s	 2491312 B/op	      49 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=std     	      43	  27175095 ns/op	  45.22 MB/s	 9229968 B/op	      14 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=turbo   	      90	  14118839 ns/op	  87.03 MB/s	 9486736 B/op	      21 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=std        	      22	  52105408 ns/op	  94.33 MB/s	 7386704 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=turbo      	      44	  26370987 ns/op	 186.39 MB/s	 7405904 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=std       	      31	  38794793 ns/op	 126.70 MB/s	 4928960 B/op	       6 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=turbo     	      56	  20609547 ns/op	 238.49 MB/s	 4939968 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=std            	      56	  21129344 ns/op	  57.73 MB/s	 3716704 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=turbo          	     184	   6468040 ns/op	 188.58 MB/s	 3735904 B/op	      12 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=std               	      38	  30423105 ns/op	  40.39 MB/s	   18233 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=turbo             	      96	  12335426 ns/op	  99.62 MB/s	    6457 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=std               	      33	  34826583 ns/op	  35.28 MB/s	   36194 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=turbo             	      87	  13405217 ns/op	  91.67 MB/s	   13151 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=std              	      22	  51091639 ns/op	  24.05 MB/s	 4943391 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=turbo            	      68	  16175890 ns/op	  75.96 MB/s	    9116 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=std              	      20	  55548786 ns/op	  22.12 MB/s	 4971969 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=turbo            	      67	  17306496 ns/op	  71.00 MB/s	   17077 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=std           	      39	  28035667 ns/op	  43.83 MB/s	   17882 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=turbo         	     138	   8675576 ns/op	 141.64 MB/s	    4551 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=std           	      36	  32422241 ns/op	  37.90 MB/s	   33557 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=turbo         	     121	   9812954 ns/op	 125.22 MB/s	    9523 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=std           	      43	  27004057 ns/op	  45.50 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=turbo         	     145	   8212641 ns/op	 149.62 MB/s	    4332 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=std           	      43	  27574871 ns/op	  44.56 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=turbo         	     140	   8489160 ns/op	 144.75 MB/s	    4486 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=std               	      67	  17770505 ns/op	  69.15 MB/s	   12212 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=turbo             	     204	   5860552 ns/op	 209.67 MB/s	    2958 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=std               	      55	  21585807 ns/op	  56.93 MB/s	   23438 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=turbo             	     175	   6833922 ns/op	 179.81 MB/s	    6444 B/op	       0 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+BenchmarkCompatDecode/img=420q75_960x1280/impl=std         	      80	  13992632 ns/op	  87.82 MB/s	 1857104 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q75_960x1280/impl=turbo       	     170	   6989989 ns/op	 175.79 MB/s	 1876304 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=std         	      40	  29076101 ns/op	  42.26 MB/s	 3703328 B/op	     196 allocs/op
+BenchmarkCompatDecode/img=444q92_960x1280/impl=turbo       	      86	  13796020 ns/op	  89.07 MB/s	 3722528 B/op	     200 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=std      	      52	  21778750 ns/op	  56.42 MB/s	 2472112 B/op	      45 allocs/op
+BenchmarkCompatDecode/img=422q92rst_960x1280/impl=turbo    	     100	  10753715 ns/op	 114.27 MB/s	 2491312 B/op	      49 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=std     	      42	  27222644 ns/op	  45.14 MB/s	 9229968 B/op	      14 allocs/op
+BenchmarkCompatDecode/img=420q85prog_960x1280/impl=turbo   	      87	  14365434 ns/op	  85.54 MB/s	 9486736 B/op	      21 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=std        	      22	  51822159 ns/op	  94.85 MB/s	 7386704 B/op	       7 allocs/op
+BenchmarkCompatDecode/img=420q85_1920x2560/impl=turbo      	      44	  26144468 ns/op	 188.00 MB/s	 7405904 B/op	      11 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=std       	      30	  38554235 ns/op	 127.49 MB/s	 4928960 B/op	       6 allocs/op
+BenchmarkCompatDecode/img=grayq85_1920x2560/impl=turbo     	      58	  20175229 ns/op	 243.63 MB/s	 4939968 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=std            	      56	  20607561 ns/op	  59.19 MB/s	 3716704 B/op	       8 allocs/op
+BenchmarkCompatDecode/img=444_1750x697/impl=turbo          	     189	   6313386 ns/op	 193.20 MB/s	 3735904 B/op	      12 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=std               	      38	  30431738 ns/op	  40.38 MB/s	   18233 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=75/impl=turbo             	      96	  12267197 ns/op	 100.17 MB/s	    6457 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=std               	      33	  34825805 ns/op	  35.28 MB/s	   36194 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=RGBA/q=90/impl=turbo             	      87	  13396027 ns/op	  91.73 MB/s	   13151 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=std              	      22	  51079605 ns/op	  24.06 MB/s	 4943390 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=75/impl=turbo            	      68	  16182125 ns/op	  75.94 MB/s	    9116 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=std              	      20	  55509324 ns/op	  22.14 MB/s	 4971970 B/op	 1228807 allocs/op
+BenchmarkCompatEncode/img=NRGBA/q=90/impl=turbo            	      66	  17388352 ns/op	  70.67 MB/s	   17336 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=std           	      39	  28155553 ns/op	  43.64 MB/s	   17882 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=75/impl=turbo         	     138	   8668221 ns/op	 141.76 MB/s	    4551 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=std           	      36	  32487220 ns/op	  37.82 MB/s	   33557 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr444/q=90/impl=turbo         	     121	   9806737 ns/op	 125.30 MB/s	    9523 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=std           	      43	  27024001 ns/op	  45.47 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=75/impl=turbo         	     145	   8213112 ns/op	 149.61 MB/s	    4331 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=std           	      43	  27614631 ns/op	  44.50 MB/s	   16641 B/op	       7 allocs/op
+BenchmarkCompatEncode/img=YCbCr420/q=90/impl=turbo         	     141	   8461434 ns/op	 145.22 MB/s	    4454 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=std               	      66	  17768885 ns/op	  69.15 MB/s	   12329 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=75/impl=turbo             	     204	   5852831 ns/op	 209.95 MB/s	    2958 B/op	       0 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=std               	      54	  21631973 ns/op	  56.80 MB/s	   23790 B/op	       5 allocs/op
+BenchmarkCompatEncode/img=Gray/q=90/impl=turbo             	     174	   6842887 ns/op	 179.57 MB/s	    6481 B/op	       0 allocs/op
+PASS

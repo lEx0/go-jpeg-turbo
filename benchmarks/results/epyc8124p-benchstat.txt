@@ -1,0 +1,1032 @@
+# benchstat tables of the EPYC 8124P Compat benchmarks (single thread, taskset -c 2, performance governor).
+# B/s columns are benchstat's binary-prefixed rendering of the MB/s field, which here is megapixels/s (1 MB/s = 1e6 px/s).
+
+################ std vs turbo, variant avx512: benchstat -col /impl epyc8124p-avx512.txt
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+                                     │     std      │               turbo                │
+                                     │    sec/op    │   sec/op     vs base               │
+CompatDecode/img=420q75_960x1280       13.846m ± 1%   2.948m ± 3%  -78.71% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280       29.042m ± 2%   6.293m ± 1%  -78.33% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280    21.587m ± 1%   5.008m ± 2%  -76.80% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280    27.22m ± 2%   10.08m ± 3%  -62.96% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560       52.00m ± 0%   11.19m ± 2%  -78.49% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560     38.188m ± 1%   8.403m ± 3%  -77.99% (p=0.000 n=8)
+CompatDecode/img=444_1750x697          21.140m ± 2%   2.525m ± 5%  -88.06% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75             30.409m ± 0%   2.892m ± 1%  -90.49% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90             34.814m ± 0%   4.034m ± 0%  -88.41% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            51.088m ± 0%   2.903m ± 1%  -94.32% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            55.512m ± 0%   4.047m ± 0%  -92.71% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75         28.146m ± 0%   2.728m ± 1%  -90.31% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90         32.449m ± 0%   3.872m ± 0%  -88.07% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75         27.011m ± 0%   2.682m ± 0%  -90.07% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90         27.603m ± 0%   2.921m ± 1%  -89.42% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75             17.757m ± 0%   2.149m ± 0%  -87.90% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90             21.586m ± 0%   3.136m ± 0%  -85.47% (p=0.000 n=8)
+geomean                                 29.12m        3.997m       -86.27%
+
+                                     │     std      │                 turbo                  │
+                                     │     B/s      │      B/s       vs base                 │
+CompatDecode/img=420q75_960x1280       84.63Mi ± 1%   397.56Mi ± 2%   +369.74% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280       40.35Mi ± 2%   186.20Mi ± 1%   +361.42% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280    54.28Mi ± 1%   234.02Mi ± 2%   +331.11% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280   43.05Mi ± 2%   116.25Mi ± 4%   +170.01% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560      90.14Mi ± 2%   419.05Mi ± 5%   +364.89% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560     122.7Mi ± 1%    557.8Mi ± 3%   +354.44% (p=0.000 n=8)
+CompatDecode/img=444_1750x697          55.03Mi ± 3%   460.77Mi ± 5%   +737.35% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75             38.53Mi ± 0%   405.18Mi ± 5%   +951.50% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90             33.66Mi ± 0%   290.51Mi ± 0%   +763.08% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            22.94Mi ± 0%   403.66Mi ± 1%  +1659.96% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            21.11Mi ± 0%   289.56Mi ± 1%  +1271.39% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75         41.63Mi ± 3%   429.53Mi ± 5%   +931.73% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90         36.12Mi ± 0%   302.64Mi ± 0%   +737.97% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75         43.39Mi ± 0%   436.96Mi ± 0%   +907.11% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90         42.45Mi ± 0%   401.24Mi ± 1%   +845.14% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75             65.99Mi ± 0%   545.24Mi ± 3%   +726.20% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90             54.29Mi ± 0%   373.71Mi ± 0%   +588.38% (p=0.000 n=8)
+geomean                                47.36Mi         344.9Mi        +628.42%
+
+                                     │       std       │                turbo                │
+                                     │      B/op       │     B/op      vs base               │
+CompatDecode/img=420q75_960x1280          1.771Mi ± 0%   1.789Mi ± 0%   +1.03% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280          3.532Mi ± 0%   3.550Mi ± 0%   +0.52% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280       2.358Mi ± 0%   2.376Mi ± 0%   +0.78% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280      8.802Mi ± 0%   9.047Mi ± 0%   +2.78% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560         7.045Mi ± 0%   7.063Mi ± 0%   +0.26% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560        4.701Mi ± 0%   4.711Mi ± 0%   +0.22% (p=0.000 n=8)
+CompatDecode/img=444_1750x697             3.545Mi ± 0%   3.563Mi ± 0%   +0.52% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75               17.806Ki ± 0%   1.462Ki ± 1%  -91.79% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90               35.346Ki ± 0%   3.774Ki ± 0%  -89.32% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            4827.530Ki ± 0%   1.473Ki ± 1%  -99.97% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            4855.439Ki ± 0%   3.787Ki ± 0%  -99.92% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75           17.463Ki ± 2%   1.396Ki ± 1%  -92.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90           32.771Ki ± 0%   3.647Ki ± 0%  -88.87% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75           16.251Ki ± 0%   1.375Ki ± 0%  -91.54% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90           16.251Ki ± 0%   1.496Ki ± 1%  -90.80% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75               11.926Ki ± 1%   1.058Ki ± 0%  -91.13% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90               22.889Ki ± 2%   2.891Ki ± 0%  -87.37% (p=0.000 n=8)
+geomean                                   340.2Ki        46.05Ki       -86.46%
+
+                                     │     std     │                  turbo                  │
+                                     │  allocs/op  │  allocs/op   vs base                    │
+CompatDecode/img=420q75_960x1280        7.000 ± 0%   11.000 ± 0%   +57.14% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280        196.0 ± 0%    200.0 ± 0%    +2.04% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280     45.00 ± 0%    49.00 ± 0%    +8.89% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280    14.00 ± 0%    21.00 ± 0%   +50.00% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560       7.000 ± 0%   11.000 ± 0%   +57.14% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560      6.000 ± 0%    8.000 ± 0%   +33.33% (p=0.000 n=8)
+CompatDecode/img=444_1750x697           8.000 ± 0%   12.000 ± 0%   +50.00% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75              7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90              7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            1.229M ± 0%   0.000M ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            1.229M ± 0%   0.000M ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75              5.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90              5.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+geomean                                 39.33                     ?                      ¹ ²
+¹ summaries must be >0 to compute geomean
+² ratios must be >0 to compute geomean
+
+################ std vs turbo, variant avx2: benchstat -col /impl epyc8124p-avx2.txt
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+                                     │     std      │               turbo                │
+                                     │    sec/op    │   sec/op     vs base               │
+CompatDecode/img=420q75_960x1280       13.822m ± 1%   2.928m ± 2%  -78.82% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280       28.802m ± 1%   6.289m ± 2%  -78.17% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280    21.656m ± 1%   5.025m ± 2%  -76.80% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280   27.458m ± 2%   9.989m ± 4%  -63.62% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560       52.23m ± 1%   11.32m ± 4%  -78.33% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560     38.223m ± 1%   8.432m ± 2%  -77.94% (p=0.000 n=8)
+CompatDecode/img=444_1750x697          20.996m ± 2%   2.574m ± 3%  -87.74% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75             30.419m ± 0%   3.068m ± 0%  -89.92% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90             34.818m ± 0%   4.212m ± 0%  -87.90% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            51.066m ± 0%   3.099m ± 0%  -93.93% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            55.480m ± 0%   4.242m ± 0%  -92.35% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75         28.077m ± 0%   2.798m ± 0%  -90.04% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90         32.404m ± 0%   3.944m ± 0%  -87.83% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75         27.002m ± 0%   2.746m ± 0%  -89.83% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90         27.584m ± 0%   2.987m ± 0%  -89.17% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75             17.768m ± 0%   2.203m ± 0%  -87.60% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90             21.582m ± 0%   3.182m ± 0%  -85.25% (p=0.000 n=8)
+geomean                                 29.11m        4.084m       -85.97%
+
+                                     │     std      │                 turbo                  │
+                                     │     B/s      │      B/s       vs base                 │
+CompatDecode/img=420q75_960x1280       84.79Mi ± 1%   400.22Mi ± 3%   +372.03% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280       40.69Mi ± 1%   186.35Mi ± 2%   +358.00% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280    54.11Mi ± 2%   233.20Mi ± 4%   +330.96% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280   42.68Mi ± 2%   117.32Mi ± 5%   +174.86% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560      89.75Mi ± 1%   414.26Mi ± 4%   +361.57% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560     122.6Mi ± 1%    555.9Mi ± 4%   +353.31% (p=0.000 n=8)
+CompatDecode/img=444_1750x697          55.40Mi ± 4%   451.89Mi ± 4%   +715.64% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75             38.52Mi ± 0%   382.02Mi ± 1%   +891.65% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90             33.66Mi ± 0%   278.24Mi ± 0%   +726.75% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            22.95Mi ± 0%   378.17Mi ± 0%  +1548.15% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            21.12Mi ± 0%   276.24Mi ± 0%  +1208.02% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75         41.74Mi ± 0%   418.90Mi ± 4%   +903.64% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90         36.16Mi ± 0%   297.13Mi ± 0%   +721.64% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75         43.40Mi ± 0%   426.70Mi ± 0%   +883.14% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90         42.48Mi ± 0%   392.32Mi ± 1%   +823.50% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75             65.96Mi ± 0%   532.02Mi ± 0%   +706.62% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90             54.30Mi ± 0%   368.22Mi ± 0%   +578.16% (p=0.000 n=8)
+geomean                                47.37Mi         337.6Mi        +612.77%
+
+                                     │       std       │                turbo                │
+                                     │      B/op       │     B/op      vs base               │
+CompatDecode/img=420q75_960x1280          1.771Mi ± 0%   1.789Mi ± 0%   +1.03% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280          3.532Mi ± 0%   3.550Mi ± 0%   +0.52% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280       2.358Mi ± 0%   2.376Mi ± 0%   +0.78% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280      8.802Mi ± 0%   9.047Mi ± 0%   +2.78% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560         7.045Mi ± 0%   7.063Mi ± 0%   +0.26% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560        4.701Mi ± 0%   4.711Mi ± 0%   +0.22% (p=0.000 n=8)
+CompatDecode/img=444_1750x697             3.545Mi ± 0%   3.563Mi ± 0%   +0.52% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75               17.806Ki ± 0%   1.552Ki ± 1%  -91.29% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90               35.346Ki ± 0%   3.934Ki ± 0%  -88.87% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            4827.530Ki ± 0%   1.572Ki ± 0%  -99.97% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            4855.439Ki ± 0%   3.962Ki ± 0%  -99.92% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75           17.463Ki ± 2%   1.433Ki ± 0%  -91.80% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90           32.771Ki ± 0%   3.714Ki ± 0%  -88.67% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75           16.251Ki ± 0%   1.409Ki ± 0%  -91.33% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90           16.251Ki ± 0%   1.533Ki ± 1%  -90.57% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75               12.040Ki ± 1%   1.083Ki ± 0%  -91.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90               22.889Ki ± 2%   2.929Ki ± 0%  -87.20% (p=0.000 n=8)
+geomean                                   340.4Ki        46.98Ki       -86.20%
+
+                                     │     std     │                  turbo                  │
+                                     │  allocs/op  │  allocs/op   vs base                    │
+CompatDecode/img=420q75_960x1280        7.000 ± 0%   11.000 ± 0%   +57.14% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280        196.0 ± 0%    200.0 ± 0%    +2.04% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280     45.00 ± 0%    49.00 ± 0%    +8.89% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280    14.00 ± 0%    21.00 ± 0%   +50.00% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560       7.000 ± 0%   11.000 ± 0%   +57.14% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560      6.000 ± 0%    8.000 ± 0%   +33.33% (p=0.000 n=8)
+CompatDecode/img=444_1750x697           8.000 ± 0%   12.000 ± 0%   +50.00% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75              7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90              7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            1.229M ± 0%   0.000M ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            1.229M ± 0%   0.000M ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75              5.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90              5.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+geomean                                 39.33                     ?                      ¹ ²
+¹ summaries must be >0 to compute geomean
+² ratios must be >0 to compute geomean
+
+################ std vs turbo, variant sse41: benchstat -col /impl epyc8124p-sse41.txt
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+                                     │     std      │               turbo                │
+                                     │    sec/op    │   sec/op     vs base               │
+CompatDecode/img=420q75_960x1280       13.808m ± 1%   3.307m ± 2%  -76.05% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280       29.099m ± 2%   7.013m ± 2%  -75.90% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280    21.517m ± 2%   5.557m ± 4%  -74.18% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280    27.61m ± 2%   10.36m ± 8%  -62.49% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560       52.23m ± 1%   12.65m ± 1%  -75.77% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560     38.158m ± 1%   9.514m ± 3%  -75.07% (p=0.000 n=8)
+CompatDecode/img=444_1750x697          21.051m ± 2%   2.745m ± 4%  -86.96% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75             30.418m ± 0%   3.982m ± 0%  -86.91% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90             34.833m ± 0%   5.121m ± 0%  -85.30% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            51.194m ± 0%   4.046m ± 0%  -92.10% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            55.513m ± 0%   5.176m ± 0%  -90.68% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75         28.064m ± 0%   3.454m ± 0%  -87.69% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90         32.394m ± 1%   4.597m ± 0%  -85.81% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75         26.993m ± 0%   3.372m ± 0%  -87.51% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90         27.586m ± 0%   3.620m ± 0%  -86.88% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75             17.768m ± 0%   2.644m ± 0%  -85.12% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90             21.584m ± 0%   3.627m ± 0%  -83.20% (p=0.000 n=8)
+geomean                                 29.13m        4.776m       -83.60%
+
+                                     │     std      │                 turbo                  │
+                                     │     B/s      │      B/s       vs base                 │
+CompatDecode/img=420q75_960x1280       84.88Mi ± 1%   354.31Mi ± 2%   +317.44% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280       40.27Mi ± 1%   167.11Mi ± 2%   +314.99% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280    54.46Mi ± 3%   210.90Mi ± 5%   +287.22% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280   42.44Mi ± 2%   113.16Mi ± 8%   +166.62% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560      89.76Mi ± 1%   370.49Mi ± 1%   +312.78% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560     122.8Mi ± 1%    492.7Mi ± 6%   +301.08% (p=0.000 n=8)
+CompatDecode/img=444_1750x697          55.26Mi ± 2%   423.85Mi ± 6%   +666.99% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75             38.53Mi ± 0%   294.30Mi ± 0%   +663.85% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90             33.64Mi ± 0%   228.83Mi ± 0%   +580.21% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            22.89Mi ± 0%   289.65Mi ± 0%  +1165.48% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            21.11Mi ± 0%   226.41Mi ± 0%   +972.55% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75         41.76Mi ± 0%   339.27Mi ± 0%   +712.49% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90         36.17Mi ± 2%   254.92Mi ± 0%   +604.72% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75         43.42Mi ± 0%   347.55Mi ± 0%   +700.51% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90         42.48Mi ± 0%   323.73Mi ± 0%   +662.06% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75             65.95Mi ± 0%   443.22Mi ± 0%   +572.04% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90             54.30Mi ± 0%   323.12Mi ± 0%   +495.10% (p=0.000 n=8)
+geomean                                47.34Mi         288.7Mi        +509.93%
+
+                                     │       std       │                turbo                │
+                                     │      B/op       │     B/op      vs base               │
+CompatDecode/img=420q75_960x1280          1.771Mi ± 0%   1.789Mi ± 0%   +1.03% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280          3.532Mi ± 0%   3.550Mi ± 0%   +0.52% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280       2.358Mi ± 0%   2.376Mi ± 0%   +0.78% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280      8.802Mi ± 0%   9.047Mi ± 0%   +2.78% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560         7.045Mi ± 0%   7.063Mi ± 0%   +0.26% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560        4.701Mi ± 0%   4.711Mi ± 0%   +0.22% (p=0.000 n=8)
+CompatDecode/img=444_1750x697             3.545Mi ± 0%   3.563Mi ± 0%   +0.52% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75               17.806Ki ± 0%   2.014Ki ± 0%  -88.69% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90               35.346Ki ± 0%   4.774Ki ± 0%  -86.49% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            4828.630Ki ± 0%   2.052Ki ± 0%  -99.96% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            4855.439Ki ± 0%   4.847Ki ± 0%  -99.90% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75           17.463Ki ± 2%   1.772Ki ± 0%  -89.85% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90           32.771Ki ± 0%   4.328Ki ± 0%  -86.79% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75           16.251Ki ± 0%   1.728Ki ± 0%  -89.37% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90           16.251Ki ± 0%   1.855Ki ± 0%  -88.58% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75               12.040Ki ± 1%   1.304Ki ± 0%  -89.17% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90               22.889Ki ± 2%   3.337Ki ± 0%  -85.42% (p=0.000 n=8)
+geomean                                   340.4Ki        52.85Ki       -84.47%
+
+                                     │     std     │                  turbo                  │
+                                     │  allocs/op  │  allocs/op   vs base                    │
+CompatDecode/img=420q75_960x1280        7.000 ± 0%   11.000 ± 0%   +57.14% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280        196.0 ± 0%    200.0 ± 0%    +2.04% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280     45.00 ± 0%    49.00 ± 0%    +8.89% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280    14.00 ± 0%    21.00 ± 0%   +50.00% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560       7.000 ± 0%   11.000 ± 0%   +57.14% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560      6.000 ± 0%    8.000 ± 0%   +33.33% (p=0.000 n=8)
+CompatDecode/img=444_1750x697           8.000 ± 0%   12.000 ± 0%   +50.00% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75              7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90              7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            1.229M ± 0%   0.000M ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            1.229M ± 0%   0.000M ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75              5.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90              5.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+geomean                                 39.33                     ?                      ¹ ²
+¹ summaries must be >0 to compute geomean
+² ratios must be >0 to compute geomean
+
+################ std vs turbo, variant go: benchstat -col /impl epyc8124p-go.txt
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+                                     │     std      │               turbo                │
+                                     │    sec/op    │   sec/op     vs base               │
+CompatDecode/img=420q75_960x1280       13.822m ± 1%   6.912m ± 1%  -49.99% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280        28.98m ± 1%   13.81m ± 2%  -52.34% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280     21.69m ± 2%   10.66m ± 2%  -50.84% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280    27.24m ± 2%   14.12m ± 2%  -48.16% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560       52.29m ± 1%   26.57m ± 2%  -49.18% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560      38.37m ± 1%   20.03m ± 3%  -47.80% (p=0.000 n=8)
+CompatDecode/img=444_1750x697          20.915m ± 1%   6.393m ± 3%  -69.43% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75              30.42m ± 0%   12.27m ± 1%  -59.67% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90              34.82m ± 0%   13.40m ± 0%  -61.52% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75             51.11m ± 0%   16.18m ± 0%  -68.34% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90             55.53m ± 0%   17.32m ± 0%  -68.81% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75         28.108m ± 0%   8.671m ± 0%  -69.15% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90         32.470m ± 0%   9.813m ± 0%  -69.78% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75         27.011m ± 0%   8.216m ± 0%  -69.58% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90         27.591m ± 0%   8.463m ± 0%  -69.33% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75             17.770m ± 0%   5.855m ± 0%  -67.05% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90             21.599m ± 0%   6.836m ± 0%  -68.35% (p=0.000 n=8)
+geomean                                 29.12m        11.04m       -62.11%
+
+                                     │     std      │                 turbo                  │
+                                     │     B/s      │      B/s        vs base                │
+CompatDecode/img=420q75_960x1280       84.78Mi ± 1%   169.55Mi ±  1%   +99.98% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280       40.44Mi ± 1%    84.85Mi ±  2%  +109.81% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280    54.03Mi ± 1%   109.91Mi ±  1%  +103.43% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280   43.02Mi ± 3%    82.98Mi ±  3%   +92.90% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560      89.65Mi ± 1%   176.41Mi ±  3%   +96.78% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560     122.2Mi ± 1%    234.0Mi ±  3%   +91.57% (p=0.000 n=8)
+CompatDecode/img=444_1750x697          55.62Mi ± 2%   181.97Mi ±  1%  +227.17% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75             38.52Mi ± 0%    95.53Mi ±  1%  +147.98% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90             33.65Mi ± 0%    87.45Mi ±  0%  +159.87% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            22.93Mi ± 0%    72.42Mi ±  0%  +215.80% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            21.10Mi ± 0%    67.67Mi ±  0%  +220.65% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75         41.69Mi ± 0%   135.15Mi ±  0%  +224.14% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90         36.09Mi ± 3%   119.42Mi ±  0%  +230.93% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75         43.39Mi ± 0%   142.63Mi ±  1%  +228.74% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90         42.48Mi ± 0%   138.48Mi ±  1%  +226.01% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75             65.95Mi ± 0%   200.15Mi ±  2%  +203.50% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90             54.25Mi ± 1%   171.42Mi ± 23%  +215.95% (p=0.000 n=8)
+geomean                                47.35Mi         125.0Mi        +163.90%
+
+                                     │       std       │                turbo                │
+                                     │      B/op       │     B/op      vs base               │
+CompatDecode/img=420q75_960x1280          1.771Mi ± 0%   1.789Mi ± 0%   +1.03% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280          3.532Mi ± 0%   3.550Mi ± 0%   +0.52% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280       2.358Mi ± 0%   2.376Mi ± 0%   +0.78% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280      8.802Mi ± 0%   9.047Mi ± 0%   +2.78% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560         7.045Mi ± 0%   7.063Mi ± 0%   +0.26% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560        4.701Mi ± 0%   4.711Mi ± 0%   +0.22% (p=0.000 n=8)
+CompatDecode/img=444_1750x697             3.545Mi ± 0%   3.563Mi ± 0%   +0.52% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75               17.806Ki ± 0%   6.373Ki ± 1%  -64.21% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90                35.35Ki ± 0%   12.84Ki ± 0%  -63.67% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            4827.531Ki ± 0%   8.597Ki ± 4%  -99.82% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90             4855.44Ki ± 0%   16.93Ki ± 3%  -99.65% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75           17.463Ki ± 2%   4.444Ki ± 0%  -74.55% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90           32.771Ki ± 0%   9.300Ki ± 0%  -71.62% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75           16.251Ki ± 0%   4.229Ki ± 0%  -73.97% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90           16.251Ki ± 0%   4.350Ki ± 1%  -73.23% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75               12.040Ki ± 1%   2.889Ki ± 0%  -76.01% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90               22.889Ki ± 2%   6.293Ki ± 1%  -72.51% (p=0.000 n=8)
+geomean                                   340.4Ki        93.42Ki       -72.55%
+
+                                     │     std     │                  turbo                  │
+                                     │  allocs/op  │  allocs/op   vs base                    │
+CompatDecode/img=420q75_960x1280        7.000 ± 0%   11.000 ± 0%   +57.14% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280        196.0 ± 0%    200.0 ± 0%    +2.04% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280     45.00 ± 0%    49.00 ± 0%    +8.89% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280    14.00 ± 0%    21.00 ± 0%   +50.00% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560       7.000 ± 0%   11.000 ± 0%   +57.14% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560      6.000 ± 0%    8.000 ± 0%   +33.33% (p=0.000 n=8)
+CompatDecode/img=444_1750x697           8.000 ± 0%   12.000 ± 0%   +50.00% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75              7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90              7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            1.229M ± 0%   0.000M ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            1.229M ± 0%   0.000M ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75              5.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90              5.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+geomean                                 39.33                     ?                      ¹ ²
+¹ summaries must be >0 to compute geomean
+² ratios must be >0 to compute geomean
+
+################ std vs turbo, variant purego: benchstat -col /impl epyc8124p-purego.txt
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+                                     │     std      │               turbo                │
+                                     │    sec/op    │   sec/op     vs base               │
+CompatDecode/img=420q75_960x1280       13.691m ± 1%   6.802m ± 2%  -50.32% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280        28.97m ± 2%   13.64m ± 3%  -52.91% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280     21.61m ± 1%   10.56m ± 1%  -51.15% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280    27.45m ± 1%   14.27m ± 3%  -48.00% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560       52.34m ± 1%   26.62m ± 2%  -49.13% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560      38.12m ± 1%   19.67m ± 1%  -48.39% (p=0.000 n=8)
+CompatDecode/img=444_1750x697          21.329m ± 2%   6.314m ± 3%  -70.40% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75              30.41m ± 0%   12.20m ± 0%  -59.88% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90              34.81m ± 0%   13.35m ± 0%  -61.65% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75             51.11m ± 0%   16.13m ± 0%  -68.44% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90             55.49m ± 0%   17.27m ± 0%  -68.88% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75         28.032m ± 0%   8.621m ± 0%  -69.24% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90         32.373m ± 0%   9.769m ± 0%  -69.82% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75         27.088m ± 0%   8.171m ± 0%  -69.83% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90         27.662m ± 0%   8.409m ± 0%  -69.60% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75             17.748m ± 0%   5.827m ± 1%  -67.17% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90             21.548m ± 0%   6.805m ± 0%  -68.42% (p=0.000 n=8)
+geomean                                 29.13m        10.97m       -62.34%
+
+                                     │     std      │                 turbo                 │
+                                     │     B/s      │      B/s       vs base                │
+CompatDecode/img=420q75_960x1280       85.60Mi ± 2%   172.29Mi ± 2%  +101.28% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280       40.45Mi ± 1%    85.89Mi ± 3%  +112.36% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280    54.23Mi ± 2%   111.02Mi ± 3%  +104.72% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280   42.69Mi ± 4%    82.10Mi ± 2%   +92.30% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560      89.56Mi ± 1%   176.06Mi ± 2%   +96.59% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560     123.0Mi ± 0%    238.3Mi ± 2%   +93.75% (p=0.000 n=8)
+CompatDecode/img=444_1750x697          54.54Mi ± 2%   184.23Mi ± 5%  +237.79% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75             38.53Mi ± 0%    96.05Mi ± 0%  +149.28% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90             33.66Mi ± 0%    87.79Mi ± 1%  +160.76% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            22.93Mi ± 0%    72.64Mi ± 1%  +216.78% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            21.12Mi ± 0%    67.86Mi ± 0%  +221.31% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75         41.80Mi ± 0%   135.93Mi ± 0%  +225.15% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90         36.20Mi ± 0%   119.96Mi ± 1%  +231.42% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75         43.26Mi ± 0%   143.41Mi ± 2%  +231.53% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90         42.36Mi ± 0%   139.37Mi ± 1%  +229.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75             66.03Mi ± 0%   201.10Mi ± 1%  +204.55% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90             54.38Mi ± 0%   172.20Mi ± 1%  +216.64% (p=0.000 n=8)
+geomean                                47.34Mi         125.7Mi       +165.55%
+
+                                     │       std       │                turbo                │
+                                     │      B/op       │     B/op      vs base               │
+CompatDecode/img=420q75_960x1280          1.771Mi ± 0%   1.789Mi ± 0%   +1.03% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280          3.532Mi ± 0%   3.550Mi ± 0%   +0.52% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280       2.358Mi ± 0%   2.376Mi ± 0%   +0.78% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280      8.802Mi ± 0%   9.047Mi ± 0%   +2.78% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560         7.045Mi ± 0%   7.063Mi ± 0%   +0.26% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560        4.701Mi ± 0%   4.711Mi ± 0%   +0.22% (p=0.000 n=8)
+CompatDecode/img=444_1750x697             3.545Mi ± 0%   3.563Mi ± 0%   +0.52% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75               17.806Ki ± 0%   6.306Ki ± 1%  -64.59% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90                35.35Ki ± 0%   12.77Ki ± 1%  -63.87% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            4827.530Ki ± 0%   8.533Ki ± 4%  -99.82% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90             4855.44Ki ± 0%   16.68Ki ± 2%  -99.66% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75           17.463Ki ± 0%   4.444Ki ± 1%  -74.55% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90           32.771Ki ± 0%   9.224Ki ± 0%  -71.85% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75           16.251Ki ± 0%   4.201Ki ± 0%  -74.15% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90           16.251Ki ± 0%   4.350Ki ± 1%  -73.23% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75               11.983Ki ± 0%   2.875Ki ± 1%  -76.01% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90               22.889Ki ± 2%   6.293Ki ± 1%  -72.51% (p=0.000 n=8)
+geomean                                   340.3Ki        93.10Ki       -72.64%
+
+                                     │     std     │                  turbo                  │
+                                     │  allocs/op  │  allocs/op   vs base                    │
+CompatDecode/img=420q75_960x1280        7.000 ± 0%   11.000 ± 0%   +57.14% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280        196.0 ± 0%    200.0 ± 0%    +2.04% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280     45.00 ± 0%    49.00 ± 0%    +8.89% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280    14.00 ± 0%    21.00 ± 0%   +50.00% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560       7.000 ± 0%   11.000 ± 0%   +57.14% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560      6.000 ± 0%    8.000 ± 0%   +33.33% (p=0.000 n=8)
+CompatDecode/img=444_1750x697           8.000 ± 0%   12.000 ± 0%   +50.00% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75              7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90              7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            1.229M ± 0%   0.000M ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            1.229M ± 0%   0.000M ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75              5.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90              5.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+geomean                                 39.33                     ?                      ¹ ²
+¹ summaries must be >0 to compute geomean
+² ratios must be >0 to compute geomean
+
+################ std vs turbo, variant goamd64v3: benchstat -col /impl epyc8124p-goamd64v3.txt
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+                                     │     std      │               turbo                │
+                                     │    sec/op    │   sec/op     vs base               │
+CompatDecode/img=420q75_960x1280       13.694m ± 1%   2.892m ± 1%  -78.88% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280       28.964m ± 2%   6.295m ± 1%  -78.27% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280    21.576m ± 1%   5.029m ± 2%  -76.69% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280   27.026m ± 2%   9.937m ± 5%  -63.23% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560       51.59m ± 1%   11.06m ± 1%  -78.56% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560     38.184m ± 1%   8.514m ± 2%  -77.70% (p=0.000 n=8)
+CompatDecode/img=444_1750x697          21.201m ± 2%   2.554m ± 2%  -87.95% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75             30.070m ± 0%   2.757m ± 0%  -90.83% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90             34.512m ± 0%   3.828m ± 0%  -88.91% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            50.787m ± 0%   2.767m ± 0%  -94.55% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            55.257m ± 0%   3.843m ± 0%  -93.04% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75         27.714m ± 0%   2.593m ± 0%  -90.64% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90         32.130m ± 0%   3.666m ± 0%  -88.59% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75         26.819m ± 0%   2.545m ± 0%  -90.51% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90         27.390m ± 0%   2.786m ± 0%  -89.83% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75             17.099m ± 0%   2.029m ± 0%  -88.14% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90             20.921m ± 0%   2.970m ± 0%  -85.80% (p=0.000 n=8)
+geomean                                 28.83m        3.874m       -86.56%
+
+                                     │     std      │                 turbo                  │
+                                     │     B/s      │      B/s       vs base                 │
+CompatDecode/img=420q75_960x1280       85.57Mi ± 2%   405.21Mi ± 1%   +373.52% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280       40.46Mi ± 0%   186.16Mi ± 1%   +360.12% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280    54.32Mi ± 1%   233.01Mi ± 1%   +328.98% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280   43.36Mi ± 2%   117.93Mi ± 5%   +171.95% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560      90.87Mi ± 2%   423.86Mi ± 6%   +366.46% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560     122.8Mi ± 1%    550.6Mi ± 2%   +348.48% (p=0.000 n=8)
+CompatDecode/img=444_1750x697          54.87Mi ± 2%   455.45Mi ± 3%   +730.06% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75             38.97Mi ± 0%   425.10Mi ± 1%   +990.77% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90             33.96Mi ± 0%   306.10Mi ± 0%   +801.47% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            23.07Mi ± 0%   423.48Mi ± 0%  +1735.32% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            21.20Mi ± 0%   304.90Mi ± 0%  +1337.89% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75         42.29Mi ± 0%   451.95Mi ± 0%   +968.80% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90         36.47Mi ± 2%   319.70Mi ± 1%   +776.53% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75         43.70Mi ± 0%   460.42Mi ± 0%   +953.67% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90         42.78Mi ± 0%   420.60Mi ± 0%   +883.13% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75             68.54Mi ± 0%   577.63Mi ± 1%   +742.82% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90             56.01Mi ± 0%   394.58Mi ± 2%   +604.43% (p=0.000 n=8)
+geomean                                47.82Mi         355.9Mi        +644.28%
+
+                                     │       std       │                turbo                │
+                                     │      B/op       │     B/op      vs base               │
+CompatDecode/img=420q75_960x1280          1.771Mi ± 0%   1.789Mi ± 0%   +1.03% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280          3.532Mi ± 0%   3.550Mi ± 0%   +0.52% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280       2.358Mi ± 0%   2.376Mi ± 0%   +0.78% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280      8.802Mi ± 0%   9.047Mi ± 0%   +2.78% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560         7.045Mi ± 0%   7.063Mi ± 0%   +0.26% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560        4.701Mi ± 0%   4.711Mi ± 0%   +0.22% (p=0.000 n=8)
+CompatDecode/img=444_1750x697             3.545Mi ± 0%   3.563Mi ± 0%   +0.52% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75               17.806Ki ± 0%   1.395Ki ± 0%  -92.17% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90               35.346Ki ± 0%   3.569Ki ± 0%  -89.90% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            4827.531Ki ± 0%   1.400Ki ± 0%  -99.97% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            4855.439Ki ± 0%   3.592Ki ± 0%  -99.93% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75           17.137Ki ± 2%   1.327Ki ± 0%  -92.26% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90           32.005Ki ± 2%   3.451Ki ± 0%  -89.22% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75           16.117Ki ± 1%   1.305Ki ± 0%  -91.90% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90           16.251Ki ± 0%   1.430Ki ± 0%  -91.20% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75                11987.0 ± 1%    1022.0 ± 0%  -91.47% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90               22.558Ki ± 0%   2.732Ki ± 0%  -87.89% (p=0.000 n=8)
+geomean                                   338.5Ki        44.65Ki       -86.81%
+
+                                     │     std     │                  turbo                  │
+                                     │  allocs/op  │  allocs/op   vs base                    │
+CompatDecode/img=420q75_960x1280        7.000 ± 0%   11.000 ± 0%   +57.14% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280        196.0 ± 0%    200.0 ± 0%    +2.04% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280     45.00 ± 0%    49.00 ± 0%    +8.89% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280    14.00 ± 0%    21.00 ± 0%   +50.00% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560       7.000 ± 0%   11.000 ± 0%   +57.14% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560      6.000 ± 0%    8.000 ± 0%   +33.33% (p=0.000 n=8)
+CompatDecode/img=444_1750x697           8.000 ± 0%   12.000 ± 0%   +50.00% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75              7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90              7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75            1.229M ± 0%   0.000M ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90            1.229M ± 0%   0.000M ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90          7.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75              5.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90              5.000 ± 0%    0.000 ± 0%  -100.00% (p=0.000 n=8)
+geomean                                 39.33                     ?                      ¹ ²
+¹ summaries must be >0 to compute geomean
+² ratios must be >0 to compute geomean
+
+################ turbo across levels (default GOAMD64=v1 build): benchstat -filter /impl:turbo go sse41 avx2 avx512
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+                                                │      go      │                sse41                │                avx2                │               avx512                │
+                                                │    sec/op    │    sec/op     vs base               │   sec/op     vs base               │    sec/op     vs base               │
+CompatDecode/img=420q75_960x1280/impl=turbo        6.912m ± 1%    3.307m ± 2%  -52.15% (p=0.000 n=8)   2.928m ± 2%  -57.64% (p=0.000 n=8)    2.948m ± 3%  -57.35% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280/impl=turbo       13.812m ± 2%    7.013m ± 2%  -49.23% (p=0.000 n=8)   6.289m ± 2%  -54.47% (p=0.000 n=8)    6.293m ± 1%  -54.43% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280/impl=turbo    10.663m ± 2%    5.557m ± 4%  -47.89% (p=0.000 n=8)   5.025m ± 2%  -52.87% (p=0.000 n=8)    5.008m ± 2%  -53.04% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280/impl=turbo   14.121m ± 2%   10.356m ± 8%  -26.66% (p=0.000 n=8)   9.989m ± 4%  -29.26% (p=0.000 n=8)   10.081m ± 3%  -28.61% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560/impl=turbo       26.57m ± 2%    12.65m ± 1%  -52.39% (p=0.000 n=8)   11.32m ± 4%  -57.42% (p=0.000 n=8)    11.19m ± 2%  -57.90% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560/impl=turbo     20.029m ± 3%    9.514m ± 3%  -52.50% (p=0.000 n=8)   8.432m ± 2%  -57.90% (p=0.000 n=8)    8.403m ± 3%  -58.05% (p=0.000 n=8)
+CompatDecode/img=444_1750x697/impl=turbo           6.393m ± 3%    2.745m ± 4%  -57.07% (p=0.000 n=8)   2.574m ± 3%  -59.73% (p=0.000 n=8)    2.525m ± 5%  -60.51% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75/impl=turbo             12.267m ± 1%    3.982m ± 0%  -67.54% (p=0.000 n=8)   3.068m ± 0%  -74.99% (p=0.000 n=8)    2.892m ± 1%  -76.42% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=turbo             13.401m ± 0%    5.121m ± 0%  -61.79% (p=0.000 n=8)   4.212m ± 0%  -68.57% (p=0.000 n=8)    4.034m ± 0%  -69.90% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75/impl=turbo            16.182m ± 0%    4.046m ± 0%  -75.00% (p=0.000 n=8)   3.099m ± 0%  -80.85% (p=0.000 n=8)    2.903m ± 1%  -82.06% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90/impl=turbo            17.318m ± 0%    5.176m ± 0%  -70.11% (p=0.000 n=8)   4.242m ± 0%  -75.50% (p=0.000 n=8)    4.047m ± 0%  -76.63% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=turbo          8.671m ± 0%    3.454m ± 0%  -60.16% (p=0.000 n=8)   2.798m ± 0%  -67.74% (p=0.000 n=8)    2.728m ± 1%  -68.54% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=turbo          9.813m ± 0%    4.597m ± 0%  -53.15% (p=0.000 n=8)   3.944m ± 0%  -59.81% (p=0.000 n=8)    3.872m ± 0%  -60.54% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=turbo          8.216m ± 0%    3.372m ± 0%  -58.96% (p=0.000 n=8)   2.746m ± 0%  -66.57% (p=0.000 n=8)    2.682m ± 0%  -67.36% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=turbo          8.463m ± 0%    3.620m ± 0%  -57.23% (p=0.000 n=8)   2.987m ± 0%  -64.70% (p=0.000 n=8)    2.921m ± 1%  -65.49% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75/impl=turbo              5.855m ± 0%    2.644m ± 0%  -54.84% (p=0.000 n=8)   2.203m ± 0%  -62.38% (p=0.000 n=8)    2.149m ± 0%  -63.29% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90/impl=turbo              6.836m ± 0%    3.627m ± 0%  -46.95% (p=0.000 n=8)   3.182m ± 0%  -53.45% (p=0.000 n=8)    3.136m ± 0%  -54.13% (p=0.000 n=8)
+geomean                                            11.04m         4.776m       -56.72%                 4.084m       -62.99%                  3.997m       -63.78%
+
+                                                │      go       │                 sse41                 │                 avx2                  │                avx512                 │
+                                                │      B/s      │      B/s       vs base                │      B/s       vs base                │      B/s       vs base                │
+CompatDecode/img=420q75_960x1280/impl=turbo       169.5Mi ±  1%    354.3Mi ± 2%  +108.97% (p=0.000 n=8)    400.2Mi ± 3%  +136.05% (p=0.000 n=8)    397.6Mi ± 2%  +134.48% (p=0.000 n=8)
+CompatDecode/img=444q92_960x1280/impl=turbo       84.85Mi ±  2%   167.11Mi ± 2%   +96.95% (p=0.000 n=8)   186.35Mi ± 2%  +119.63% (p=0.000 n=8)   186.20Mi ± 1%  +119.46% (p=0.000 n=8)
+CompatDecode/img=422q92rst_960x1280/impl=turbo    109.9Mi ±  1%    210.9Mi ± 5%   +91.89% (p=0.000 n=8)    233.2Mi ± 4%  +112.18% (p=0.000 n=8)    234.0Mi ± 2%  +112.93% (p=0.000 n=8)
+CompatDecode/img=420q85prog_960x1280/impl=turbo   82.98Mi ±  3%   113.16Mi ± 8%   +36.37% (p=0.000 n=8)   117.32Mi ± 5%   +41.37% (p=0.000 n=8)   116.25Mi ± 4%   +40.09% (p=0.000 n=8)
+CompatDecode/img=420q85_1920x2560/impl=turbo      176.4Mi ±  3%    370.5Mi ± 1%  +110.02% (p=0.000 n=8)    414.3Mi ± 4%  +134.83% (p=0.000 n=8)    419.1Mi ± 5%  +137.55% (p=0.000 n=8)
+CompatDecode/img=grayq85_1920x2560/impl=turbo     234.0Mi ±  3%    492.7Mi ± 6%  +110.52% (p=0.000 n=8)    555.9Mi ± 4%  +137.52% (p=0.000 n=8)    557.8Mi ± 3%  +138.34% (p=0.000 n=8)
+CompatDecode/img=444_1750x697/impl=turbo          182.0Mi ±  1%    423.8Mi ± 6%  +132.93% (p=0.000 n=8)    451.9Mi ± 4%  +148.34% (p=0.000 n=8)    460.8Mi ± 5%  +153.22% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75/impl=turbo             95.53Mi ±  1%   294.30Mi ± 0%  +208.07% (p=0.000 n=8)   382.02Mi ± 1%  +299.90% (p=0.000 n=8)   405.18Mi ± 5%  +324.14% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=turbo             87.45Mi ±  0%   228.83Mi ± 0%  +161.68% (p=0.000 n=8)   278.24Mi ± 0%  +218.19% (p=0.000 n=8)   290.51Mi ± 0%  +232.22% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75/impl=turbo            72.42Mi ±  0%   289.65Mi ± 0%  +299.97% (p=0.000 n=8)   378.17Mi ± 0%  +422.22% (p=0.000 n=8)   403.66Mi ± 1%  +457.41% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90/impl=turbo            67.67Mi ±  0%   226.41Mi ± 0%  +234.57% (p=0.000 n=8)   276.24Mi ± 0%  +308.20% (p=0.000 n=8)   289.56Mi ± 1%  +327.88% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=turbo         135.1Mi ±  0%    339.3Mi ± 0%  +151.03% (p=0.000 n=8)    418.9Mi ± 4%  +209.95% (p=0.000 n=8)    429.5Mi ± 5%  +217.82% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=turbo         119.4Mi ±  0%    254.9Mi ± 0%  +113.46% (p=0.000 n=8)    297.1Mi ± 0%  +148.80% (p=0.000 n=8)    302.6Mi ± 0%  +153.42% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=turbo         142.6Mi ±  1%    347.5Mi ± 0%  +143.67% (p=0.000 n=8)    426.7Mi ± 0%  +199.16% (p=0.000 n=8)    437.0Mi ± 0%  +206.36% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=turbo         138.5Mi ±  1%    323.7Mi ± 0%  +133.78% (p=0.000 n=8)    392.3Mi ± 1%  +183.31% (p=0.000 n=8)    401.2Mi ± 1%  +189.75% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75/impl=turbo             200.1Mi ±  2%    443.2Mi ± 0%  +121.45% (p=0.000 n=8)    532.0Mi ± 0%  +165.81% (p=0.000 n=8)    545.2Mi ± 3%  +172.42% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90/impl=turbo             171.4Mi ± 23%    323.1Mi ± 0%   +88.50% (p=0.000 n=8)    368.2Mi ± 0%  +114.81% (p=0.000 n=8)    373.7Mi ± 0%  +118.01% (p=0.000 n=8)
+geomean                                           125.0Mi          288.7Mi       +131.05%                  337.6Mi       +170.20%                  344.9Mi       +176.06%
+
+                                                │      go       │                 sse41                 │                 avx2                  │                avx512                 │
+                                                │     B/op      │     B/op      vs base                 │     B/op      vs base                 │     B/op      vs base                 │
+CompatDecode/img=420q75_960x1280/impl=turbo        1.789Mi ± 0%   1.789Mi ± 0%        ~ (p=1.000 n=8) ¹   1.789Mi ± 0%        ~ (p=1.000 n=8) ¹   1.789Mi ± 0%        ~ (p=1.000 n=8) ¹
+CompatDecode/img=444q92_960x1280/impl=turbo        3.550Mi ± 0%   3.550Mi ± 0%        ~ (p=1.000 n=8) ¹   3.550Mi ± 0%        ~ (p=1.000 n=8) ¹   3.550Mi ± 0%        ~ (p=1.000 n=8) ¹
+CompatDecode/img=422q92rst_960x1280/impl=turbo     2.376Mi ± 0%   2.376Mi ± 0%        ~ (p=1.000 n=8) ¹   2.376Mi ± 0%        ~ (p=1.000 n=8) ¹   2.376Mi ± 0%        ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85prog_960x1280/impl=turbo    9.047Mi ± 0%   9.047Mi ± 0%        ~ (p=1.000 n=8) ¹   9.047Mi ± 0%        ~ (p=1.000 n=8) ¹   9.047Mi ± 0%        ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85_1920x2560/impl=turbo       7.063Mi ± 0%   7.063Mi ± 0%        ~ (p=1.000 n=8) ¹   7.063Mi ± 0%        ~ (p=1.000 n=8) ¹   7.063Mi ± 0%        ~ (p=1.000 n=8) ¹
+CompatDecode/img=grayq85_1920x2560/impl=turbo      4.711Mi ± 0%   4.711Mi ± 0%        ~ (p=1.000 n=8) ¹   4.711Mi ± 0%        ~ (p=1.000 n=8) ¹   4.711Mi ± 0%        ~ (p=1.000 n=8) ¹
+CompatDecode/img=444_1750x697/impl=turbo           3.563Mi ± 0%   3.563Mi ± 0%        ~ (p=1.000 n=8) ¹   3.563Mi ± 0%        ~ (p=1.000 n=8) ¹   3.563Mi ± 0%        ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=75/impl=turbo              6.373Ki ± 1%   2.014Ki ± 0%  -68.39% (p=0.000 n=8)     1.552Ki ± 1%  -75.65% (p=0.000 n=8)     1.462Ki ± 1%  -77.06% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=turbo             12.843Ki ± 0%   4.774Ki ± 0%  -62.82% (p=0.000 n=8)     3.934Ki ± 0%  -69.37% (p=0.000 n=8)     3.774Ki ± 0%  -70.61% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75/impl=turbo             8.597Ki ± 4%   2.052Ki ± 0%  -76.13% (p=0.000 n=8)     1.572Ki ± 0%  -81.71% (p=0.000 n=8)     1.473Ki ± 1%  -82.87% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90/impl=turbo            16.930Ki ± 3%   4.847Ki ± 0%  -71.37% (p=0.000 n=8)     3.962Ki ± 0%  -76.60% (p=0.000 n=8)     3.787Ki ± 0%  -77.63% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=turbo          4.444Ki ± 0%   1.772Ki ± 0%  -60.12% (p=0.000 n=8)     1.433Ki ± 0%  -67.77% (p=0.000 n=8)     1.396Ki ± 1%  -68.58% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=turbo          9.300Ki ± 0%   4.328Ki ± 0%  -53.46% (p=0.000 n=8)     3.714Ki ± 0%  -60.07% (p=0.000 n=8)     3.647Ki ± 0%  -60.78% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=turbo          4.229Ki ± 0%   1.728Ki ± 0%  -59.15% (p=0.000 n=8)     1.409Ki ± 0%  -66.68% (p=0.000 n=8)     1.375Ki ± 0%  -67.49% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=turbo          4.350Ki ± 1%   1.855Ki ± 0%  -57.34% (p=0.000 n=8)     1.533Ki ± 1%  -64.75% (p=0.000 n=8)     1.496Ki ± 1%  -65.62% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75/impl=turbo              2.889Ki ± 0%   1.304Ki ± 0%  -54.87% (p=0.000 n=8)     1.083Ki ± 0%  -62.51% (p=0.000 n=8)     1.058Ki ± 0%  -63.39% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90/impl=turbo              6.293Ki ± 1%   3.337Ki ± 0%  -46.97% (p=0.000 n=8)     2.929Ki ± 0%  -53.46% (p=0.000 n=8)     2.891Ki ± 0%  -54.07% (p=0.000 n=8)
+geomean                                            93.42Ki        52.85Ki       -43.43%                   46.98Ki       -49.71%                   46.05Ki       -50.71%
+¹ all samples are equal
+
+                                                │      go      │               sse41                │                avx2                │               avx512               │
+                                                │  allocs/op   │ allocs/op   vs base                │ allocs/op   vs base                │ allocs/op   vs base                │
+CompatDecode/img=420q75_960x1280/impl=turbo       11.00 ± 0%     11.00 ± 0%       ~ (p=1.000 n=8) ¹   11.00 ± 0%       ~ (p=1.000 n=8) ¹   11.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444q92_960x1280/impl=turbo       200.0 ± 0%     200.0 ± 0%       ~ (p=1.000 n=8) ¹   200.0 ± 0%       ~ (p=1.000 n=8) ¹   200.0 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=422q92rst_960x1280/impl=turbo    49.00 ± 0%     49.00 ± 0%       ~ (p=1.000 n=8) ¹   49.00 ± 0%       ~ (p=1.000 n=8) ¹   49.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85prog_960x1280/impl=turbo   21.00 ± 0%     21.00 ± 0%       ~ (p=1.000 n=8) ¹   21.00 ± 0%       ~ (p=1.000 n=8) ¹   21.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85_1920x2560/impl=turbo      11.00 ± 0%     11.00 ± 0%       ~ (p=1.000 n=8) ¹   11.00 ± 0%       ~ (p=1.000 n=8) ¹   11.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=grayq85_1920x2560/impl=turbo     8.000 ± 0%     8.000 ± 0%       ~ (p=1.000 n=8) ¹   8.000 ± 0%       ~ (p=1.000 n=8) ¹   8.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444_1750x697/impl=turbo          12.00 ± 0%     12.00 ± 0%       ~ (p=1.000 n=8) ¹   12.00 ± 0%       ~ (p=1.000 n=8) ¹   12.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=75/impl=turbo             0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=90/impl=turbo             0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=NRGBA/q=75/impl=turbo            0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=NRGBA/q=90/impl=turbo            0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr444/q=75/impl=turbo         0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr444/q=90/impl=turbo         0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr420/q=75/impl=turbo         0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr420/q=90/impl=turbo         0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=Gray/q=75/impl=turbo             0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=Gray/q=90/impl=turbo             0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹   0.000 ± 0%       ~ (p=1.000 n=8) ¹
+geomean                                                      ²               +0.00%               ²               +0.00%               ²               +0.00%               ²
+¹ all samples are equal
+² summaries must be >0 to compute geomean
+
+################ turbo: -tags purego vs JPEG_TURBO_LEVEL=go
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+                                                │  level-go   │              purego               │
+                                                │   sec/op    │   sec/op     vs base              │
+CompatDecode/img=420q75_960x1280/impl=turbo       6.912m ± 1%   6.802m ± 2%  -1.59% (p=0.005 n=8)
+CompatDecode/img=444q92_960x1280/impl=turbo       13.81m ± 2%   13.64m ± 3%       ~ (p=0.279 n=8)
+CompatDecode/img=422q92rst_960x1280/impl=turbo    10.66m ± 2%   10.56m ± 1%       ~ (p=0.645 n=8)
+CompatDecode/img=420q85prog_960x1280/impl=turbo   14.12m ± 2%   14.27m ± 3%       ~ (p=0.959 n=8)
+CompatDecode/img=420q85_1920x2560/impl=turbo      26.57m ± 2%   26.62m ± 2%       ~ (p=0.878 n=8)
+CompatDecode/img=grayq85_1920x2560/impl=turbo     20.03m ± 3%   19.67m ± 1%  -1.78% (p=0.050 n=8)
+CompatDecode/img=444_1750x697/impl=turbo          6.393m ± 3%   6.314m ± 3%       ~ (p=0.645 n=8)
+CompatEncode/img=RGBA/q=75/impl=turbo             12.27m ± 1%   12.20m ± 0%  -0.55% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=turbo             13.40m ± 0%   13.35m ± 0%       ~ (p=0.065 n=8)
+CompatEncode/img=NRGBA/q=75/impl=turbo            16.18m ± 0%   16.13m ± 0%       ~ (p=0.065 n=8)
+CompatEncode/img=NRGBA/q=90/impl=turbo            17.32m ± 0%   17.27m ± 0%  -0.28% (p=0.001 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=turbo         8.671m ± 0%   8.621m ± 0%  -0.57% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=turbo         9.813m ± 0%   9.769m ± 0%  -0.45% (p=0.010 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=turbo         8.216m ± 0%   8.171m ± 0%  -0.54% (p=0.010 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=turbo         8.463m ± 0%   8.409m ± 0%  -0.64% (p=0.005 n=8)
+CompatEncode/img=Gray/q=75/impl=turbo             5.855m ± 0%   5.827m ± 1%  -0.47% (p=0.021 n=8)
+CompatEncode/img=Gray/q=90/impl=turbo             6.836m ± 0%   6.805m ± 0%  -0.45% (p=0.007 n=8)
+geomean                                           11.04m        10.97m       -0.60%
+
+                                                │   level-go    │               purego               │
+                                                │      B/s      │     B/s       vs base              │
+CompatDecode/img=420q75_960x1280/impl=turbo       169.5Mi ±  1%   172.3Mi ± 2%  +1.62% (p=0.005 n=8)
+CompatDecode/img=444q92_960x1280/impl=turbo       84.85Mi ±  2%   85.89Mi ± 3%       ~ (p=0.279 n=8)
+CompatDecode/img=422q92rst_960x1280/impl=turbo    109.9Mi ±  1%   111.0Mi ± 3%       ~ (p=0.645 n=8)
+CompatDecode/img=420q85prog_960x1280/impl=turbo   82.98Mi ±  3%   82.10Mi ± 2%       ~ (p=0.959 n=8)
+CompatDecode/img=420q85_1920x2560/impl=turbo      176.4Mi ±  3%   176.1Mi ± 2%       ~ (p=0.856 n=8)
+CompatDecode/img=grayq85_1920x2560/impl=turbo     234.0Mi ±  3%   238.3Mi ± 2%  +1.80% (p=0.050 n=8)
+CompatDecode/img=444_1750x697/impl=turbo          182.0Mi ±  1%   184.2Mi ± 5%       ~ (p=0.645 n=8)
+CompatEncode/img=RGBA/q=75/impl=turbo             95.53Mi ±  1%   96.05Mi ± 0%  +0.55% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=turbo             87.45Mi ±  0%   87.79Mi ± 1%       ~ (p=0.061 n=8)
+CompatEncode/img=NRGBA/q=75/impl=turbo            72.42Mi ±  0%   72.64Mi ± 1%       ~ (p=0.061 n=8)
+CompatEncode/img=NRGBA/q=90/impl=turbo            67.67Mi ±  0%   67.86Mi ± 0%  +0.27% (p=0.001 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=turbo         135.1Mi ±  0%   135.9Mi ± 0%  +0.58% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=turbo         119.4Mi ±  0%   120.0Mi ± 1%  +0.45% (p=0.010 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=turbo         142.6Mi ±  1%   143.4Mi ± 2%  +0.55% (p=0.009 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=turbo         138.5Mi ±  1%   139.4Mi ± 1%  +0.64% (p=0.005 n=8)
+CompatEncode/img=Gray/q=75/impl=turbo             200.1Mi ±  2%   201.1Mi ± 1%  +0.48% (p=0.022 n=8)
+CompatEncode/img=Gray/q=90/impl=turbo             171.4Mi ± 23%   172.2Mi ± 1%  +0.46% (p=0.007 n=8)
+geomean                                           125.0Mi         125.7Mi       +0.60%
+
+                                                │   level-go   │                purego                │
+                                                │     B/op     │     B/op      vs base                │
+CompatDecode/img=420q75_960x1280/impl=turbo       1.789Mi ± 0%   1.789Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444q92_960x1280/impl=turbo       3.550Mi ± 0%   3.550Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=422q92rst_960x1280/impl=turbo    2.376Mi ± 0%   2.376Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85prog_960x1280/impl=turbo   9.047Mi ± 0%   9.047Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85_1920x2560/impl=turbo      7.063Mi ± 0%   7.063Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=grayq85_1920x2560/impl=turbo     4.711Mi ± 0%   4.711Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444_1750x697/impl=turbo          3.563Mi ± 0%   3.563Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=75/impl=turbo             6.373Ki ± 1%   6.306Ki ± 1%       ~ (p=0.122 n=8)
+CompatEncode/img=RGBA/q=90/impl=turbo             12.84Ki ± 0%   12.77Ki ± 1%  -0.57% (p=0.033 n=8)
+CompatEncode/img=NRGBA/q=75/impl=turbo            8.597Ki ± 4%   8.533Ki ± 4%       ~ (p=1.000 n=8)
+CompatEncode/img=NRGBA/q=90/impl=turbo            16.93Ki ± 3%   16.68Ki ± 2%       ~ (p=0.103 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=turbo         4.444Ki ± 0%   4.444Ki ± 1%       ~ (p=0.200 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=turbo         9.300Ki ± 0%   9.224Ki ± 0%  -0.82% (p=0.001 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=turbo         4.229Ki ± 0%   4.201Ki ± 0%  -0.67% (p=0.001 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=turbo         4.350Ki ± 1%   4.350Ki ± 1%       ~ (p=0.144 n=8)
+CompatEncode/img=Gray/q=75/impl=turbo             2.889Ki ± 0%   2.875Ki ± 1%  -0.47% (p=0.001 n=8)
+CompatEncode/img=Gray/q=90/impl=turbo             6.293Ki ± 1%   6.293Ki ± 1%       ~ (p=0.072 n=8)
+geomean                                           93.42Ki        93.10Ki       -0.34%
+¹ all samples are equal
+
+                                                │   level-go   │               purego               │
+                                                │  allocs/op   │ allocs/op   vs base                │
+CompatDecode/img=420q75_960x1280/impl=turbo       11.00 ± 0%     11.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444q92_960x1280/impl=turbo       200.0 ± 0%     200.0 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=422q92rst_960x1280/impl=turbo    49.00 ± 0%     49.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85prog_960x1280/impl=turbo   21.00 ± 0%     21.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85_1920x2560/impl=turbo      11.00 ± 0%     11.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=grayq85_1920x2560/impl=turbo     8.000 ± 0%     8.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444_1750x697/impl=turbo          12.00 ± 0%     12.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=75/impl=turbo             0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=90/impl=turbo             0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=NRGBA/q=75/impl=turbo            0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=NRGBA/q=90/impl=turbo            0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr444/q=75/impl=turbo         0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr444/q=90/impl=turbo         0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr420/q=75/impl=turbo         0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr420/q=90/impl=turbo         0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=Gray/q=75/impl=turbo             0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=Gray/q=90/impl=turbo             0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+geomean                                                      ²               +0.00%               ²
+¹ all samples are equal
+² summaries must be >0 to compute geomean
+
+################ GOAMD64=v3 vs v1 at the default level (avx512), both impls
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+                                                │      v1      │                v3                 │
+                                                │    sec/op    │   sec/op     vs base              │
+CompatDecode/img=420q75_960x1280/impl=std          13.85m ± 1%   13.69m ± 1%       ~ (p=0.083 n=8)
+CompatDecode/img=420q75_960x1280/impl=turbo        2.948m ± 3%   2.892m ± 1%       ~ (p=0.065 n=8)
+CompatDecode/img=444q92_960x1280/impl=std          29.04m ± 2%   28.96m ± 2%       ~ (p=0.195 n=8)
+CompatDecode/img=444q92_960x1280/impl=turbo        6.293m ± 1%   6.295m ± 1%       ~ (p=0.645 n=8)
+CompatDecode/img=422q92rst_960x1280/impl=std       21.59m ± 1%   21.58m ± 1%       ~ (p=1.000 n=8)
+CompatDecode/img=422q92rst_960x1280/impl=turbo     5.008m ± 2%   5.029m ± 2%       ~ (p=0.721 n=8)
+CompatDecode/img=420q85prog_960x1280/impl=std      27.22m ± 2%   27.03m ± 2%  -0.71% (p=0.002 n=8)
+CompatDecode/img=420q85prog_960x1280/impl=turbo   10.081m ± 3%   9.937m ± 5%       ~ (p=0.279 n=8)
+CompatDecode/img=420q85_1920x2560/impl=std         52.00m ± 0%   51.59m ± 1%  -0.79% (p=0.050 n=8)
+CompatDecode/img=420q85_1920x2560/impl=turbo       11.19m ± 2%   11.06m ± 1%       ~ (p=0.083 n=8)
+CompatDecode/img=grayq85_1920x2560/impl=std        38.19m ± 1%   38.18m ± 1%       ~ (p=0.574 n=8)
+CompatDecode/img=grayq85_1920x2560/impl=turbo      8.403m ± 3%   8.514m ± 2%       ~ (p=1.000 n=8)
+CompatDecode/img=444_1750x697/impl=std             21.14m ± 2%   21.20m ± 2%       ~ (p=0.442 n=8)
+CompatDecode/img=444_1750x697/impl=turbo           2.525m ± 5%   2.554m ± 2%       ~ (p=0.645 n=8)
+CompatEncode/img=RGBA/q=75/impl=std                30.41m ± 0%   30.07m ± 0%  -1.12% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75/impl=turbo              2.892m ± 1%   2.757m ± 0%  -4.69% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=std                34.81m ± 0%   34.51m ± 0%  -0.87% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=turbo              4.034m ± 0%   3.828m ± 0%  -5.09% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75/impl=std               51.09m ± 0%   50.79m ± 0%  -0.59% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75/impl=turbo             2.903m ± 1%   2.767m ± 0%  -4.68% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90/impl=std               55.51m ± 0%   55.26m ± 0%  -0.46% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90/impl=turbo             4.047m ± 0%   3.843m ± 0%  -5.03% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=std            28.15m ± 0%   27.71m ± 0%  -1.54% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=turbo          2.728m ± 1%   2.593m ± 0%  -4.96% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=std            32.45m ± 0%   32.13m ± 0%  -0.98% (p=0.010 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=turbo          3.872m ± 0%   3.666m ± 0%  -5.34% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=std            27.01m ± 0%   26.82m ± 0%  -0.71% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=turbo          2.682m ± 0%   2.545m ± 0%  -5.10% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=std            27.60m ± 0%   27.39m ± 0%  -0.77% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=turbo          2.921m ± 1%   2.786m ± 0%  -4.60% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75/impl=std                17.76m ± 0%   17.10m ± 0%  -3.71% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75/impl=turbo              2.149m ± 0%   2.029m ± 0%  -5.61% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90/impl=std                21.59m ± 0%   20.92m ± 0%  -3.08% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90/impl=turbo              3.136m ± 0%   2.970m ± 0%  -5.29% (p=0.000 n=8)
+geomean                                            10.79m        10.57m       -2.03%
+
+                                                │      v1      │                 v3                 │
+                                                │     B/s      │     B/s       vs base              │
+CompatDecode/img=420q75_960x1280/impl=std         84.63Mi ± 1%   85.57Mi ± 2%       ~ (p=0.083 n=8)
+CompatDecode/img=420q75_960x1280/impl=turbo       397.6Mi ± 2%   405.2Mi ± 1%       ~ (p=0.065 n=8)
+CompatDecode/img=444q92_960x1280/impl=std         40.35Mi ± 2%   40.46Mi ± 0%       ~ (p=0.195 n=8)
+CompatDecode/img=444q92_960x1280/impl=turbo       186.2Mi ± 1%   186.2Mi ± 1%       ~ (p=0.626 n=8)
+CompatDecode/img=422q92rst_960x1280/impl=std      54.28Mi ± 1%   54.32Mi ± 1%       ~ (p=0.939 n=8)
+CompatDecode/img=422q92rst_960x1280/impl=turbo    234.0Mi ± 2%   233.0Mi ± 1%       ~ (p=0.721 n=8)
+CompatDecode/img=420q85prog_960x1280/impl=std     43.05Mi ± 2%   43.36Mi ± 2%  +0.72% (p=0.002 n=8)
+CompatDecode/img=420q85prog_960x1280/impl=turbo   116.2Mi ± 4%   117.9Mi ± 5%       ~ (p=0.279 n=8)
+CompatDecode/img=420q85_1920x2560/impl=std        90.14Mi ± 2%   90.87Mi ± 2%  +0.80% (p=0.050 n=8)
+CompatDecode/img=420q85_1920x2560/impl=turbo      419.1Mi ± 5%   423.9Mi ± 6%       ~ (p=0.083 n=8)
+CompatDecode/img=grayq85_1920x2560/impl=std       122.7Mi ± 1%   122.8Mi ± 1%       ~ (p=0.555 n=8)
+CompatDecode/img=grayq85_1920x2560/impl=turbo     557.8Mi ± 3%   550.6Mi ± 2%       ~ (p=1.000 n=8)
+CompatDecode/img=444_1750x697/impl=std            55.03Mi ± 3%   54.87Mi ± 2%       ~ (p=0.442 n=8)
+CompatDecode/img=444_1750x697/impl=turbo          460.8Mi ± 5%   455.5Mi ± 3%       ~ (p=0.645 n=8)
+CompatEncode/img=RGBA/q=75/impl=std               38.53Mi ± 0%   38.97Mi ± 0%  +1.14% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=75/impl=turbo             405.2Mi ± 5%   425.1Mi ± 1%  +4.92% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=std               33.66Mi ± 0%   33.96Mi ± 0%  +0.88% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=turbo             290.5Mi ± 0%   306.1Mi ± 0%  +5.37% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75/impl=std              22.94Mi ± 0%   23.07Mi ± 0%  +0.60% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75/impl=turbo            403.7Mi ± 1%   423.5Mi ± 0%  +4.91% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90/impl=std              21.11Mi ± 0%   21.20Mi ± 0%  +0.43% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90/impl=turbo            289.6Mi ± 1%   304.9Mi ± 0%  +5.30% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=std           41.63Mi ± 3%   42.29Mi ± 0%  +1.57% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=turbo         429.5Mi ± 5%   452.0Mi ± 0%  +5.22% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=std           36.12Mi ± 0%   36.47Mi ± 2%  +0.99% (p=0.010 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=turbo         302.6Mi ± 0%   319.7Mi ± 1%  +5.64% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=std           43.39Mi ± 0%   43.70Mi ± 0%  +0.71% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=turbo         437.0Mi ± 0%   460.4Mi ± 0%  +5.37% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=std           42.45Mi ± 0%   42.78Mi ± 0%  +0.78% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=turbo         401.2Mi ± 1%   420.6Mi ± 0%  +4.82% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75/impl=std               65.99Mi ± 0%   68.54Mi ± 0%  +3.85% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75/impl=turbo             545.2Mi ± 3%   577.6Mi ± 1%  +5.94% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90/impl=std               54.29Mi ± 0%   56.01Mi ± 0%  +3.18% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90/impl=turbo             373.7Mi ± 0%   394.6Mi ± 2%  +5.58% (p=0.000 n=8)
+geomean                                           127.8Mi        130.5Mi       +2.08%
+
+                                                │      v1      │                  v3                  │
+                                                │     B/op     │     B/op      vs base                │
+CompatDecode/img=420q75_960x1280/impl=std         1.771Mi ± 0%   1.771Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q75_960x1280/impl=turbo       1.789Mi ± 0%   1.789Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444q92_960x1280/impl=std         3.532Mi ± 0%   3.532Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444q92_960x1280/impl=turbo       3.550Mi ± 0%   3.550Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=422q92rst_960x1280/impl=std      2.358Mi ± 0%   2.358Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=422q92rst_960x1280/impl=turbo    2.376Mi ± 0%   2.376Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85prog_960x1280/impl=std     8.802Mi ± 0%   8.802Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85prog_960x1280/impl=turbo   9.047Mi ± 0%   9.047Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85_1920x2560/impl=std        7.045Mi ± 0%   7.045Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85_1920x2560/impl=turbo      7.063Mi ± 0%   7.063Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=grayq85_1920x2560/impl=std       4.701Mi ± 0%   4.701Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=grayq85_1920x2560/impl=turbo     4.711Mi ± 0%   4.711Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444_1750x697/impl=std            3.545Mi ± 0%   3.545Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444_1750x697/impl=turbo          3.563Mi ± 0%   3.563Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=75/impl=std               17.81Ki ± 0%   17.81Ki ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=75/impl=turbo             1.462Ki ± 1%   1.395Ki ± 0%  -4.61% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=std               35.35Ki ± 0%   35.35Ki ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=90/impl=turbo             3.774Ki ± 0%   3.569Ki ± 0%  -5.43% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75/impl=std              4.714Mi ± 0%   4.714Mi ± 0%       ~ (p=0.997 n=8)
+CompatEncode/img=NRGBA/q=75/impl=turbo            1.473Ki ± 1%   1.400Ki ± 0%  -4.91% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90/impl=std              4.742Mi ± 0%   4.742Mi ± 0%       ~ (p=0.869 n=8)
+CompatEncode/img=NRGBA/q=90/impl=turbo            3.787Ki ± 0%   3.592Ki ± 0%  -5.14% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=std           17.46Ki ± 2%   17.14Ki ± 2%  -1.87% (p=0.024 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=turbo         1.396Ki ± 1%   1.327Ki ± 0%  -4.97% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=std           32.77Ki ± 0%   32.00Ki ± 2%  -2.34% (p=0.006 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=turbo         3.647Ki ± 0%   3.451Ki ± 0%  -5.38% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=std           16.25Ki ± 0%   16.12Ki ± 1%       ~ (p=0.077 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=turbo         1.375Ki ± 0%   1.305Ki ± 0%  -5.11% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=std           16.25Ki ± 0%   16.25Ki ± 0%       ~ (p=1.000 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=turbo         1.496Ki ± 1%   1.430Ki ± 0%  -4.41% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75/impl=std               11.93Ki ± 1%   11.71Ki ± 1%  -1.84% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75/impl=turbo              1083.0 ± 0%    1022.0 ± 0%  -5.63% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90/impl=std               22.89Ki ± 2%   22.56Ki ± 0%  -1.45% (p=0.000 n=8)
+CompatEncode/img=Gray/q=90/impl=turbo             2.891Ki ± 0%   2.732Ki ± 0%  -5.47% (p=0.000 n=8)
+geomean                                           125.2Ki        122.9Ki       -1.77%
+¹ all samples are equal
+
+                                                │      v1       │                 v3                  │
+                                                │   allocs/op   │  allocs/op   vs base                │
+CompatDecode/img=420q75_960x1280/impl=std          7.000 ± 0%      7.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q75_960x1280/impl=turbo        11.00 ± 0%      11.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444q92_960x1280/impl=std          196.0 ± 0%      196.0 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444q92_960x1280/impl=turbo        200.0 ± 0%      200.0 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=422q92rst_960x1280/impl=std       45.00 ± 0%      45.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=422q92rst_960x1280/impl=turbo     49.00 ± 0%      49.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85prog_960x1280/impl=std      14.00 ± 0%      14.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85prog_960x1280/impl=turbo    21.00 ± 0%      21.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85_1920x2560/impl=std         7.000 ± 0%      7.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85_1920x2560/impl=turbo       11.00 ± 0%      11.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=grayq85_1920x2560/impl=std        6.000 ± 0%      6.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=grayq85_1920x2560/impl=turbo      8.000 ± 0%      8.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444_1750x697/impl=std             8.000 ± 0%      8.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444_1750x697/impl=turbo           12.00 ± 0%      12.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=75/impl=std                7.000 ± 0%      7.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=75/impl=turbo              0.000 ± 0%      0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=90/impl=std                7.000 ± 0%      7.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=90/impl=turbo              0.000 ± 0%      0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=NRGBA/q=75/impl=std              1.229M ± 0%     1.229M ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=NRGBA/q=75/impl=turbo             0.000 ± 0%      0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=NRGBA/q=90/impl=std              1.229M ± 0%     1.229M ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=NRGBA/q=90/impl=turbo             0.000 ± 0%      0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr444/q=75/impl=std            7.000 ± 0%      7.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr444/q=75/impl=turbo          0.000 ± 0%      0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr444/q=90/impl=std            7.000 ± 0%      7.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr444/q=90/impl=turbo          0.000 ± 0%      0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr420/q=75/impl=std            7.000 ± 0%      7.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr420/q=75/impl=turbo          0.000 ± 0%      0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr420/q=90/impl=std            7.000 ± 0%      7.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr420/q=90/impl=turbo          0.000 ± 0%      0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=Gray/q=75/impl=std                5.000 ± 0%      5.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=Gray/q=75/impl=turbo              0.000 ± 0%      0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=Gray/q=90/impl=std                5.000 ± 0%      5.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=Gray/q=90/impl=turbo              0.000 ± 0%      0.000 ± 0%       ~ (p=1.000 n=8) ¹
+geomean                                                       ²                +0.00%               ²
+¹ all samples are equal
+² summaries must be >0 to compute geomean
+
+################ turbo: avx512 vs avx2 level
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/jpeg
+cpu: AMD EPYC 8124P 16-Core Processor               
+                                                │    avx2     │               avx512               │
+                                                │   sec/op    │    sec/op     vs base              │
+CompatDecode/img=420q75_960x1280/impl=turbo       2.928m ± 2%    2.948m ± 3%       ~ (p=0.878 n=8)
+CompatDecode/img=444q92_960x1280/impl=turbo       6.289m ± 2%    6.293m ± 1%       ~ (p=0.959 n=8)
+CompatDecode/img=422q92rst_960x1280/impl=turbo    5.025m ± 2%    5.008m ± 2%       ~ (p=0.505 n=8)
+CompatDecode/img=420q85prog_960x1280/impl=turbo   9.989m ± 4%   10.081m ± 3%       ~ (p=0.878 n=8)
+CompatDecode/img=420q85_1920x2560/impl=turbo      11.32m ± 4%    11.19m ± 2%       ~ (p=0.645 n=8)
+CompatDecode/img=grayq85_1920x2560/impl=turbo     8.432m ± 2%    8.403m ± 3%       ~ (p=0.798 n=8)
+CompatDecode/img=444_1750x697/impl=turbo          2.574m ± 3%    2.525m ± 5%       ~ (p=0.505 n=8)
+CompatEncode/img=RGBA/q=75/impl=turbo             3.068m ± 0%    2.892m ± 1%  -5.72% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=turbo             4.212m ± 0%    4.034m ± 0%  -4.22% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75/impl=turbo            3.099m ± 0%    2.903m ± 1%  -6.31% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90/impl=turbo            4.242m ± 0%    4.047m ± 0%  -4.60% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=turbo         2.798m ± 0%    2.728m ± 1%  -2.48% (p=0.007 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=turbo         3.944m ± 0%    3.872m ± 0%  -1.82% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=turbo         2.746m ± 0%    2.682m ± 0%  -2.35% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=turbo         2.987m ± 0%    2.921m ± 1%  -2.22% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75/impl=turbo             2.203m ± 0%    2.149m ± 0%  -2.43% (p=0.010 n=8)
+CompatEncode/img=Gray/q=90/impl=turbo             3.182m ± 0%    3.136m ± 0%  -1.47% (p=0.000 n=8)
+geomean                                           4.084m         3.997m       -2.12%
+
+                                                │     avx2     │               avx512               │
+                                                │     B/s      │     B/s       vs base              │
+CompatDecode/img=420q75_960x1280/impl=turbo       400.2Mi ± 3%   397.6Mi ± 2%       ~ (p=0.878 n=8)
+CompatDecode/img=444q92_960x1280/impl=turbo       186.4Mi ± 2%   186.2Mi ± 1%       ~ (p=0.937 n=8)
+CompatDecode/img=422q92rst_960x1280/impl=turbo    233.2Mi ± 4%   234.0Mi ± 2%       ~ (p=0.505 n=8)
+CompatDecode/img=420q85prog_960x1280/impl=turbo   117.3Mi ± 5%   116.2Mi ± 4%       ~ (p=0.878 n=8)
+CompatDecode/img=420q85_1920x2560/impl=turbo      414.3Mi ± 4%   419.1Mi ± 5%       ~ (p=0.645 n=8)
+CompatDecode/img=grayq85_1920x2560/impl=turbo     555.9Mi ± 4%   557.8Mi ± 3%       ~ (p=0.798 n=8)
+CompatDecode/img=444_1750x697/impl=turbo          451.9Mi ± 4%   460.8Mi ± 5%       ~ (p=0.505 n=8)
+CompatEncode/img=RGBA/q=75/impl=turbo             382.0Mi ± 1%   405.2Mi ± 5%  +6.06% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=turbo             278.2Mi ± 0%   290.5Mi ± 0%  +4.41% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75/impl=turbo            378.2Mi ± 0%   403.7Mi ± 1%  +6.74% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90/impl=turbo            276.2Mi ± 0%   289.6Mi ± 1%  +4.82% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=turbo         418.9Mi ± 4%   429.5Mi ± 5%  +2.54% (p=0.007 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=turbo         297.1Mi ± 0%   302.6Mi ± 0%  +1.85% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=turbo         426.7Mi ± 0%   437.0Mi ± 0%  +2.40% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=turbo         392.3Mi ± 1%   401.2Mi ± 1%  +2.27% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75/impl=turbo             532.0Mi ± 0%   545.2Mi ± 3%  +2.49% (p=0.010 n=8)
+CompatEncode/img=Gray/q=90/impl=turbo             368.2Mi ± 0%   373.7Mi ± 0%  +1.49% (p=0.000 n=8)
+geomean                                           337.6Mi        344.9Mi       +2.17%
+
+                                                │     avx2     │                avx512                │
+                                                │     B/op     │     B/op      vs base                │
+CompatDecode/img=420q75_960x1280/impl=turbo       1.789Mi ± 0%   1.789Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444q92_960x1280/impl=turbo       3.550Mi ± 0%   3.550Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=422q92rst_960x1280/impl=turbo    2.376Mi ± 0%   2.376Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85prog_960x1280/impl=turbo   9.047Mi ± 0%   9.047Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85_1920x2560/impl=turbo      7.063Mi ± 0%   7.063Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=grayq85_1920x2560/impl=turbo     4.711Mi ± 0%   4.711Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444_1750x697/impl=turbo          3.563Mi ± 0%   3.563Mi ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=75/impl=turbo             1.552Ki ± 1%   1.462Ki ± 1%  -5.79% (p=0.000 n=8)
+CompatEncode/img=RGBA/q=90/impl=turbo             3.934Ki ± 0%   3.774Ki ± 0%  -4.05% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=75/impl=turbo            1.572Ki ± 0%   1.473Ki ± 1%  -6.34% (p=0.000 n=8)
+CompatEncode/img=NRGBA/q=90/impl=turbo            3.962Ki ± 0%   3.787Ki ± 0%  -4.41% (p=0.000 n=8)
+CompatEncode/img=YCbCr444/q=75/impl=turbo         1.433Ki ± 0%   1.396Ki ± 1%  -2.52% (p=0.004 n=8)
+CompatEncode/img=YCbCr444/q=90/impl=turbo         3.714Ki ± 0%   3.647Ki ± 0%  -1.79% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=75/impl=turbo         1.409Ki ± 0%   1.375Ki ± 0%  -2.43% (p=0.000 n=8)
+CompatEncode/img=YCbCr420/q=90/impl=turbo         1.533Ki ± 1%   1.496Ki ± 1%  -2.45% (p=0.000 n=8)
+CompatEncode/img=Gray/q=75/impl=turbo             1.083Ki ± 0%   1.058Ki ± 0%  -2.34% (p=0.009 n=8)
+CompatEncode/img=Gray/q=90/impl=turbo             2.929Ki ± 0%   2.891Ki ± 0%  -1.30% (p=0.000 n=8)
+geomean                                           46.98Ki        46.05Ki       -1.99%
+¹ all samples are equal
+
+                                                │     avx2     │               avx512               │
+                                                │  allocs/op   │ allocs/op   vs base                │
+CompatDecode/img=420q75_960x1280/impl=turbo       11.00 ± 0%     11.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444q92_960x1280/impl=turbo       200.0 ± 0%     200.0 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=422q92rst_960x1280/impl=turbo    49.00 ± 0%     49.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85prog_960x1280/impl=turbo   21.00 ± 0%     21.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=420q85_1920x2560/impl=turbo      11.00 ± 0%     11.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=grayq85_1920x2560/impl=turbo     8.000 ± 0%     8.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatDecode/img=444_1750x697/impl=turbo          12.00 ± 0%     12.00 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=75/impl=turbo             0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=RGBA/q=90/impl=turbo             0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=NRGBA/q=75/impl=turbo            0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=NRGBA/q=90/impl=turbo            0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr444/q=75/impl=turbo         0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr444/q=90/impl=turbo         0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr420/q=75/impl=turbo         0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=YCbCr420/q=90/impl=turbo         0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=Gray/q=75/impl=turbo             0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+CompatEncode/img=Gray/q=90/impl=turbo             0.000 ± 0%     0.000 ± 0%       ~ (p=1.000 n=8) ¹
+geomean                                                      ²               +0.00%               ²
+¹ all samples are equal
+² summaries must be >0 to compute geomean
+
+################ internal/dct kernels: benchstat -col /impl epyc8124p-kernels-dct.txt
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/internal/dct
+cpu: AMD EPYC 8124P 16-Core Processor               
+                       │      ref      │                 go                  │                sse41                │                avx2                 │               avx512                │                 prep                 │
+                       │    sec/op     │    sec/op     vs base               │    sec/op     vs base               │    sec/op     vs base               │    sec/op     vs base               │   sec/op     vs base                 │
+DequantIDCTStore/dc      275.000n ± 0%   66.865n ± 1%  -75.69% (p=0.000 n=8)   21.660n ± 0%  -92.12% (p=0.000 n=8)   21.375n ± 0%  -92.23% (p=0.000 n=8)   21.390n ± 0%  -92.22% (p=0.000 n=8)   9.404n ± 0%  -96.58% (p=0.000 n=8)
+DequantIDCTStore/real     271.80n ± 0%   178.90n ± 0%  -34.18% (p=0.000 n=8)    57.79n ± 0%  -78.74% (p=0.000 n=8)    46.85n ± 0%  -82.76% (p=0.000 n=8)    46.82n ± 0%  -82.77% (p=0.000 n=8)   13.64n ± 0%  -94.98% (p=0.000 n=8)
+DequantIDCTStore/mixed    271.90n ± 0%   135.85n ± 0%  -50.04% (p=0.000 n=8)    43.27n ± 0%  -84.09% (p=0.000 n=8)    36.74n ± 0%  -86.49% (p=0.000 n=8)    36.75n ± 0%  -86.48% (p=0.000 n=8)   11.42n ± 6%  -95.80% (p=0.000 n=8)
+DequantIDCTStore/dense    297.85n ± 0%   243.10n ± 0%  -18.38% (p=0.000 n=8)    88.91n ± 0%  -70.15% (p=0.000 n=8)    68.00n ± 0%  -77.17% (p=0.000 n=8)    68.05n ± 0%  -77.15% (p=0.000 n=8)   45.80n ± 1%  -84.62% (p=0.000 n=8)
+DequantIDCT/dc            199.10n ± 0%    57.59n ± 0%  -71.07% (p=0.000 n=8)    19.48n ± 0%  -90.22% (p=0.000 n=8)    20.12n ± 0%  -89.89% (p=0.000 n=8)    20.11n ± 0%  -89.90% (p=0.000 n=8)
+DequantIDCT/real          198.45n ± 0%   145.40n ± 0%  -26.73% (p=0.000 n=8)    52.25n ± 0%  -73.67% (p=0.000 n=8)    39.65n ± 0%  -80.02% (p=0.000 n=8)    39.66n ± 0%  -80.02% (p=0.000 n=8)
+DequantIDCT/mixed         198.40n ± 0%   111.10n ± 0%  -44.00% (p=0.000 n=8)    39.08n ± 0%  -80.30% (p=0.000 n=8)    31.62n ± 0%  -84.06% (p=0.000 n=8)    31.62n ± 0%  -84.06% (p=0.000 n=8)
+DequantIDCT/dense         226.80n ± 0%   209.30n ± 0%   -7.72% (p=0.000 n=8)    83.96n ± 0%  -62.98% (p=0.000 n=8)    64.09n ± 0%  -71.74% (p=0.000 n=8)    64.15n ± 0%  -71.72% (p=0.000 n=8)
+FDCTQuant                 294.80n ± 0%   216.40n ± 0%  -26.59% (p=0.000 n=8)    54.11n ± 0%  -81.65% (p=0.000 n=8)    31.90n ± 0%  -89.18% (p=0.000 n=8)    27.76n ± 0%  -90.58% (p=0.000 n=8)
+PhotoDequantIDCTStore     277.05n ± 0%   159.60n ± 0%  -42.39% (p=0.000 n=8)    47.06n ± 0%  -83.01% (p=0.000 n=8)    38.60n ± 0%  -86.07% (p=0.000 n=8)    38.61n ± 0%  -86.06% (p=0.000 n=8)   14.50n ± 0%  -94.76% (p=0.000 n=8)
+PhotoFDCTQuant            297.25n ± 0%   213.70n ± 0%  -28.11% (p=0.000 n=8)    52.82n ± 0%  -82.23% (p=0.000 n=8)    31.74n ± 0%  -89.32% (p=0.000 n=8)    27.88n ± 0%  -90.62% (p=0.000 n=8)
+geomean                    252.1n         144.4n       -42.73%                  46.43n       -81.58%                  36.60n       -85.48%                  35.73n       -85.83%                 15.76n       -94.34%               ¹
+¹ benchmark set differs from baseline; geomeans may not be comparable
+
+################ internal/ycc kernels: benchstat -col /impl epyc8124p-kernels-ycc.txt
+goos: linux
+goarch: amd64
+pkg: github.com/lEx0/go-jpeg-turbo/internal/ycc
+cpu: AMD EPYC 8124P 16-Core Processor               
+                      │      ref      │                  go                  │                sse41                │                avx2                 │               avx512               │
+                      │    sec/op     │    sec/op      vs base               │    sec/op     vs base               │    sec/op     vs base               │   sec/op     vs base               │
+RGBAToYCbCr              9978.0n ± 0%    5500.0n ± 0%  -44.88% (p=0.000 n=8)    916.3n ± 0%  -90.82% (p=0.000 n=8)    486.1n ± 1%  -95.13% (p=0.000 n=8)   356.2n ± 0%  -96.43% (p=0.000 n=8)
+NRGBAToYCbCr            16930.5n ± 0%   12269.0n ± 0%  -27.53% (p=0.000 n=8)   1454.0n ± 0%  -91.41% (p=0.000 n=8)    766.9n ± 0%  -95.47% (p=0.000 n=8)   565.2n ± 0%  -96.66% (p=0.000 n=8)
+NRGBAToYCbCrOpaque      16926.5n ± 0%   12265.5n ± 0%  -27.54% (p=0.000 n=8)    979.0n ± 0%  -94.22% (p=0.000 n=8)    530.9n ± 0%  -96.86% (p=0.000 n=8)   376.8n ± 0%  -97.77% (p=0.000 n=8)
+RGBAToYCbCr420          24354.0n ± 0%   12688.0n ± 0%  -47.90% (p=0.000 n=8)   2035.0n ± 0%  -91.64% (p=0.000 n=8)   1117.5n ± 0%  -95.41% (p=0.000 n=8)   750.1n ± 0%  -96.92% (p=0.000 n=8)
+NRGBAToYCbCr420          38.149µ ± 0%    24.850µ ± 0%  -34.86% (p=0.000 n=8)    3.110µ ± 0%  -91.85% (p=0.000 n=8)    1.663µ ± 0%  -95.64% (p=0.000 n=8)   1.164µ ± 0%  -96.95% (p=0.000 n=8)
+NRGBAToYCbCr420Opaque   38181.5n ± 0%   24867.5n ± 0%  -34.87% (p=0.000 n=8)   2223.0n ± 0%  -94.18% (p=0.000 n=8)   1219.0n ± 0%  -96.81% (p=0.000 n=8)   784.2n ± 0%  -97.95% (p=0.000 n=8)
+Downsample2x2           1683.00n ± 0%    679.40n ± 0%  -59.63% (p=0.000 n=8)    74.72n ± 4%  -95.56% (p=0.000 n=8)    44.42n ± 0%  -97.36% (p=0.000 n=8)   34.78n ± 0%  -97.93% (p=0.000 n=8)
+geomean                   15.00µ          8.896µ       -40.69%                  1.046µ       -93.03%                  571.5n       -96.19%                 405.6n       -97.30%
+
+                      │     ref      │                  go                   │                  sse41                  │                  avx2                   │                 avx512                  │
+                      │     B/s      │      B/s       vs base                │      B/s        vs base                 │      B/s        vs base                 │      B/s        vs base                 │
+RGBAToYCbCr             183.5Mi ± 0%    332.9Mi ± 0%   +81.42% (p=0.000 n=8)    1998.3Mi ± 0%   +988.97% (p=0.000 n=8)    3766.2Mi ± 1%  +1952.34% (p=0.000 n=8)    5139.9Mi ± 0%  +2700.92% (p=0.000 n=8)
+NRGBAToYCbCr            108.2Mi ± 0%    149.2Mi ± 0%   +37.99% (p=0.000 n=8)    1259.7Mi ± 0%  +1064.72% (p=0.000 n=8)    2387.6Mi ± 0%  +2107.61% (p=0.000 n=8)    3240.1Mi ± 0%  +2895.87% (p=0.000 n=8)
+NRGBAToYCbCrOpaque      108.2Mi ± 0%    149.3Mi ± 0%   +38.00% (p=0.000 n=8)    1870.2Mi ± 0%  +1628.81% (p=0.000 n=8)    3448.9Mi ± 0%  +3088.15% (p=0.000 n=8)    4859.5Mi ± 0%  +4392.08% (p=0.000 n=8)
+RGBAToYCbCr420          150.4Mi ± 0%    288.6Mi ± 0%   +91.94% (p=0.000 n=8)    1799.5Mi ± 0%  +1096.73% (p=0.000 n=8)    3277.3Mi ± 0%  +2079.48% (p=0.000 n=8)    4882.3Mi ± 0%  +3146.87% (p=0.000 n=8)
+NRGBAToYCbCr420         95.99Mi ± 0%   147.37Mi ± 0%   +53.52% (p=0.000 n=8)   1177.46Mi ± 0%  +1126.63% (p=0.000 n=8)   2202.07Mi ± 0%  +2194.01% (p=0.000 n=8)   3145.24Mi ± 0%  +3176.56% (p=0.000 n=8)
+NRGBAToYCbCr420Opaque   95.92Mi ± 0%   147.27Mi ± 0%   +53.54% (p=0.000 n=8)   1647.09Mi ± 0%  +1617.22% (p=0.000 n=8)   3003.50Mi ± 0%  +3031.39% (p=0.000 n=8)   4669.68Mi ± 1%  +4768.52% (p=0.000 n=8)
+Downsample2x2           2.125Gi ± 0%    5.264Gi ± 0%  +147.71% (p=0.000 n=8)    47.865Gi ± 8%  +2152.44% (p=0.000 n=8)    80.500Gi ± 0%  +3688.20% (p=0.000 n=8)   102.816Gi ± 0%  +4738.35% (p=0.000 n=8)
+geomean                 181.4Mi         305.9Mi        +68.60%                   2.540Gi       +1333.68%                   4.649Gi       +2524.07%                   6.551Gi       +3597.37%
