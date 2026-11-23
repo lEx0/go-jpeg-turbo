@@ -940,6 +940,11 @@ result stands in for kernels that the run's CPU did not execute.
   arm64.
 - **other architectures:** the tests on linux/386 (`-short`, the portable
   code on a 32-bit target) and `make vet-ports`.
+- **workflows:** [actionlint](https://github.com/rhysd/actionlint) and
+  [zizmor](https://github.com/zizmorcore/zizmor) (pedantic, with its online
+  audits) on the workflow and `.github/dependabot.yml`. Every action is
+  pinned to a commit, and Dependabot keeps the pins and the Go modules
+  current.
 
 Which amd64 levels a run tests depends on the CPUs GitHub assigns, and the
 jobs log the level they detect. In the first run
@@ -960,6 +965,12 @@ arm64, 2–2.5 for macOS, 3 for Windows, 11.5 for the levels, 12.5 and 10.5
 for race on amd64 and arm64, and 2.5 for the other architectures. The
 guard-page tests need `mmap` and `mprotect` and run on Linux and macOS
 only.
+
+## Security
+
+Please report vulnerabilities privately, through GitHub's
+[private vulnerability reporting](https://github.com/lEx0/go-jpeg-turbo/security/advisories/new);
+[SECURITY.md](SECURITY.md) says what is in scope and what to expect.
 
 ## License
 
