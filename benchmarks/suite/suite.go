@@ -26,8 +26,9 @@
 //
 // The decode and encode workloads, and their names, are those of
 // BenchmarkCompatDecode and BenchmarkCompatEncode in the jpeg package
-// (jpeg/bench_compat_test.go), where the README's per-picture tables come
-// from, plus a 12 MP photo in each direction (see data.go).
+// (jpeg/bench_compat_test.go), plus a 12 MP photo in each direction (see
+// data.go). The README's Apple M5 Pro tables come from this suite (run.sh);
+// its AMD EPYC tables from the Compat benchmarks.
 //
 // See run.sh in the parent directory and the Benchmarks section of the
 // repository README.
