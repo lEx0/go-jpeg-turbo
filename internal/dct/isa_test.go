@@ -158,12 +158,21 @@ func isaGo(t *testing.T, goTool string, args ...string) []byte {
 // assembly files (the members of the package archive other than the
 // export data and the compiled Go code) to a temporary directory.
 //
-// It also reads the source files of that build. go test caches a passing
-// result against the test binary and the files the test opens inside the
-// module, not against the build cache, where the archive is: the test
-// binary of a non-amd64 host does not contain the amd64 kernels, and that
-// of this package never contains internal/ycc's, so without these reads
-// a cached pass would outlive an edit of the assembly it audited.
+// It also reads the source directory of that build and its source files.
+// go test caches a passing result against the test binary and the files
+// the test opens inside the module, not against the build cache, where
+// the archive is: the test binary of a non-amd64 host does not contain
+// the amd64 kernels, and that of this package never contains
+// internal/ycc's, so without these reads a cached pass would outlive an
+// edit of the assembly it audited. For a file the test opens, go test
+// records its size and modification time; for a directory, the names,
+// sizes and modification times of its entries. Reading the directory
+// therefore also covers files added, removed or renamed since the cached
+// run, which that run's file list cannot name, and edits of files that
+// the build constraints exclude for now. The reads of the files stay
+// because go test does not cache a result that depends on a file
+// modified too recently for its modification time to be trusted, a
+// check it does not make for the entries of a directory.
 func isaObjects(t *testing.T, goTool, pkg string) []string {
 	t.Helper()
 	list := strings.Split(string(isaGo(t, goTool, "list", "-tags=", "-export", "-f",
@@ -172,6 +181,9 @@ func isaObjects(t *testing.T, goTool, pkg string) []string {
 		t.Fatalf("go list %s: unexpected output %q", pkg, list)
 	}
 	archive, src := list[0], list[1]
+	if _, err := os.ReadDir(src); err != nil {
+		t.Fatal(err)
+	}
 	for _, f := range list[2:] {
 		if f == "" {
 			continue
