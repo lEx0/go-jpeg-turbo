@@ -93,6 +93,13 @@ jobs:
             coverage: true
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40
+    # testflags reaches the test steps through the environment, not as
+    # ${{ }} in their scripts: an expression in a script is pasted into the
+    # shell code before bash parses it, the way code gets injected into
+    # workflows. The scripts leave $TESTFLAGS unquoted, so that it splits
+    # into flags.
+    env:
+      TESTFLAGS: ${{ matrix.testflags }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -171,7 +178,9 @@ jobs:
       # The guard-page tests (internal/dct, internal/ycc, jpeg) need mmap
       # and mprotect and are built on Linux and macOS only.
       - name: Test
-        run: go test ${{ matrix.testflags }} -timeout 30m ./...
+        run: |
+          # shellcheck disable=SC2086 # split into flags
+          go test $TESTFLAGS -timeout 30m ./...
       # -coverpkg counts the code that other packages' tests run too
       # (internal/imageutil has no tests of its own). -short, after the
       # full run above: on amd64 the exhaustive tests of level go run the
@@ -187,7 +196,9 @@ jobs:
       # replace by the tests above; this runs the whole suite on the
       # portable code as well (what other architectures use).
       - name: Test the pure Go code path (-tags purego)
-        run: go test ${{ matrix.testflags }} -timeout 30m -tags purego ./...
+        run: |
+          # shellcheck disable=SC2086 # split into flags
+          go test $TESTFLAGS -timeout 30m -tags purego ./...
       - name: Coverage summary
         if: matrix.coverage
         continue-on-error: true
