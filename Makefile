@@ -1,4 +1,4 @@
-.PHONY: test test-purego race vet vet-ports cover bench fuzz levels
+.PHONY: test test-purego race vet vet-ports cover bench bench-compare fuzz levels
 
 GO ?= go
 
@@ -56,6 +56,15 @@ cover:
 BENCH ?= Compat
 bench:
 	$(GO) test -run '^$$' -bench '$(BENCH)' -benchmem ./jpeg
+
+# This package against image/jpeg on the workloads of benchmarks/suite
+# (decode, DecodeConfig, encode, 12 MP photos, saturation, peak memory),
+# with the -tags purego build as a third column. Needs benchstat (go
+# install golang.org/x/perf/cmd/benchstat@latest); about 20 minutes. The
+# knobs are environment variables, e.g. make bench-compare ROUNDS=3 SAT=0;
+# see the top of benchmarks/run.sh.
+bench-compare:
+	./benchmarks/run.sh
 
 # Each fuzz target for FUZZTIME, e.g. make fuzz FUZZTIME=10m
 # FUZZFLAGS=-parallel=8. JPEG_TURBO_LEVEL selects the kernels. The
