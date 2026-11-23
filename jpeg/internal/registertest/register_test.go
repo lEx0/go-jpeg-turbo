@@ -24,18 +24,27 @@ package registertest
 // The "jpeg" format registration of package jpeg, as a program that
 // switched from image/jpeg with a blank import uses it. The tests of
 // package jpeg cannot check it: their binary links image/jpeg too (they
-// compare with it), image/jpeg's init runs first, and image.Decode then
-// finds image/jpeg's decoder whatever package jpeg registers. This test
-// binary links package jpeg and not image/jpeg, so image.Decode can only
-// reach package jpeg's decoder; if image/jpeg were linked after all, the
-// error types below would be image/jpeg's and the test would fail.
+// compare with it), image/jpeg's init runs first because package jpeg's
+// tests depend on it, and image.Decode then finds image/jpeg's decoder
+// whatever package jpeg registers. This test binary links package jpeg
+// and not image/jpeg, so image.Decode can only reach package jpeg's
+// decoder.
+//
+// Linking image/jpeg as well would not make the registration tests fail:
+// Go initializes packages that do not depend on each other in the order
+// of their import paths, and github.com/... sorts before image/jpeg, so
+// package jpeg would still register first and win. TestNoImageJPEG
+// checks the dependency itself instead.
 
 import (
 	"bytes"
 	"errors"
 	"image"
 	"os"
+	"os/exec"
 	"reflect"
+	"slices"
+	"strings"
 	"testing"
 
 	"github.com/lEx0/go-jpeg-turbo/jpeg"
@@ -109,5 +118,26 @@ func sameError(t *testing.T, name string, err, want error) {
 	t.Helper()
 	if err == nil || want == nil || err.Error() != want.Error() || reflect.TypeOf(err) != reflect.TypeOf(want) {
 		t.Errorf("%s: error %v (%T), want %v (%T)", name, err, err, want, want)
+	}
+}
+
+// TestNoImageJPEG checks that this test binary does not link image/jpeg,
+// which would make the tests above pass whichever decoder image.Decode
+// reached, as they do in package jpeg's own tests.
+func TestNoImageJPEG(t *testing.T) {
+	goTool, err := exec.LookPath("go")
+	if err != nil {
+		t.Skip("no go command")
+	}
+	out, err := exec.Command(goTool, "list", "-deps", "-test", ".").Output()
+	if err != nil {
+		t.Fatalf("go list -deps -test: %v", err)
+	}
+	deps := strings.Fields(string(out))
+	if !slices.Contains(deps, "github.com/lEx0/go-jpeg-turbo/jpeg") {
+		t.Fatalf("go list -deps -test does not list package jpeg: %q", deps)
+	}
+	if slices.Contains(deps, "image/jpeg") {
+		t.Error("this test binary links image/jpeg")
 	}
 }
