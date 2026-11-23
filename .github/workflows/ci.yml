@@ -44,36 +44,34 @@ defaults:
 # ./..., the packages in parallel), natively and as amd64 under Rosetta:
 #
 #                                    -short    full
-#   arm64 (NEON)    internal/dct        2 s     8 s
-#                   internal/ycc        2 s    16 s   all 4 threads busy
-#                   jpeg               15 s   106 s   about 1 thread
-#                   -tags purego       16 s   114 s   (jpeg; ycc 22 s)
-#                   -race -short      164 s           (jpeg; dct, ycc
-#                                                      < 10 s)
-#   amd64, Rosetta  internal/dct        5 s    27 s   levels go, sse41,
-#                   internal/ycc        7 s    93 s   avx2; all 4 threads
-#                   jpeg               20 s   155 s   141 to 155 s per level
+#   arm64 (NEON)    internal/dct        2 s     9 s
+#                   internal/ycc        2 s    17 s   all 4 threads busy
+#                   jpeg               14 s    93 s   about 1 thread
+#                   -tags purego       15 s   100 s   (jpeg; ycc 21 s)
+#                   -race -short      158 s           (jpeg; purego 190 s;
+#                                                      dct, ycc < 11 s)
+#   amd64, Rosetta  internal/dct        5 s    26 s   levels go, sse41,
+#                   internal/ycc        8 s    83 s   avx2; all 4 threads
+#                   jpeg               20 s   134 s   115 to 128 s per level
 #
-# In a Linux container limited to 4 CPUs on the same machine, whole steps
-# took, on arm64: 263 s (go test ./..., full), 259 s (purego, full), 194 s
-# and 213 s (the two race steps), 249 s (make levels, one level); as amd64
-# under Rosetta, up to avx2: 517 s (go test ./... with coverage), 285 s
-# (purego, full), 222 s and 233 s (race), 802 s (make levels, three
-# levels). The jpeg tests take about twice as long there as on the bare
-# machine. Most of the difference is the bit-reader hand-over tests
-# (jpeg/decode_bitreader_test.go), which allocate a 16 KiB decoder for
-# every block they compare: their tens of thousands of garbage collection
-# cycles cost three to four times more in the VM, and GitHub's runners
-# are VMs too.
+# In a Linux container limited to 4 CPUs on the same machine, which the
+# estimates use because GitHub's runners are VMs too, whole steps took, on
+# arm64: 137 s (go test ./..., full), 143 s (purego, full), 176 s and
+# 204 s (the two race steps); as amd64 under Rosetta, up to avx2: 211 s
+# (go test ./..., full; internal/ycc 206 s and jpeg 209 s of it), 47 s
+# (coverage, -short), 182 s (purego, full), 214 s and 222 s (race), 469 s
+# (make levels, three levels, 153 to 160 s each). The jpeg tests take 1.3
+# to 1.5 times as long there as on the bare machine.
 #
 # GitHub's runners are slower: the amd64 ones have 4 vCPUs on 2 cores
 # (SMT), the arm64 ones 4 slower cores, macos-latest 3 vCPUs. The
-# estimates below count 2.5x the time above for one thread and 4x for
-# four, then double that as a margin (Rosetta, slower than native code,
-# and the VM cost above add to it); each job's timeout is well above its
-# estimate. go test's own -timeout (10 minutes by default) is set below
-# each job's, so that a hung test fails with its goroutine dump instead of
-# the job being cancelled.
+# estimates below take the container times of each step (the bare-machine
+# ones for the -short legs of macOS and Windows), count 2.5x for a step
+# whose time is set by work on one thread (the jpeg tests) and 4x for one
+# set by work on four (internal/ycc on amd64), and double the sum as a
+# margin; each job's timeout is well above its estimate. go test's own
+# -timeout (10 minutes by default) is set below each job's, so that a hung
+# test fails with its goroutine dump instead of the job being cancelled.
 
 jobs:
   test:
@@ -91,10 +89,11 @@ jobs:
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
         go: ["1.27", "stable"]
         include:
-          # The Linux legs run the tests in full: estimated 42 minutes on
-          # amd64 (21 without the margin: the exhaustive kernel tests at
-          # every level next to jpeg, then the purego suite) and 26 on
-          # arm64. macOS and Windows run the same assembly as the Linux
+          # The Linux legs run the tests in full: estimated 54 minutes on
+          # amd64 (27 without the margin: 14 for the exhaustive kernel tests
+          # at every level next to jpeg, 3 for the coverage leg's -short
+          # run, 7.5 for the purego suite, 2.5 for the other steps) and 25
+          # on arm64. macOS and Windows run the same assembly as the Linux
           # legs of their architecture (Go's assembly ABI does not depend
           # on the OS), so their full sweeps would prove nothing new; they
           # run -short, every kernel at every level on fewer inputs, in an
@@ -108,7 +107,7 @@ jobs:
             go: stable
             coverage: true
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v7
         with:
@@ -275,7 +274,8 @@ jobs:
     # internal/ycc's fallback for AVX-512 without VNNI on real hardware,
     # depends on the machine it gets: a regression in an AVX-512 kernel
     # can pass a pull request that ran on an AVX2-only CPU. In full:
-    # estimated 54 minutes for four levels (27 without the margin).
+    # estimated 54 minutes for four levels (27 without the margin, 160 s
+    # per level in the container).
     name: SIMD levels (ubuntu-latest)
     runs-on: ubuntu-latest
     timeout-minutes: 75
@@ -303,7 +303,7 @@ jobs:
         # the runners' C toolchain provides.
         os: [ubuntu-latest, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}
-    # Estimated 35 minutes (17 without the margin), nearly all of it the
+    # Estimated 34 minutes (17 without the margin), nearly all of it the
     # jpeg tests on one thread.
     timeout-minutes: 45
     env:
@@ -344,7 +344,10 @@ jobs:
           cache: false # see the test job
       # The portable code on a 32-bit architecture, which the amd64 runner
       # runs natively (no assembly is built for 386). -short: the job is
-      # estimated at 9 minutes (4 without the margin).
+      # estimated at 9 minutes (4 without the margin), not from the
+      # container: linux/386 code runs far slower there than natively would
+      # (360 s for these tests alone, against 19 s for the amd64 -tags
+      # purego -short run on the bare machine).
       - name: Test on 32-bit (linux/386)
         env:
           GOARCH: "386"
