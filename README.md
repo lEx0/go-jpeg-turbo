@@ -306,7 +306,8 @@ it.
 - **The reader:** the same `Read` calls with the same buffer lengths, in the
   same order, so `Decode` leaves a reader at the same position as
   `image/jpeg` does. Like `image/jpeg`, it reads up to 4096 bytes at a time
-  and can consume bytes past the end of the image, so a second `Decode` on
+  and can consume bytes past the end of the image; when it has (from a
+  `bytes.Reader` that holds two files, for instance), a second `Decode` on
   the same reader fails with `missing SOI marker` in both packages. To
   decode JPEG after JPEG from one stream, split the stream first, as a
   multipart MJPEG reader does.
@@ -389,8 +390,10 @@ arithmetic coding, lossless and hierarchical JPEG (`unsupported JPEG
 feature: unknown marker`), 12-bit samples (`precision`), a sampling factor
 of 3 (`luma/chroma subsampling ratio`), sampling factors whose products H×V
 add up to more than 10 over the components of a scan, even a scan of one
-component (`total sampling factors too large`), two components (`number of
-components`) and four components without an Adobe marker.
+component, in a file of more than one component (`total sampling factors
+too large`; a one-component file is treated as 1×1, so a gray file that
+declares 4×4 decodes), two components (`number of components`) and four
+components without an Adobe marker.
 
 Like `image/jpeg`, it also rejects some valid files that libjpeg decodes,
 with `invalid JPEG format: missing 0xff00 sequence`: mainly chroma-subsampled
@@ -398,7 +401,10 @@ files with restart intervals whose scans are not interleaved (progressive
 files, or sequential files with a scan per component), and some progressive
 files with 4×1 or 1×4 luma sampling. 86 files of `testdata/corpus` are of
 this kind; libjpeg-turbo 3.2.0's `djpeg` decodes all of them.
-[`testdata/corpus`](testdata/corpus) holds files of every kind above, and the
+[`testdata/corpus`](testdata/corpus) holds files of most kinds above. It has
+no hierarchical, YCCK or two-component file, no four-component file without
+an Adobe marker or with 2×2 sampling, and no RGB file of a rejected layout;
+the tests' hand-built streams add YCCK and 2×2 four-component files. The
 tests compare every error.
 
 ## Running on a server
