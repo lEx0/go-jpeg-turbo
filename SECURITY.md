@@ -34,18 +34,23 @@ In scope is the code that a program importing
 `github.com/lEx0/go-jpeg-turbo/jpeg` builds (the `jpeg` package and the
 packages under `internal/` that it uses), and in it:
 
-- memory safety of the decoder: reading or writing outside a buffer, on
-  any input;
+- memory safety of the decoder and the encoder: reading or writing outside
+  a buffer, on any input or image;
 - panics, hangs, or unbounded memory or time on malicious input;
 - out-of-bounds access in the assembly kernels (NEON on arm64; SSE4.1,
   AVX2 and AVX-512 on amd64), for any input or image the API accepts;
-- behaviour that differs from `image/jpeg` on hostile input: an input that
-  one accepts and the other rejects, a different error or panic, a
-  different image, or much more memory or time than `image/jpeg` needs for
-  it.
+- much more memory or time than `image/jpeg` needs for the same input, or
+  output that depends on memory outside the input or the image (a sign of
+  an out-of-bounds read).
+
+Also in scope: the repository's workflows (`.github/`) and its release
+tags, through which code could reach the module's users.
 
 Not in scope:
 
+- other differences from `image/jpeg` (a different image, error or panic
+  on the same input): they are compatibility bugs, to be reported as a
+  public issue;
 - behaviour that `image/jpeg` shows the same way on the same input: report
   it to the Go project (<https://go.dev/security/policy>). That includes
   memory that grows with the image size an input declares; a program that
@@ -57,9 +62,8 @@ Not in scope:
 
 ## What to expect
 
-This is a one-person project, so there is no fixed timeline. Each report
-gets an answer on its advisory. If it is confirmed, the fix is prepared in
-the advisory's temporary private fork and released as a new version, and
-the advisory is published with it, crediting the reporter unless they ask
-otherwise. If it is not a vulnerability, the answer says why and the
-advisory is closed.
+This is a one-person project, so there is no fixed timeline. Reports are
+answered on their advisory. If one is confirmed, the fix is prepared
+privately and released as a new version, and the advisory is published
+with it, crediting the reporter unless they ask otherwise. If it is not a
+vulnerability, the answer says why and the advisory is closed.

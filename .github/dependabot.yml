@@ -21,8 +21,10 @@ updates:
   # go mod tidy -diff fails unless both files name the same version. One
   # pull request per dependency updates it in both directories
   # (group-by), and allow takes in the indirect requirements, which
-  # Dependabot leaves alone by default. The library itself is never
-  # updated in benchmarks/: the replace decides which code it gets.
+  # Dependabot leaves alone by default. group-by applies to version
+  # updates only, so security updates get a group of their own, which
+  # also spans both directories. The library itself is never updated in
+  # benchmarks/: the replace decides which code it gets.
   - package-ecosystem: gomod
     directories:
       - /
@@ -38,5 +40,9 @@ updates:
     groups:
       go-modules:
         group-by: dependency-name
+      go-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
     commit-message:
       prefix: deps
