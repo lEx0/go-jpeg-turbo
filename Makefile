@@ -1,4 +1,4 @@
-.PHONY: test test-purego race vet cover bench fuzz levels
+.PHONY: test test-purego race vet vet-ports cover bench fuzz levels
 
 GO ?= go
 
@@ -33,6 +33,17 @@ vet:
 	$(GO) vet -tags purego ./...
 	GOARCH=amd64 $(GO) vet ./...
 	GOARCH=arm64 $(GO) vet ./...
+
+# go vet of other targets: the portable code (no assembly) on 32-bit,
+# big-endian (s390x), other 64-bit and wasm targets, and the amd64
+# assembly on an OS without the guard-page tests (freebsd). CI runs it on
+# Linux; of these targets it tests only linux/386 (GOARCH=386 on amd64).
+PORTS ?= linux/386 linux/arm linux/riscv64 linux/ppc64le linux/s390x linux/loong64 js/wasm wasip1/wasm freebsd/amd64
+vet-ports:
+	@set -e; for t in $(PORTS); do \
+		echo "== go vet $$t"; \
+		CGO_ENABLED=0 GOOS=$${t%/*} GOARCH=$${t#*/} $(GO) vet ./...; \
+	done
 
 # Coverage of the whole module: code that any package's tests run counts.
 # Browse it with go tool cover -html=coverage.txt.

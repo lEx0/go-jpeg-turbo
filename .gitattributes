@@ -1,0 +1,12 @@
+# Check every file out exactly as it was committed, on every OS, as the Go
+# repository does. Git for Windows (and GitHub's Windows runners) default
+# to core.autocrlf=true, which turns the LF line endings of text files into
+# CRLF in the working tree: TestGenerated (internal/dct) would then find
+# the committed assembly different from what its generators write, and
+# the JPEG and PNG test files and golden images must never be rewritten.
+* -text
+
+# The test inputs and golden images: no textual diff or merge either.
+*.jpg binary
+*.jpeg binary
+*.png binary
