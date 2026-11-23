@@ -303,9 +303,9 @@ jobs:
         # the runners' C toolchain provides.
         os: [ubuntu-latest, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}
-    # Estimated 34 minutes (17 without the margin), nearly all of it the
-    # jpeg tests on one thread.
-    timeout-minutes: 45
+    # Estimated 38 minutes on amd64 (19 without the margin) and 34 on
+    # arm64, nearly all of it the jpeg tests on one thread.
+    timeout-minutes: 50
     env:
       CGO_ENABLED: "1"
     steps:
