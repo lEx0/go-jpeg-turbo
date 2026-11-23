@@ -705,14 +705,15 @@ purego run's MP/s by that column (within the purego run, against its own
 `image/jpeg`, the logo is 3.4x; every other row is the same either way).
 Every other `GOAMD64=v1` run measured `image/jpeg` again, within 2% of these
 values. `JPEG_TURBO_LEVEL=go` (the portable kernels in the default build)
-runs within 2% of `-tags purego`. Decodes allocate exactly as on the M5
-Pro. The encodes write into a `bytes.Buffer` that each benchmark reuses, so
-there is no counting writer to allocate: this package makes no allocation
-per call, and `image/jpeg` 5–7 (1,228,807 and 4.9–5.0 MB for the
-`*image.NRGBA`). The other bytes per call that benchstat reports for the
-encodes, 1.1–3.9 KB for this package and 12–36 KB for `image/jpeg`, mostly
-come from the buffer growing during the first iterations, spread over the
-run. There are no saturation or peak-memory measurements for amd64.
+runs within 2% of `-tags purego`. Decodes make as many allocations as on
+the M5 Pro, and their bytes per call differ by at most 100. The encodes
+write into a `bytes.Buffer` that each benchmark reuses, so there is no
+counting writer to allocate: this package makes no allocation per call,
+and `image/jpeg` 5–7 (1,228,807 and 4.9–5.0 MB for the `*image.NRGBA`).
+The other bytes per call that benchstat reports for the encodes, 1.1–3.9 KB
+for this package and 12–36 KB for `image/jpeg`, mostly come from the buffer
+growing during the first iterations, spread over the run. There are no
+saturation or peak-memory measurements for amd64.
 
 #### Building with GOAMD64=v3
 
@@ -763,13 +764,13 @@ decoder does; at the AVX-512 level the inverse DCT is the AVX2 code.
 On the same server, `tjbench` with Ubuntu's libjpeg-turbo 2.1.5 (the
 `libturbojpeg0` package that
 [`epyc8124p-tjbench.txt`](benchmarks/results/epyc8124p-tjbench.txt) records;
-libjpeg-turbo 3.x was not measured; medians of three runs; the file does not
-record CPU pinning) decompresses the 4:2:0 q75 960×1280 file to planar YUV
-at 428 MP/s, where this package decodes it into an `*image.YCbCr` at 417
-MP/s at its AVX-512 level, and compresses a 960×1280 photo from planar 4:2:0
-YUV at q75 at 429 MP/s, where `Encode` of the 4:2:0 `*image.YCbCr` runs at
-458 MP/s. `tjbench` reuses its buffers; the Go numbers include allocating
-the output image on every decode.
+no libjpeg-turbo 3.x result is recorded; medians of three runs; the file
+does not record CPU pinning) decompresses the 4:2:0 q75 960×1280 file to
+planar YUV at 428 MP/s, where this package decodes it into an
+`*image.YCbCr` at 417 MP/s at its AVX-512 level, and compresses a 960×1280
+photo from planar 4:2:0 YUV at q75 at 429 MP/s, where `Encode` of the 4:2:0
+`*image.YCbCr` runs at 458 MP/s. `tjbench` reuses its buffers; the Go
+numbers include allocating the output image on every decode.
 
 ### Reproducing the measurements
 
@@ -873,11 +874,13 @@ the assembly). The tests check:
   inputs next to inaccessible pages.
 - **Memory, concurrency, registration:** `Decode` within 10% plus 64 KiB of
   `image/jpeg`'s allocation, also for files that declare a larger size than
-  their data hold, and no allocation per `Encode` of the standard image
-  types once the pool holds an encoder; 16 goroutines mixing every kind of
-  call, re-entrant calls from callbacks, and switching the SIMD level
-  between calls; the registration in a test binary that does not link
-  `image/jpeg`
+  their data hold, and no allocation per `Encode` of an `*image.Gray`,
+  `*image.YCbCr` (4:4:4, 4:2:2, 4:2:0, 4:1:0), `*image.RGBA`,
+  `*image.NRGBA` or `*image.CMYK` into `io.Discard` or a `*bufio.Writer`
+  once the pool holds an encoder (`TestEncAllocs`); 16 goroutines mixing
+  every kind of call, re-entrant calls from callbacks, and switching the
+  SIMD level between calls; the registration in a test binary that does
+  not link `image/jpeg`
   ([`jpeg/internal/registertest`](jpeg/internal/registertest/register_test.go)).
 - **The kernels** of `internal/dct` and `internal/ycc` at every level (see
   [Assembly](#assembly-and-the-purego-tag)), the benchmark workloads
@@ -942,8 +945,12 @@ EPYC 7763 (up to AVX2), the stable-Go leg an Intel Xeon 6975P-C (AVX-512)
 and the levels job an AMD EPYC 9V74, where it ran all four levels; the
 Windows legs got an EPYC 7763 and an EPYC 9V74 and both reported AVX2 as
 their highest level. A run on CPUs without AVX-512 does not run the
-AVX-512 kernels; only `TestKernelISA` checks them there, as it disassembles
-them on every leg, whatever the CPU, and audits their instruction encodings.
+AVX-512 kernels and checks them only statically: `TestKernelISA`
+disassembles them on every leg, whatever the CPU, and audits their
+instruction encodings, `TestGenerated` checks that those of `internal/dct`
+are what their generator writes (those of `internal/ycc` are written by
+hand), and `GOARCH=amd64 go vet` checks the arguments of every amd64 kernel
+against its Go declaration.
 Whole jobs took 9.5–12.5 minutes for the Linux amd64 test legs, 8 for Linux
 arm64, 2–2.5 for macOS, 3 for Windows, 11.5 for the levels, 12.5 and 10.5
 for race on amd64 and arm64, and 2.5 for the other architectures. The
