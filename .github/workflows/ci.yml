@@ -107,10 +107,6 @@ jobs:
             coverage: true
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
-    env:
-      # Mapped here so that the upload step can be skipped when the
-      # repository has no such secret (pull requests from forks get none).
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -240,17 +236,29 @@ jobs:
             echo
             echo "</details>"
           } >> "$GITHUB_STEP_SUMMARY"
-      # Only with a CODECOV_TOKEN secret: main is a protected branch, for
-      # which Codecov refuses tokenless uploads. A failed upload does not
-      # fail the job.
+      # The upload runs only with a CODECOV_TOKEN secret: main is a
+      # protected branch, for which Codecov refuses tokenless uploads, and
+      # pull requests from forks get no secrets. A step's if cannot read
+      # secrets, so this step tells whether there is one; the token itself
+      # reaches only these two steps, not the go commands that run the
+      # pull request's code.
+      - name: Check for a Codecov token
+        id: codecov
+        if: matrix.coverage
+        env:
+          TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: echo "has=${TOKEN:+1}" >> "$GITHUB_OUTPUT"
+      # A third-party action, pinned to a commit (Dependabot keeps the pin
+      # current, .github/dependabot.yml). A failed upload does not fail
+      # the job.
       - name: Upload coverage to Codecov
-        if: matrix.coverage && env.CODECOV_TOKEN != ''
+        if: steps.codecov.outputs.has == '1'
         continue-on-error: true
-        uses: codecov/codecov-action@v7
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           files: coverage.txt
           disable_search: true
-          token: ${{ env.CODECOV_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   levels:
     # go test ./jpeg once per JPEG_TURBO_LEVEL the runner supports (make

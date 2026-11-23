@@ -1,0 +1,8 @@
+# Updates for the actions the workflows use: the third-party ones are
+# pinned to a commit (ci.yml), which only an update like these moves.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
