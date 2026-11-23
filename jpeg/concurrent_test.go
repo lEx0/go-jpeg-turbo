@@ -383,9 +383,10 @@ func TestReentrant(t *testing.T) {
 	}
 }
 
-// TestConcurrentStd checks the inputs of TestConcurrent once, so that a
-// failure there is about concurrency and not about the inputs.
-func TestConcurrentStd(t *testing.T) {
+// TestConcurrentInputs checks the inputs of TestConcurrent and
+// TestReentrant from one goroutine, without re-entering, so that a
+// failure there is about concurrency or re-entrancy, not the inputs.
+func TestConcurrentInputs(t *testing.T) {
 	decs, encs := ccInputs(t)
 	for i := range decs {
 		for _, config := range []bool{false, true} {
