@@ -27,12 +27,17 @@ race:
 	$(GO) test -race -timeout $(RACETIMEOUT) $(TESTFLAGS) ./...
 
 # go vet (asmdecl included) of the default and purego builds, and of both
-# the amd64 and the arm64 assembly whatever the host is.
+# the amd64 and the arm64 assembly whatever the host is. Also the example
+# programs, which ./... skips because their directory starts with "_",
+# and the benchmarks module, which ./... does not reach either: both use
+# the package's API, and the benchmarks reach into internal/.
+EXAMPLES ?= ./_examples/decode ./_examples/encode ./_examples/batch
 vet:
-	$(GO) vet ./...
+	$(GO) vet ./... $(EXAMPLES)
 	$(GO) vet -tags purego ./...
 	GOARCH=amd64 $(GO) vet ./...
 	GOARCH=arm64 $(GO) vet ./...
+	cd benchmarks && $(GO) vet ./... && $(GO) vet -tags purego ./...
 
 # go vet of other targets: the portable code (no assembly) on 32-bit,
 # big-endian (s390x), other 64-bit and wasm targets, and the amd64
