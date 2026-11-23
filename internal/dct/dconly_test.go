@@ -45,9 +45,11 @@ func TestDCOnlyExhaustive(t *testing.T) { forLevels(t, testDCOnlyExhaustive) }
 func testDCOnlyExhaustive(t *testing.T) {
 	storeImpls, idctImpls := atLevel(storeImpls), atLevel(idctImpls)
 	var fails atomic.Int32
-	denseParallel(1<<15, func(w int, lo, hi int) {
-		r := rand.New(rand.NewPCG(uint64(w), 103))
+	denseParallel(1<<15, func(lo, hi int) {
 		for low := lo; low < hi && fails.Load() < 5; low++ {
+			// Seeded by the pattern, not by the worker, whose range
+			// depends on GOMAXPROCS: every machine runs the same inputs.
+			r := rand.New(rand.NewPCG(uint64(low), 103))
 			for split := range 6 {
 				d := int32(uint32(low) | r.Uint32()<<15)
 				var b, qt Block
@@ -100,12 +102,12 @@ func testDCOnlyExhaustive(t *testing.T) {
 }
 
 // denseParallel splits [0, n) into contiguous ranges, one per CPU, and
-// runs f(worker, lo, hi) on each.
-func denseParallel(n int, f func(w, lo, hi int)) {
+// runs f(lo, hi) on each.
+func denseParallel(n int, f func(lo, hi int)) {
 	workers := min(runtime.GOMAXPROCS(0), n)
 	var wg sync.WaitGroup
 	for w := range workers {
-		wg.Go(func() { f(w, n*w/workers, n*(w+1)/workers) })
+		wg.Go(func() { f(n*w/workers, n*(w+1)/workers) })
 	}
 	wg.Wait()
 }
