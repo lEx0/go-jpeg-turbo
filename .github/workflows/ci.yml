@@ -26,9 +26,10 @@ env:
   # setup-go restores a build cache saved by an earlier run, test results
   # included. Go keys a cached result on the test binary and on the files
   # and environment variables the test read, not on the CPU, and the CPU
-  # decides which kernels run: GitHub's amd64 runners are AMD EPYC without
-  # AVX-512 or Intel Xeon with it, so a pass cached on one could stand in
-  # for kernels the other never ran. -count=1 makes every go test run.
+  # decides which kernels run: GitHub's amd64 runners get different CPUs
+  # from run to run (see the levels job), so a pass cached on one could
+  # stand in for kernels another never ran. -count=1 makes every go test
+  # run.
   GOFLAGS: -count=1
 
 # bash on Windows too (Git Bash), so that every step is written once.
@@ -82,10 +83,11 @@ jobs:
       matrix:
         # ubuntu-24.04-arm is native linux/arm64 and macos-latest is
         # darwin/arm64 (the NEON kernels); ubuntu-latest and windows-latest
-        # are amd64 (the SSE4.1, AVX2 and AVX-512 kernels, up to the runner
-        # CPU's level). "stable" becomes the next Go release as soon as it
-        # is out: the tests compare with the image/jpeg of the toolchain
-        # that runs them, so that leg is the first to see a change there.
+        # are amd64 (the SSE4.1, AVX2 and AVX-512 kernels, up to the level
+        # of the CPU the run gets). "stable" becomes the next Go release as
+        # soon as it is out: the tests compare with the image/jpeg of the
+        # toolchain that runs them, so that leg is the first to see a
+        # change there.
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
         go: ["1.27", "stable"]
         include:
@@ -265,9 +267,15 @@ jobs:
     # levels): the comparisons with image/jpeg through each level's
     # kernels, which the test job runs at the highest level only
     # (internal/dct and internal/ycc test every level themselves). Levels
-    # the CPU lacks (AVX-512 on the AMD runners) are not run, and the
-    # tests that need one skip. In full: estimated 54 minutes for four
-    # levels (27 without the margin).
+    # the CPU lacks are not run, and the tests that need one skip. The
+    # CPU differs from run to run, and the job logs it: GitHub's amd64
+    # runners are AMD EPYC without AVX-512 (Zen 3) or with it and VNNI
+    # (Zen 4), and Intel Xeon with AVX-512, with VNNI or, on Skylake-SP,
+    # without it. So whether a run tests the AVX-512 kernels at all, and
+    # internal/ycc's fallback for AVX-512 without VNNI on real hardware,
+    # depends on the machine it gets: a regression in an AVX-512 kernel
+    # can pass a pull request that ran on an AVX2-only CPU. In full:
+    # estimated 54 minutes for four levels (27 without the margin).
     name: SIMD levels (ubuntu-latest)
     runs-on: ubuntu-latest
     timeout-minutes: 75
