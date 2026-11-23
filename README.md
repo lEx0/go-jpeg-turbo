@@ -12,8 +12,10 @@ faster. It is pure Go with Go assembly: **no cgo**, no libjpeg. The only
 dependency outside the standard library is `golang.org/x/sys`, which detects
 the CPU's features. On arm64 and amd64 the hot loops run as SIMD assembly
 (NEON on arm64; SSE4.1, AVX2 or AVX-512 on amd64, picked at run time); other
-architectures and `-tags purego` builds run portable Go code with the same
-results (see [Assembly and the `purego` tag](#assembly-and-the-purego-tag)).
+architectures and `-tags purego` builds run portable Go code, written to give
+the same results (tested with `-tags purego` on amd64 and arm64 and on
+linux/386, vetted for the others; see [Assembly and the `purego`
+tag](#assembly-and-the-purego-tag)).
 
 - **Faster than `image/jpeg`**, one call at a time on the same files (see
   [Benchmarks](#benchmarks)):
@@ -62,14 +64,16 @@ package reproduces: it is the first release that decodes files with
 non-standard chroma subsampling, such as Cb and Cr sampled differently (Go
 1.26 rejects them with `luma/chroma subsampling ratio`). An older `go`
 command reports that the module requires go >= 1.27 or, with the default
-`GOTOOLCHAIN=auto`, switches to a Go 1.27 toolchain; `go mod tidy` raises
-your module's `go` line to 1.27.
+`GOTOOLCHAIN=auto`, switches to a Go 1.27 toolchain. `go get` raises your
+module's `go` line to 1.27 (for example `go: upgraded go 1.24 => 1.27`) and
+marks the requirement `// indirect`; `go mod tidy`, run after changing the
+import, drops the mark.
 
 A later Go release builds and runs the same code. The tests compare the
-package with the `image/jpeg` of the toolchain that runs them, and CI runs
-them with the latest stable Go too ([CI](#ci)): if a release changes what
-`image/jpeg` produces, they report it, and this package keeps producing Go
-1.27's results until it is updated.
+package with the `image/jpeg` of the toolchain that runs them, and CI also
+runs them with the latest stable Go, which moves to each new release
+([CI](#ci)): if a release changes what `image/jpeg` produces, they report
+it, and this package keeps producing Go 1.27's results until it is updated.
 
 ## Examples
 
@@ -261,7 +265,8 @@ go run -race ./_examples/batch -out ''         # race detector, nothing written
 
 [`_examples/batch`](_examples/batch/main.go) re-encodes every JPEG under a
 directory and groups the files `Decode` rejects by error message. On
-`testdata` (M5 Pro, `-out ''`; the time includes reading the files):
+`testdata` (M5 Pro, `-out ''`; the time includes reading the files and
+varied from 19 to 41 ms between runs):
 
 ```
 1233 JPEG files under testdata, quality 80, workers 15
@@ -415,10 +420,11 @@ data behind it:
   from calls running in parallel. On the 15-core M5 Pro, 15 calls at a time
   decoded a 1.2-megapixel photo at 7875 MP/s (4.0x `image/jpeg`) and encoded
   an `*image.RGBA` at 8750 MP/s (8.3x); see [Throughput under
-  load](#throughput-under-load). There are no such measurements for amd64.
-  With the data in memory the calls are CPU-bound, so more than about
-  `GOMAXPROCS` of them in flight add no throughput, but each `Decode` in
-  flight holds its output image: limit them.
+  load](#throughput-under-load). With the data in memory the calls are
+  CPU-bound, so more than about `GOMAXPROCS` of them in flight add no
+  throughput, but each `Decode` in flight holds its output image: bound them
+  to about `GOMAXPROCS` (a semaphore, or a worker pool as in
+  `_examples/batch`) and queue or shed the rest.
 - **Memory per call** (M5 Pro, [Peak memory](#peak-memory)). `Decode`
   allocates little more than its output image: 18.1 MB for a 12-megapixel
   4:2:0 photo, whose decode made the process peak at 26.7 MB, 8.2 MB of it
@@ -770,7 +776,7 @@ go install golang.org/x/perf/cmd/benchstat@latest
 
 make bench-compare                                 # benchmarks/run.sh: the M5 Pro tables, about 20 minutes
 make bench-compare ROUNDS=3 RSS_ROUNDS=1 SAT=0     # a quick look, about 5 minutes
-BUILDS="std turbo-sse41 turbo-avx2 turbo-avx512" PIN=2 benchmarks/run.sh   # amd64 levels on one CPU (Linux)
+BUILDS="std turbo-purego turbo-sse41 turbo-avx2 turbo-avx512" PIN=2 benchmarks/run.sh   # amd64 levels on one CPU (Linux)
 ```
 
 The knobs are environment variables of run.sh, or make variables:
@@ -794,15 +800,17 @@ and the in-package benchmarks of the EPYC tables:
 
 ```bash
 cd benchmarks
-go test -run '^$' -bench 'Decode/img=420q75' -benchmem -count 6 ./std ./turbo
-go test -run '^$' -bench 'Encode/img=RGBA/' -benchmem -count 6 -tags purego ./turbo
+go test -run '^$' -bench '^BenchmarkDecode$/^img=420q75' -benchmem -count 6 ./std ./turbo
+go test -run '^$' -bench '^BenchmarkEncode$/^img=RGBA$/' -benchmem -count 6 -tags purego ./turbo
 go test -short ./...                 # TestSameAsStd, without the 12 MP workloads
+go run ./turbo/rss -mode gen         # make the 12 MP inputs first, as run.sh does
 go run ./turbo/rss -mode dec12       # one peak-memory measurement (or -mode enc12 -q 90)
 cd ..
 
 make bench                           # BenchmarkCompatDecode and BenchmarkCompatEncode in ./jpeg
-go test -run '^$' -bench Compat -count 8 ./jpeg > new.txt
-benchstat -col /impl new.txt         # std against turbo
+mkdir -p benchmarks/out
+go test -run '^$' -bench Compat -count 8 ./jpeg > benchmarks/out/compat.txt
+benchstat -col /impl benchmarks/out/compat.txt    # std against turbo
 JPEG_TURBO_LEVEL=sse41 make bench    # amd64: the kernels of one level
 go test -run '^$' -bench . ./internal/dct ./internal/ycc    # the kernels
 ```
@@ -900,15 +908,16 @@ result stands in for kernels that the run's CPU did not execute.
 
 - **test:** Linux amd64 (`ubuntu-latest`), Linux arm64 (`ubuntu-24.04-arm`,
   NEON), macOS arm64 (`macos-latest`) and Windows amd64 (`windows-latest`),
-  each with Go 1.27 and the latest stable Go. Every leg checks gofmt and that
-  both go.mod files are tidy (Linux), builds with `CGO_ENABLED=0`, runs the
-  vet steps of `make vet`, checks that the DCT assembly is what its
-  generators write, runs the three examples and the benchmark module's
-  `TestSameAsStd` (`-short`), then the tests and the `-tags purego` tests: in
-  full on Linux, with `-short` on macOS and Windows (the same kernels on
-  fewer inputs). The Linux amd64 leg with the latest Go also measures
-  coverage and writes the total, a per-package table and the per-function
-  list to the job summary.
+  each with Go 1.27 and the latest stable Go (both were Go 1.27.4 in the
+  first run; the stable leg moves to each new release). The Linux legs check
+  gofmt and that both go.mod files are tidy. Every leg builds with
+  `CGO_ENABLED=0`, runs the vet steps of `make vet`, checks that the DCT
+  assembly is what its generators write, runs the three examples and the
+  benchmark module's `TestSameAsStd` (`-short`), then the tests and the
+  `-tags purego` tests: in full on Linux, with `-short` on macOS and Windows
+  (the same kernels on fewer inputs). The Linux amd64 leg with the stable Go
+  also measures coverage and writes the total, a per-package table and the
+  per-function list to the job summary.
 - **SIMD levels:** `make levels` on `ubuntu-latest`, the `jpeg` tests once
   per level the runner's CPU supports.
 - **race:** `go test -race -short`, default and `-tags purego` (the race
@@ -921,19 +930,21 @@ Which amd64 levels a run tests depends on the CPUs GitHub assigns, and the
 jobs log the level they detect. In the first run
 ([45177341901](https://github.com/lEx0/go-jpeg-turbo/actions/runs/45177341901),
 at eac4c8b, all 12 jobs passed), the Go 1.27 `ubuntu-latest` leg got an AMD
-EPYC 7763 (up to AVX2), the latest-Go leg an Intel Xeon 6975P-C (AVX-512)
+EPYC 7763 (up to AVX2), the stable-Go leg an Intel Xeon 6975P-C (AVX-512)
 and the levels job an AMD EPYC 9V74, where it ran all four levels; the
 Windows legs got an EPYC 7763 and an EPYC 9V74 and both reported AVX2 as
-their highest level. A run on CPUs without AVX-512 does not test the
-AVX-512 kernels at all. Whole jobs took 9.5–12.5 minutes for the Linux
-amd64 test legs, 8 for Linux arm64, 2–2.5 for macOS, 3 for Windows, 11.5
-for the levels, 12.5 and 10.5 for race on amd64 and arm64, and 2.5 for the
-other architectures. The guard-page tests need `mmap` and `mprotect` and
-run on Linux and macOS only.
+their highest level. A run on CPUs without AVX-512 does not run the
+AVX-512 kernels; only `TestKernelISA` checks them there, as it disassembles
+them on every leg, whatever the CPU, and audits their instruction encodings.
+Whole jobs took 9.5–12.5 minutes for the Linux amd64 test legs, 8 for Linux
+arm64, 2–2.5 for macOS, 3 for Windows, 11.5 for the levels, 12.5 and 10.5
+for race on amd64 and arm64, and 2.5 for the other architectures. The
+guard-page tests need `mmap` and `mprotect` and run on Linux and macOS
+only.
 
 ## License
 
 MIT, see [LICENSE](LICENSE). The decoder and the encoder front end are
 derived from the Go standard library's `image/jpeg` (Go 1.27, BSD-style
 license), and `internal/dct` and `internal/imageutil` contain code copied
-from it; see [NOTICE](NOTICE).
+from it and from `image/internal/imageutil`; see [NOTICE](NOTICE).
