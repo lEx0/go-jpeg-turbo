@@ -922,15 +922,14 @@ main and every pull request, with `GOFLAGS=-count=1`, so that no cached test
 result stands in for kernels that the run's CPU did not execute.
 
 - **test:** Linux amd64 (`ubuntu-latest`), Linux arm64 (`ubuntu-24.04-arm`,
-  NEON), macOS arm64 (`macos-latest`) and Windows amd64 (`windows-latest`),
-  each with Go 1.27 and the latest stable Go (both were Go 1.27.4 in the
+  NEON) and macOS arm64 (`macos-latest`), each with Go 1.27 and the latest stable Go (both were Go 1.27.4 in the
   first run; the stable leg moves to each new release). The Linux legs check
   gofmt and that both go.mod files are tidy. Every leg builds with
   `CGO_ENABLED=0`, runs the vet steps of `make vet`, checks that the DCT
   assembly is what its generators write, runs the three examples and the
   benchmark module's `TestSameAsStd` (`-short`), then the tests and the
-  `-tags purego` tests: in full on Linux, with `-short` on macOS and Windows
-  (the same kernels on fewer inputs). The Linux amd64 leg with the stable Go
+  `-tags purego` tests: in full on Linux, with `-short` on macOS (the same
+  kernels on fewer inputs). The Linux amd64 leg with the stable Go
   also measures coverage and writes the total, a per-package table and the
   per-function list to the job summary.
 - **SIMD levels:** `make levels` on `ubuntu-latest`, the `jpeg` tests once
@@ -946,14 +945,22 @@ result stands in for kernels that the run's CPU did not execute.
   pinned to a commit, and Dependabot keeps the pins and the Go modules
   current.
 
+Windows is not in CI for now, because of a Go runtime bug
+([golang/go#81238](https://github.com/golang/go/issues/81238)): on
+windows/amd64 hosts with AVX-512 or AMX, recovering from a nil dereference
+can overwrite memory below the goroutine's stack, and the tests that
+compare such panics with `image/jpeg`'s then crash the test binary. The
+library code is not involved, and `image/jpeg` is exposed in the same way.
+The Windows legs come back once a Go release has the fix.
+
 Which amd64 levels a run tests depends on the CPUs GitHub assigns, and the
 jobs log the level they detect. In the first run
 ([45177341901](https://github.com/lEx0/go-jpeg-turbo/actions/runs/45177341901),
 at eac4c8b, all 12 jobs passed), the Go 1.27 `ubuntu-latest` leg got an AMD
 EPYC 7763 (up to AVX2), the stable-Go leg an Intel Xeon 6975P-C (AVX-512)
 and the levels job an AMD EPYC 9V74, where it ran all four levels; the
-Windows legs got an EPYC 7763 and an EPYC 9V74 and both reported AVX2 as
-their highest level. A run on CPUs without AVX-512 does not run the
+Windows legs, which CI had then, got an EPYC 7763 and an EPYC 9V74 and
+both reported AVX2 as their highest level. A run on CPUs without AVX-512 does not run the
 AVX-512 kernels and checks them only statically: `TestKernelISA`
 disassembles them on every leg, whatever the CPU, and audits their
 instruction encodings, `TestGenerated` checks that those of `internal/dct`

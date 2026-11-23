@@ -32,7 +32,7 @@ env:
   # run.
   GOFLAGS: -count=1
 
-# bash on Windows too (Git Bash), so that every step is written once.
+# bash on every runner, so that every step is written once.
 defaults:
   run:
     shell: bash
@@ -52,7 +52,6 @@ defaults:
 #                                      6975P-C with AVX-512 and coverage
 #   test, ubuntu-24.04-arm    8 min    (Test 215 s, purego 229 s)
 #   test, macos-latest        2.5 min  -short
-#   test, windows-latest      3 min    -short
 #   levels                   11.5 min  four levels on an EPYC 9V74 (AVX-512)
 #   race                     12.5 min  amd64; 10.5 min on arm64
 #   ports                     2.5 min
@@ -69,23 +68,30 @@ jobs:
       fail-fast: false
       matrix:
         # ubuntu-24.04-arm is native linux/arm64 and macos-latest is
-        # darwin/arm64 (the NEON kernels); ubuntu-latest and windows-latest
-        # are amd64 (the SSE4.1, AVX2 and AVX-512 kernels, up to the level
-        # of the CPU the run gets). "stable" becomes the next Go release as
-        # soon as it is out: the tests compare with the image/jpeg of the
-        # toolchain that runs them, so that leg is the first to see a
-        # change there.
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
+        # darwin/arm64 (the NEON kernels); ubuntu-latest is amd64 (the
+        # SSE4.1, AVX2 and AVX-512 kernels, up to the level of the CPU the
+        # run gets). "stable" becomes the next Go release as soon as it is
+        # out: the tests compare with the image/jpeg of the toolchain that
+        # runs them, so that leg is the first to see a change there.
+        #
+        # windows-latest is left out for now because of a Go runtime bug,
+        # golang.org/issue/81238. On windows/amd64 the exception that a nil
+        # dereference raises is dispatched on the goroutine's stack, and on
+        # hosts with AVX-512 or AMX it needs more room than Go reserves
+        # there, so it overwrites the memory below the stack. The tests
+        # that compare such panics with image/jpeg's (TestCompatMisuse and
+        # others) then corrupt the heap: run 45216066271 crashed that way
+        # on a Xeon 6973P-C. The library itself is not involved. Add
+        # windows-latest back, with testflags -short as for macOS, once
+        # the Go releases this matrix uses contain the fix.
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest]
         go: ["1.27", "stable"]
         include:
-          # The Linux legs run the tests in full. macOS and Windows run the
-          # same assembly as the Linux legs of their architecture (Go's
-          # assembly ABI does not depend on the OS), so their full sweeps
-          # would prove nothing new; they run -short, every kernel at every
-          # level on fewer inputs.
+          # The Linux legs run the tests in full. macOS runs the same
+          # assembly as the Linux arm64 leg (Go's assembly ABI does not
+          # depend on the OS), so its full sweeps would prove nothing new;
+          # it runs -short, every kernel at every level on fewer inputs.
           - os: macos-latest
-            testflags: -short
-          - os: windows-latest
             testflags: -short
           # Coverage for the job summary and Codecov, from one leg.
           - os: ubuntu-latest
@@ -151,8 +157,7 @@ jobs:
           go vet -tags purego ./...
           GOARCH=amd64 go vet ./...
           GOARCH=arm64 go vet ./...
-      # TestGenerated, which -short skips, on every leg: on Windows it also
-      # checks that the checkout kept the LF line endings (.gitattributes).
+      # TestGenerated, which -short skips, on every leg.
       - name: Check that the assembly is what its generators write
         run: go test -run '^TestGenerated$' ./internal/dct
       # _examples starts with "_", so ./... (build, vet, test) skips it:
