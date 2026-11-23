@@ -123,18 +123,23 @@ jobs:
           if [ -n "$unformatted" ]; then
             echo "gofmt needed on:"; echo "$unformatted"; exit 1
           fi
+      # Both modules: the library's and the benchmarks' (benchmarks/).
       - name: Check that go.mod and go.sum are tidy
         if: runner.os == 'Linux'
-        run: go mod tidy -diff
+        run: |
+          go mod tidy -diff
+          (cd benchmarks && go mod tidy -diff)
       - name: Build without cgo
         env:
           CGO_ENABLED: "0"
         run: go build ./...
-      # make vet, plus the examples: the default and purego builds, and the
-      # assembly of both architectures (asmdecl) whatever the runner is.
+      # The library part of make vet: the default and purego builds, the
+      # assembly of both architectures (asmdecl) whatever the runner is,
+      # and the examples, which ./... skips (see "Run examples"). The
+      # benchmark module has its own step below.
       - name: Vet
         run: |
-          go vet ./... ./_examples/decode ./_examples/encode
+          go vet ./... ./_examples/decode ./_examples/encode ./_examples/batch
           go vet -tags purego ./...
           GOARCH=amd64 go vet ./...
           GOARCH=arm64 go vet ./...
@@ -144,16 +149,26 @@ jobs:
         run: go test -run '^TestGenerated$' ./internal/dct
       # _examples starts with "_", so ./... (build, vet, test) skips it:
       # run the examples explicitly, from the repository root as documented.
+      # They write under the temporary directory; batch with -out '' only
+      # re-encodes the JPEG files of testdata, on GOMAXPROCS goroutines.
       - name: Run examples
         run: |
           go run ./_examples/decode
           go run ./_examples/encode
-      # benchmarks/ is a separate module, which ./... does not reach.
-      - name: Vet the benchmark module
+          go run ./_examples/batch -out ''
+      # benchmarks/ is a separate module, which ./... does not reach. It
+      # imports internal/cpuinfo, internal/dct and internal/ycc, so it
+      # breaks when those change. Its TestSameAsStd compares this package
+      # with image/jpeg on the benchmark workloads; -short leaves out the
+      # 12 MP ones, which would generate 50 MB of inputs first.
+      - name: Vet and test the benchmark module
         working-directory: benchmarks
-        run: go vet ./...
-      # The guard-page tests (internal/dct, internal/ycc) need mmap and
-      # mprotect and are built on Linux and macOS only.
+        run: |
+          go vet ./...
+          go vet -tags purego ./...
+          go test -short ./...
+      # The guard-page tests (internal/dct, internal/ycc, jpeg) need mmap
+      # and mprotect and are built on Linux and macOS only.
       - name: Test
         if: ${{ !matrix.coverage }}
         run: go test ${{ matrix.testflags }} -timeout 30m ./...
