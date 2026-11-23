@@ -179,14 +179,18 @@ jobs:
       # The guard-page tests (internal/dct, internal/ycc, jpeg) need mmap
       # and mprotect and are built on Linux and macOS only.
       - name: Test
-        if: ${{ !matrix.coverage }}
         run: go test ${{ matrix.testflags }} -timeout 30m ./...
       # -coverpkg counts the code that other packages' tests run too
-      # (internal/imageutil has no tests of its own) and costs no time
-      # (78 s against 82 s, M5 Pro arm64).
+      # (internal/imageutil has no tests of its own). -short, after the
+      # full run above: on amd64 the exhaustive tests of level go run the
+      # instrumented portable kernels on every thread, and the updates of
+      # the shared coverage counters made internal/ycc about 5 times
+      # slower in full (79 s to 380 s as amd64 under Rosetta, GOMAXPROCS=4;
+      # on arm64 the kernels are NEON assembly, which is not instrumented).
+      # -short covers nearly the same statements (98.05% against 98.12%).
       - name: Test with coverage
         if: matrix.coverage
-        run: go test ${{ matrix.testflags }} -timeout 30m -coverpkg=./... -coverprofile=coverage.txt ./...
+        run: go test -short -timeout 30m -coverpkg=./... -coverprofile=coverage.txt ./...
       # The assembly kernels are compared with the portable Go code they
       # replace by the tests above; this runs the whole suite on the
       # portable code as well (what other architectures use).
@@ -200,8 +204,8 @@ jobs:
             echo "### Coverage: $(go tool cover -func=coverage.txt | tail -1 | awk '{print $NF}') of statements"
             echo
             echo "Linux amd64 at the runner's SIMD level, every package's tests"
-            echo "counting for the whole module (-coverpkg=./...). Go coverage"
-            echo "does not see inside the assembly kernels."
+            echo "(-short) counting for the whole module (-coverpkg=./...). Go"
+            echo "coverage does not see inside the assembly kernels."
             echo
             echo "| Package | Statements | Covered |"
             echo "|---|---:|---:|"
