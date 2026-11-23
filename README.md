@@ -378,9 +378,11 @@ None of these changes the decoded pixels or the encoded bytes, as long as
   component IDs say so) and four (CMYK or YCCK, with an Adobe APP14 marker);
 - sampling factors 1, 2 and 4: 4:4:4, 4:4:0, 4:2:2, 4:2:0, 4:1:1 and 4:1:0,
   and other YCbCr layouts whose factors divide the largest ones (new in Go
-  1.27, decoded to 4:4:4; `Decode` rejects RGB files with such layouts with
-  `luma/chroma subsampling ratio`, as `image/jpeg` does); four components
-  with every factor 1, or with 2×2 for the first and the fourth component.
+  1.27, decoded to 4:4:4). An RGB file decodes only if its second and third
+  components have the same factors and these divide the first one's;
+  `Decode` rejects other RGB layouts with `luma/chroma subsampling ratio`,
+  as `image/jpeg` does. Four components need every factor 1, or 2×2 for
+  the first and the fourth component.
 
 Everything else is rejected as `image/jpeg` rejects it, with the same error:
 arithmetic coding, lossless and hierarchical JPEG (`unsupported JPEG
