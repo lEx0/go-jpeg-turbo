@@ -344,3 +344,33 @@ jobs:
       # on an OS without the guard-page tests.
       - name: Vet other architectures (make vet-ports)
         run: make vet-ports
+
+  workflows:
+    # Holds later changes to this file and dependabot.yml to the checks
+    # they pass now: actionlint (syntax, expressions, and shellcheck on
+    # the scripts; the runner image has shellcheck) and zizmor, the
+    # GitHub Actions security linter (unpinned actions, template
+    # injection, credentials left in the checkout, permissions,
+    # Dependabot cooldowns), at its pedantic persona. Its online audits
+    # use the job's read-only token to check that each pin is a commit of
+    # its action's repository and of the release its comment names, and
+    # that no pinned release has a known vulnerability. Dependabot does
+    # not update the two versions here; zizmor's is a release more than a
+    # week old, as the cooldowns ask of updates.
+    name: workflows (actionlint, zizmor)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
+        with:
+          go-version: stable
+          cache: false # see the test job
+      - name: actionlint
+        run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+      - name: zizmor
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: pipx run zizmor==1.32.0 --persona=pedantic --strict-collection .
