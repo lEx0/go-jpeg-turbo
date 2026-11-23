@@ -418,18 +418,18 @@ every build.
   CPU without SSE4.1 runs the portable Go code. The AVX-512 level runs the
   AVX2 inverse DCT: its two passes have no pairs of values that go through
   the same operations, so 512-bit registers could only speed up the
-  transposes, and on Zen 4 (EPYC 8124P) they do not. The AVX-512 forward
-  DCT takes 27.9 ns per block against 31.7 ns for AVX2, and the AVX-512
-  color conversion 0.750 µs against 1.12 µs for two rows of 1920 pixels
-  (see [Kernels](#kernels)).
+  transposes, and on the EPYC 8124P (Zen 4c) they do not. The AVX-512
+  forward DCT and color conversion are faster than their AVX2 versions (see
+  [Kernels](#kernels)).
 - **What each level brings** (EPYC 8124P, one CPU): SSE4.1 does most of the
-  work (the 4:2:0 q75 photo decodes at 178 MP/s with the portable kernels,
-  372 with SSE4.1, 420 with AVX2, 417 with AVX-512). Against AVX2, AVX-512
-  takes 1.5–6.3% less time per encode and decodes at the same speed.
+  work (the 4:2:0 q75 photo decodes at 178 MP/s with the portable kernels of
+  `JPEG_TURBO_LEVEL=go`, 181 with `-tags purego`, 372 with SSE4.1, 420 with
+  AVX2, 417 with AVX-512). Against AVX2, AVX-512 takes 1.5–6.3% less time
+  per encode and decodes at the same speed.
 - **`GOAMD64`** does not change the level, only the code the Go compiler
-  generates for the Go parts: `GOAMD64=v3` took 4.6–5.6% off every encode
-  on the EPYC and changed no decode significantly ([Building with
-  GOAMD64=v3](#building-with-goamd64v3)).
+  generates for the Go parts: `GOAMD64=v3` took 4.6–5.6% off every encode of
+  this package on the EPYC and changed none of its decodes significantly
+  ([Building with GOAMD64=v3](#building-with-goamd64v3)).
 - **`GODEBUG`** lowers the level of a process, for example to rule the newer
   kernels out while investigating a problem: `x/sys/cpu` reads
   `GODEBUG=cpu.avx512f=off` (AVX2 level), `cpu.avx2=off` (SSE4.1) and
@@ -499,11 +499,16 @@ architecture and CPU. The references are `image/jpeg`'s own transforms
   and `Encode` in its pooled buffer, on the EPYC into a reused
   `bytes.Buffer`. **CPU time** is the user and system time of the whole
   process per call, garbage collection included.
-- **The tables show medians**, and the speed-ups are ratios of the medians.
+- **The tables show medians**: MP/s is the pixel count divided by the median
+  time of a call, and the speed-ups are ratios of the median times.
   benchstat's 95% confidence intervals, left out here, are within ±5% of the
-  median for `image/jpeg` and NEON and ±7% for purego on the M5 Pro, and
-  within ±5% on the EPYC except for SSE4.1's progressive decode (±8%).
-  Absolute numbers differ on other hardware; compare the columns of a table.
+  median for the times, MP/s and CPU times shown of `image/jpeg` and NEON
+  and ±7% for purego on the M5 Pro, except for this package's
+  `DecodeConfig` times (±6% purego, ±8% NEON). On the EPYC they are within
+  ±5% except for three SSE4.1 decodes: the progressive photo (±8%), the gray
+  photo and the logo (±6%). The bytes per encode of this package in
+  [Allocations](#allocations) vary much more (±93–98%). Absolute numbers
+  differ on other hardware; compare the columns of a table.
 - **Inputs:** the decodes read the photos of
   [`testdata/bench`](testdata/bench), `testdata/photo-960x1280.jpg` (4:4:4
   q92, with restart markers and 23 KB of Exif, XMP, ICC and Photoshop
@@ -525,20 +530,20 @@ architecture and CPU. The references are `image/jpeg`'s own transforms
 
 | MP/s | `image/jpeg` | purego | NEON | purego vs `image/jpeg` | NEON vs `image/jpeg` |
 |---|---:|---:|---:|---:|---:|
-| Decode 4:2:0 q75, 960×1280 | 183 | 445 | 916 | 2.4x | 5.0x |
+| Decode 4:2:0 q75, 960×1280 | 183 | 444 | 915 | 2.4x | 5.0x |
 | Decode 4:4:4 q92, 960×1280, 23 KB of metadata | 86 | 224 | 416 | 2.6x | 4.8x |
 | Decode 4:2:2 q92, 960×1280, restart markers | 112 | 281 | 510 | 2.5x | 4.6x |
 | Decode 4:2:0 q85, 960×1280, progressive | 94 | 205 | 269 | 2.2x | 2.9x |
 | Decode 4:2:0 q85, 1920×2560 | 196 | 458 | 924 | 2.3x | 4.7x |
 | Decode gray q85, 1920×2560 | 260 | 602 | 1180 | 2.3x | 4.5x |
-| Decode 4:4:4, 1750×697 logo | 136 | 595 | 1093 | 4.4x | 8.0x |
+| Decode 4:4:4, 1750×697 logo | 136 | 595 | 1092 | 4.4x | 8.0x |
 | Decode 4:2:0 q90, 4000×3000 (12 MP) | 183 | 425 | 786 | 2.3x | 4.3x |
 | Encode `*image.RGBA` q75 | 91 | 308 | 817 | 3.4x | 9.0x |
-| Encode `*image.RGBA` q90 | 77 | 278 | 642 | 3.6x | 8.3x |
+| Encode `*image.RGBA` q90 | 77 | 278 | 641 | 3.6x | 8.3x |
 | Encode `*image.NRGBA` q75 | 57 | 255 | 751 | 4.5x | 13.1x |
 | Encode `*image.NRGBA` q90 | 51 | 234 | 599 | 4.6x | 11.6x |
 | Encode `*image.YCbCr` 4:4:4 q75 | 93 | 412 | 969 | 4.4x | 10.5x |
-| Encode `*image.YCbCr` 4:4:4 q90 | 79 | 359 | 729 | 4.6x | 9.3x |
+| Encode `*image.YCbCr` 4:4:4 q90 | 78 | 359 | 728 | 4.6x | 9.3x |
 | Encode `*image.YCbCr` 4:2:0 q75 | 100 | 437 | 982 | 4.4x | 9.8x |
 | Encode `*image.YCbCr` 4:2:0 q90 | 97 | 424 | 935 | 4.4x | 9.6x |
 | Encode `*image.Gray` q75 | 146 | 612 | 1292 | 4.2x | 8.8x |
@@ -549,7 +554,7 @@ architecture and CPU. The references are `image/jpeg`'s own transforms
 The 12-megapixel decode takes 65.5 ms with `image/jpeg`, 28.2 ms with purego
 and 15.3 ms with NEON; the 12-megapixel q90 encode 124.6, 39.5 and 15.3 ms.
 `DecodeConfig` of the 4:4:4 photo, which has to skip its 23 KB of metadata,
-takes 1.13 µs with `image/jpeg` and 1.44 µs with both builds of this package
+takes 1.12 µs with `image/jpeg` and 1.44 µs with both builds of this package
 (+28%).
 
 #### Throughput under load
@@ -560,20 +565,21 @@ together; CPU time is per call.
 
 | 15 calls at a time | `image/jpeg` | purego | NEON |
 |---|---:|---:|---:|
-| Decode 4:2:0 q75, 960×1280: MP/s | 1954 | 4328 (2.2x) | 7875 (4.0x) |
+| Decode 4:2:0 q75, 960×1280: MP/s | 1955 | 4328 (2.2x) | 7875 (4.0x) |
 | ↳ CPU time per call | 8.40 ms | 3.60 ms | 1.80 ms |
-| Encode `*image.RGBA` q75, 960×1280: MP/s | 1052 | 2956 (2.8x) | 8750 (8.3x) |
+| Encode `*image.RGBA` q75, 960×1280: MP/s | 1051 | 2956 (2.8x) | 8750 (8.3x) |
 | ↳ CPU time per call | 16.5 ms | 5.99 ms | 2.01 ms |
 
 That is 6,410 decodes or 7,120 encodes per second with NEON, against 1,590
-and 856 with `image/jpeg`. Under load every build takes more CPU time per
+and 855 with `image/jpeg`. Under load every build takes more CPU time per
 call than one call at a time (for the NEON decode 1.80 ms against 1.43 ms).
 
 #### Peak memory
 
 Peak resident memory (`getrusage` maxrss) of a process that makes one call,
-median of 5 runs (each within 0.4 MB of the others), with the peak before
-the call (the Go runtime and the input) and the wall time of the call:
+median of 5 runs (the five peaks of each cell within 0.4 MB of each other),
+with the peak before the call (the Go runtime and the input) and the wall
+time of the call:
 
 | One call per process | `image/jpeg` | purego | NEON |
 |---|---:|---:|---:|
@@ -603,11 +609,12 @@ build allocates the same as NEON for decodes:
 
 The one allocation per encode is the benchmark's counting writer, which
 escapes as an `io.Writer` (`image/jpeg`'s 8 include it); encoding into
-`io.Discard` allocates nothing (`TestEncAllocs`). The bytes beyond it come
-from the first call after each garbage collection, which makes the pooled
-encoder state again (about 100 KB for the 960×1280 `*image.RGBA`), averaged
-over a run. `image/jpeg` reads an `*image.NRGBA` through `At`, which
-allocates a color value per pixel.
+`io.Discard` allocates nothing (`TestEncAllocs`). The bytes beyond it are
+the pooled encoder state (about 100 KB for the 960×1280 `*image.RGBA`),
+which `Encode` makes again when `sync.Pool` has dropped it (after two
+garbage collections without an `Encode` call), averaged over a run.
+`image/jpeg` reads an `*image.NRGBA` through `At`, which allocates a color
+value per pixel.
 
 ### AMD EPYC 8124P (amd64)
 
@@ -635,13 +642,20 @@ Zen 4c, 16 cores, Linux, linux/amd64 (`GOAMD64=v1` unless stated), one CPU
 | Encode `*image.Gray` q75 | 69 | 465 | 558 | 572 | 8.3x | 211 | 3.0x |
 | Encode `*image.Gray` q90 | 57 | 339 | 386 | 392 | 6.9x | 181 | 3.2x |
 
-AVX-512 is this CPU's default level. The `image/jpeg` column and the ratios
-come from the AVX-512 run; every run measured `image/jpeg` again, within 2%
-of these values. `JPEG_TURBO_LEVEL=go` (the portable kernels in the default
-build) runs within 1.8% of `-tags purego`. Allocations are those of the M5
-Pro, except that the encodes here show 0 per call (they write into a reused
-`bytes.Buffer`). There are no saturation or peak-memory measurements for
-amd64.
+AVX-512 is this CPU's default level. The `image/jpeg` column and the
+AVX-512 ratios come from the AVX-512 run, and the purego ratios divide the
+purego run's MP/s by that column (within the purego run, against its own
+`image/jpeg`, the logo is 3.4x; every other row is the same either way).
+Every other `GOAMD64=v1` run measured `image/jpeg` again, within 2% of these
+values. `JPEG_TURBO_LEVEL=go` (the portable kernels in the default build)
+runs within 2% of `-tags purego`. Decodes allocate exactly as on the M5
+Pro. The encodes write into a `bytes.Buffer` that each benchmark reuses, so
+there is no counting writer to allocate: this package makes no allocation
+per call, and `image/jpeg` 5–7 (1,228,807 and 4.9–5.0 MB for the
+`*image.NRGBA`). The other bytes per call that benchstat reports for the
+encodes, 1.1–3.9 KB for this package and 12–36 KB for `image/jpeg`, mostly
+come from the buffer growing during the first iterations, spread over the
+run. There are no saturation or peak-memory measurements for amd64.
 
 #### Building with GOAMD64=v3
 
@@ -649,7 +663,7 @@ amd64.
 the binary then runs only on such CPUs; the kernels are picked at run time
 either way. Same server and method, AVX-512 level, MP/s with `GOAMD64=v1`
 and `v3`, and the change in time per call as benchstat reports it ("~": no
-significant difference, p ≥ 0.05):
+significant difference, p > 0.05):
 
 | MP/s | `image/jpeg` v1 | `image/jpeg` v3 | time | this package v1 | this package v3 | time |
 |---|---:|---:|---:|---:|---:|---:|
@@ -689,15 +703,16 @@ decoder does; at the AVX-512 level the inverse DCT is the AVX2 code.
 
 #### libjpeg-turbo for reference
 
-On the same server, `tjbench` of the libjpeg-turbo installed there (Ubuntu's
-2.1.5, as [`epyc8124p-tjbench.txt`](benchmarks/results/epyc8124p-tjbench.txt)
-records; medians of three runs; the file does not record CPU pinning)
-decompresses the 4:2:0 q75 960×1280 file to planar YUV at 428 MP/s, where
-this package decodes it into an `*image.YCbCr` at 417 MP/s at its AVX-512
-level, and compresses a 960×1280 photo from planar 4:2:0 YUV at q75 at
-429 MP/s, where `Encode` of the 4:2:0 `*image.YCbCr` runs at 458 MP/s.
-`tjbench` reuses its buffers; the Go numbers include allocating the output
-image on every decode.
+On the same server, `tjbench` with Ubuntu's libjpeg-turbo 2.1.5 (the
+`libturbojpeg0` package that
+[`epyc8124p-tjbench.txt`](benchmarks/results/epyc8124p-tjbench.txt) records;
+libjpeg-turbo 3.x was not measured; medians of three runs; the file does not
+record CPU pinning) decompresses the 4:2:0 q75 960×1280 file to planar YUV
+at 428 MP/s, where this package decodes it into an `*image.YCbCr` at 417
+MP/s at its AVX-512 level, and compresses a 960×1280 photo from planar 4:2:0
+YUV at q75 at 429 MP/s, where `Encode` of the 4:2:0 `*image.YCbCr` runs at
+458 MP/s. `tjbench` reuses its buffers; the Go numbers include allocating
+the output image on every decode.
 
 ### Reproducing the measurements
 
